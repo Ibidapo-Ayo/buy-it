@@ -8,25 +8,65 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { images } from "@/constants"
+import PopularItemsCard from "../PopularItemsCard"
+import { StaticImageData } from "next/image"
+
+type ItemsProps = {
+  title: string,
+  image: StaticImageData
+}[]
 
 export function PopularItems() {
+  const items: ItemsProps = [
+    {
+      title: 'Fruits & Vegetation',
+      image: images.fruits,
+    },
+    {
+      title: 'Baby & Pregnancy',
+      image: images.baby,
+    },
+    {
+      title: 'Beverages',
+      image: images.beverages,
+    },
+    {
+      title: 'Meats & Seafood',
+      image: images.meat,
+    },
+    {
+      title: 'Biscuits & Snacks',
+      image: images.biscuit,
+    },
+    {
+      title: 'Breads & Bakery',
+      image: images.bread,
+    },
+    {
+      title: 'Dairy',
+      image: images.dairy,
+    },
+    {
+      title: 'Frozen Foods',
+      image: images.frozen,
+    },
+    {
+      title: 'Grocery & Staples',
+      image: images.grocery,
+    },
+  ]
   return (
     <Carousel
       opts={{
         align: "start",
       }}
-      className="w-full max-w-7xl"
+      className="w-full"
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-3xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
+        {items.map((item, index) => (
+          <CarouselItem key={index} className="md:basis-1/3 lg:basis-40">
+            <PopularItemsCard title={item.title} image={item.image} />
           </CarouselItem>
         ))}
       </CarouselContent>

@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen font-sans antialiased mx-auto md:px-40 px-5 w-full", fontSans.variable)}>{children}</body>
+      <body className={cn("min-h-screen font-sans antialiased mx-auto w-full", fontSans.variable)}>{children}</body>
     </html>
   );
 }

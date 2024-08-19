@@ -2,16 +2,15 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 
 const Banner = () => {
     return (
         <div
-            className=' w-full grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-2 h-[500px]'
+            className=' w-full flex items-center h-[600px] bg-[url("/images/slider/bg.png")] bg-no-repeat bg-cover'
         >
-            <div className='space-y-4'>
+            <div className='md:w-full lg:w-1/2 space-y-4 md:px-40 px-5 shrink-0'>
                 <span className='bg-gradient-to-r from-secondary-green-50 via-secondary-green-60 to-white text-black px-2 py-1 rounded'>Weekend Discount</span>
-                <h1 className='text-6xl text-text font-bold'>Shopping with us for better quality and the best price</h1>
+                <h1 className='text-[42px] text-text font-bold leading-[45px]'>Shopping with us for better quality and the best price</h1>
                 <p className='text-xl'>We have prepared special discounts for you on grocery products. Don't miss these opportunities...</p>
 
                 <div className='grid grid-cols-2 space-x-5 items-center'>
@@ -28,8 +27,6 @@ const Banner = () => {
                     </div>
                 </div>
             </div>
-
-            <Image src={"/images/slider/food.jpg"} height={1000} width={1000} alt='Food' />
         </div>
     )
 }
