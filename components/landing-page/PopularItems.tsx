@@ -1,20 +1,13 @@
 import * as React from "react"
 
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import { images } from "@/constants"
 import PopularItemsCard from "../PopularItemsCard"
 import { StaticImageData } from "next/image"
 
 type ItemsProps = {
   title: string,
-  image: StaticImageData
+  image: StaticImageData,
+  colors?: string
 }[]
 
 export function PopularItems() {
@@ -22,6 +15,7 @@ export function PopularItems() {
     {
       title: 'Fruits & Vegetation',
       image: images.fruits,
+      colors: ""
     },
     {
       title: 'Baby & Pregnancy',
@@ -57,21 +51,13 @@ export function PopularItems() {
     },
   ]
   return (
-    <Carousel
-      opts={{
-        align: "start",
-      }}
-      className="w-full"
-    >
-      <CarouselContent>
-        {items.map((item, index) => (
-          <CarouselItem key={index} className="md:basis-1/3 lg:basis-40">
-            <PopularItemsCard title={item.title} image={item.image} />
-          </CarouselItem>
+    <div className="space-y-3">
+      <h2 className="font-semibold text-xl">Shop by category</h2>
+      <div className="grid grid-cols-9 gap-4">
+        {items.slice(0,9).map((item, index) => (
+          <PopularItemsCard key={index} title={item.title} image={item.image} />
         ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+      </div>
+    </div>
   )
 }

@@ -7,6 +7,7 @@ import dairy from "../public/images/popluar/dairy.png"
 import frozen from "../public/images/popluar/frozen.png"
 import grocery from "../public/images/popluar/grocery.png"
 import bread from "../public/images/popluar/bread.png"
+import fresh from "../public/images/popluar/fresh-produce.webp"
 
 export const images = {
     fruits,
@@ -17,5 +18,6 @@ export const images = {
     dairy,
     frozen,
     grocery,
+    fresh,
     bread
 }
