@@ -7,7 +7,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
-import NavbarActions from "./components/NavbarActions"
+import NavbarActions from "./nav/NavbarActions"
 
 
 const Sidebar = () => {

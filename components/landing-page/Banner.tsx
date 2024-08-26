@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react'
 const Banner = () => {
     return (
         <div
-            className=' w-full flex items-center h-screen bg-no-repeat bg-cover'
+            className=' w-full flex items-center h-[500px] bg-no-repeat bg-cover'
         >
             <div className='md:w-full lg:w-1/2 space-y-4 md:px-40 px-5 shrink-0'>
                 <span className='bg-gradient-to-r from-secondary-green-50 via-secondary-green-60 to-white text-black px-2 py-1 rounded'>Weekend Discount</span>

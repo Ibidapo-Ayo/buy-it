@@ -2,6 +2,7 @@ import React from 'react'
 import Header from './nav/Header'
 import Banner from './Banner'
 import { PopularItems } from './PopularItems'
+import Products from './products'
 
 const LandingPage = () => {
   return (
@@ -10,9 +11,10 @@ const LandingPage = () => {
         <Header />
       </div>
       <Banner />
-      <div className='md:px-40 px-5 mt-20'>
+      <div className='md:px-40 px-5'>
         <PopularItems />
       </div>
+      <Products />
     </div>
   )
 }

@@ -6,6 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
+export const calculateProductPercentage = (price: number, strikedPrice: number): number => {
+  const discountedPrice = ((strikedPrice - price) / strikedPrice) * 100
+  return parseFloat(discountedPrice.toFixed(2))
+}
+
 
 export const bodyParser = (value: string) => {
   try {

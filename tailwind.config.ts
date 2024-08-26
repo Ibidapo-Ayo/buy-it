@@ -23,6 +23,7 @@ const config: Config = {
         secondary: {
           DEFAULT: "#808080",
           100: "#F3F4F6",
+          200: "#9CA3AF",
           green: {
             60: "#22C55E",
             50: "#16A34A"

@@ -4,7 +4,7 @@ import { Button } from '../../ui/button'
 import { Search, User } from 'lucide-react'
 import Image from "next/image"
 import Sidebar from '../Sidebar'
-import NavbarActions from '../components/NavbarActions'
+import NavbarActions from './NavbarActions'
 
 const Header = () => {
     return (
