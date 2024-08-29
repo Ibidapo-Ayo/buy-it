@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .shad-input {
+    @apply border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+  }
+}

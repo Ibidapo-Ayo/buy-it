@@ -1,7 +1,7 @@
 import React from 'react'
 import Product from './Product'
-import Deals from './Deals'
-import Services from './Services'
+import Deals from './deals'
+import Services from './services'
 
 const Products = () => {
   return (

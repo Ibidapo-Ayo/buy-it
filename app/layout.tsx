@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Footer from "@/components/footer";
+import Header from "@/components/landing-page/nav/Header";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -21,7 +23,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen font-sans antialiased mx-auto w-full", fontSans.variable)}>{children}</body>
+      <body className={cn("min-h-screen font-sans antialiased mx-auto w-full", fontSans.variable)}>
+        <div className='md:px-40 px-5'>
+          <Header />
+        </div>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
