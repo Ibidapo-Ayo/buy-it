@@ -39,7 +39,7 @@ const Product = () => {
         >
           <CarouselContent>
             {products.map((product, index) => {
-              const { name, images, price, strikedPrice, types, availableItems, totalItems } = product
+              const { name, images, price, strikedPrice, types, availableItems, totalItems, path } = product
               return (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/5">
                   <ItemsCard
@@ -49,6 +49,7 @@ const Product = () => {
                     striked_price={strikedPrice}
                     availableItems={availableItems}
                     totalItems={totalItems}
+                    path={path}
                   />
                 </CarouselItem>
               )

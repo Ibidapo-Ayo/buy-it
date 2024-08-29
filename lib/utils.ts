@@ -11,6 +11,21 @@ export const calculateProductPercentage = (price: number, strikedPrice: number):
   return parseFloat(discountedPrice.toFixed(2))
 }
 
+export const checkItemStatus = (availableItems: number, totalItems: number): string | null => {
+  const ratio = (availableItems / totalItems) * 100;
+  const itemsRemaining = totalItems - availableItems
+
+  if (ratio <= 25) {
+    return "This item is about to run out";
+  }
+  return `${itemsRemaining} items left`;
+};
+
+export const generateProductLink = (name: string): string => {
+  const link = name.split(" ").join("-").toLowerCase()
+  return link
+}
+
 
 export const bodyParser = (value: string) => {
   try {

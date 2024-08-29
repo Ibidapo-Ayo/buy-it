@@ -2,50 +2,42 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { Card, CardContent } from './ui/card'
-import { calculateProductPercentage } from '@/lib/utils'
-import { Progress } from "@/components/ui/progress"
+import { cn } from '@/lib/utils'
+import Link from 'next/link'
+import CountDownTimer from './CountDownTimer'
+import RatingStar from './RatingStar'
+import PriceCard from './PriceCard'
+import ItemCardOverlay from './ItemCardOverlay'
+import ItemProgress from './ItemProgress'
+import { ItemsCardProps } from '@/types'
 
-type ItemsCardProps = {
-    title: string,
-    price: number,
-    striked_price?: number,
-    percentage?: string,
-    itemsLeft?: string,
-    image: string[],
-    productType?: "organic" | "cold-sale",
-    inStock?: number,
-    availableItems?: number,
-    totalItems?: number
-}
-
-const ItemsCard = ({ title, price, percentage, itemsLeft, striked_price, image, availableItems, totalItems }: ItemsCardProps) => {
+const ItemsCard = (props: ItemsCardProps) => {
+    const { title, price, striked_price, image, availableItems, totalItems, path, className, rating, offer } = props
     const [activeImage, setActiveImage] = useState(image[0])
     return (
-        <Card>
-            <CardContent className="flex flex-col h-auto  w-full py-3 items-center justify-center relative px-4 space-y-3">
-                <Image src={activeImage} alt='alt' height={1000} width={1000} />
-
-                <div className='absolute top-2 left-4 rounded-2xl bg-red-600 px-2'>
-                    <span className='text-white text-xs tracking-tight font-semibold'> {striked_price && (
-                        calculateProductPercentage(price, striked_price)
-                    )}%</span>
-                </div>
-
-                <div className='space-y-3'>
-                    <h3 className='font-semibold tracking-tight text-sm'>{title}</h3>
-                    <div className='flex space-x-1 items-baseline'>
-                        <h2 className='text-2xl font-bold text-red-600 tracking-tighter'>${price}</h2>
-                        <h4 className='text-md font-semibold line-through'>${striked_price}</h4>
+        <Card className='relative py-3 rounded-none'>
+            <Link href={path}>
+                <CardContent className={cn("flex flex-col h-auto  w-full py-3 items-center justify-center px-4 space-y-3", className)}>
+                    <div className='space-y-4'>
+                        <Image src={activeImage} alt='alt' height={1000} width={1000} className='block transition-transform transform-gpu scale-100 hover:scale-110 duration-500' />
                     </div>
-                    <hr />
-
                     <div className='space-y-3'>
-                        <p className='text-xs text-secondary-200 font-normal'>This product is about to run out</p>
-                        <Progress value={totalItems! - availableItems!} className='h-2' />
+                        <div className=''>
+                            <h3 className='font-semibold tracking-tight text-sm'>{title}</h3>
+                            {rating && (
+                                <RatingStar rating={rating} />
+                            )}
+                        </div>
+                        <PriceCard price={price} striked_price={striked_price} />
+                        <ItemProgress totalItems={totalItems!} availableItems={availableItems!} />
                     </div>
-                </div>
-
-            </CardContent>
+                </CardContent>
+            </Link>
+            <ItemCardOverlay prices={{
+                price: price,
+                striked_price: striked_price
+            }} />
+            {offer && <CountDownTimer targetDate={offer.endTime} />}
         </Card>
     )
 }
