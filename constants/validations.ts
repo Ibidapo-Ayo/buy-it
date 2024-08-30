@@ -24,3 +24,12 @@ export const registerFormSchema = z.object({
     message: "Password must contain atleast a lowercase letter, uppercase, number and special characters"
   })
 })
+
+export const loginFormSchema = z.object({
+  email: z.string().email({
+    message: "Enter a valid email address"
+  }),
+  password: z.string().min(6, {
+    message: "Password must contain at least 6 character(s)"
+  })
+})
