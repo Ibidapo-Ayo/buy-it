@@ -1,4 +1,4 @@
-import AddToCartBtn from '@/components/AddToCartBtn'
+import SubmitButton from '@/components/SubmitButton'
 import ItemCardOverlay from '@/components/ItemCardOverlay'
 import ItemProgress from '@/components/ItemProgress'
 import PriceCard from '@/components/PriceCard'
@@ -26,9 +26,9 @@ const SingleProductCard = () => {
 
                     <ItemProgress totalItems={100} availableItems={50} />
 
-                    <AddToCartBtn>
+                    <SubmitButton>
                         <span className='text-white font-semibold'>Add to cart</span>
-                    </AddToCartBtn>
+                    </SubmitButton>
                 </div>
             </CardContent>
         </Card>

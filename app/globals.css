@@ -4,6 +4,6 @@
 
 @layer utilities {
   .shad-input {
-    @apply border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 px-2 !important;
   }
 }

@@ -43,7 +43,7 @@ const NewsletterForm = () => {
                 <FormControl className='bg-transparent border-none rounded-none'>
                   <Input placeholder="Enter your email address" className='shad-input' {...field} />
                 </FormControl>
-                <Button type="submit" className='bg-primary-purple-100 hover:bg-primary-purple-200 rounded-none text-white rounded-tr-md rounded-br-md uppercase hover:text-white' variant={"ghost"} size={"sm"}>Send</Button>
+                <Button type="submit" className='bg-secondary-green-60 hover:bg-secondary-green-50 rounded-none text-white rounded-tr-md rounded-br-md uppercase hover:text-white' variant={"ghost"} size={"sm"}>Send</Button>
               </div>
               <FormDescription className='text-xs'>
                 By subscribing you agree to our Terms & Conditions and Privacy & Cookies Policy.
