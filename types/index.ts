@@ -14,6 +14,7 @@ export type ItemsCardProps = {
     totalItems?: number,
     path: string,
     className?: string,
+    cardClassName?: string,
     rating?: number,
     comments?: string,
     offer?: {

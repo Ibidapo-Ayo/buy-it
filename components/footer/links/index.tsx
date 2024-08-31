@@ -5,7 +5,7 @@ import Socials from './socials'
 
 const Links = () => {
   return (
-    <div className='w-full grid grid-cols-[auto,1fr,auto] gap-2 pt-20'>
+    <div className='w-full flex flex-col-reverse md:flex-row md:space-y-0 space-y-5 gap-2 pt-20'>
         <Help />
         <FooterLinks />
         <Socials />

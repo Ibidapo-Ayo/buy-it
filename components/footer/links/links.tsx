@@ -4,7 +4,7 @@ import React from 'react'
 
 const FooterLinks = () => {
     return (
-        <div className='grid grid-cols-3 gap-2'>
+        <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
             <ul className='flex flex-col space-y-5'>
                 <h1 className='font-bold text-md'>Make Money with us</h1>
                 <div className='flex flex-col space-y-2'>

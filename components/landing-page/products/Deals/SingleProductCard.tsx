@@ -10,7 +10,7 @@ import React from 'react'
 const SingleProductCard = () => {
     return (
         <Card className='w-full'>
-            <CardContent className='w-full h-full grid grid-cols-2 gap-2 p-2'>
+            <CardContent className='w-full h-full grid grid-cols-1 xl:grid-cols-2 gap-2 p-2'>
                 <div className='w-full h-full flex items-center justify-center  relative'>
                     <Image src={"/images/products/product-deal.png"} width={1000} height={1000} className='w-full' alt='deals image' />
                     <ItemCardOverlay prices={{ price: 8.99, striked_price: 9.99 }} />

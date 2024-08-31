@@ -17,9 +17,9 @@ const Product = () => {
   return (
     <div className='space-y-4'>
       <div className='w-full flex justify-between items-center'>
-        <div className='flex space-x-3 items-center'>
-          <h2 className="font-semibold text-xl tracking-tighter uppercase">New Products</h2>
-          <p className='text-secondary-200 text-sm'>Some of the new products arriving this weeks</p>
+        <div className='w-1/2 flex md:flex-row flex-col space-x-0 items-start md:space-x-3 md:items-center'>
+          <h2 className="font-semibold text-md md:text-xl tracking-tighter uppercase">New Products</h2>
+          <p className='text-secondary-200 text-xs md:text-sm'>Some of the new products arriving this weeks</p>
         </div>
         <div>
           <Button className='rounded-full border hover:bg-transparent border-secondary-200' variant={"ghost"}>
@@ -41,7 +41,7 @@ const Product = () => {
             {products.map((product, index) => {
               const { name, images, price, strikedPrice, types, availableItems, totalItems, path } = product
               return (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/5">
+                <CarouselItem key={index} className="basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/5">
                   <ItemsCard
                     title={name}
                     image={images}
@@ -55,7 +55,7 @@ const Product = () => {
               )
             })}
           </CarouselContent>
-          <CarouselPrevious />
+          <CarouselPrevious className='' />
           <CarouselNext />
         </Carousel>
       </div>

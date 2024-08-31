@@ -51,7 +51,7 @@ export function PopularItems() {
     },
   ]
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 md:block hidden">
       <h2 className="font-semibold text-xl tracking-tighter">Shop by category</h2>
       <div className="grid grid-cols-9 gap-4">
         {items.slice(0,9).map((item, index) => (
