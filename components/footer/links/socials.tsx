@@ -6,12 +6,12 @@ const Socials = () => {
         <div className='w-full md:w-64 space-y-5'>
             <h1 className='font-bold text-md'>Download our app</h1>
 
-            <div className='flex  md:flex-row flex-col space-y-2 md:space-y-0 space-x-0 md:space-x-2 items-center md:justify-center'>
+            <div className='flex  flex-row space-x-2 items-center md:justify-center'>
                 <Image src="/images/socials/google-play.png" className='w-24' alt='' width={1000} height={1000} />
                 <p className='text-secondary-200 text-xs'>Download App Get
                 -10% Discount</p>
             </div>
-            <div className='flex  md:flex-row flex-col space-y-2 md:space-y-0 space-x-0 md:space-x-2 items-center md:justify-center'>
+            <div className='flex  flex-row space-x-2 items-center md:justify-center'>
                 <Image src="/images/socials/apple-store.png" className='w-24' alt='' width={1000} height={1000} />
                 <p className='text-secondary-200 text-xs'>Download App Get
                 -20% Discount</p>

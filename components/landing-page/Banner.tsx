@@ -7,7 +7,7 @@ import Image from 'next/image'
 const Banner = () => {
     return (
         <div
-            className=' w-full flex xl:flex-row flex-col-reverse xl:space-y-0 md:space-y-5 space-y-reverse items-center h-[500px] mt-20 md:px-40 px-5'
+            className=' w-full flex xl:flex-row flex-col-reverse xl:space-y-0 md:space-y-5 space-y-reverse items-center h-[500px] mt-20 md:px-20 px-5'
         >
             <div className='w-full md:w-full xl:w-1/2 space-y-4  shrink-0'>
                 <h1 className='text-3xl xl:text-[42px] text-text font-bold md:leading-[45px] xl:text-start text-center'>Shopping with us for better quality and the best price</h1>

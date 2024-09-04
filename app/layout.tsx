@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-screen font-sans antialiased mx-auto w-full", fontSans.variable)}>
-        <div className='md:px-40 px-5'>
+        <div className='md:px-20 px-5'>
           <Header />
         </div>
         {children}

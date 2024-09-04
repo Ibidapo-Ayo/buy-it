@@ -9,7 +9,7 @@ const LandingPage = () => {
   return (
     <div>
       <Banner />
-      <div className='md:px-40 px-5'>
+      <div className='md:px-20 px-5'>
         <PopularItems />
       </div>
       <Products />

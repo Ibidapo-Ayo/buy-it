@@ -110,7 +110,7 @@ export const offerProducts: OfferProductsTypes = [
         ],
         offer: {
             percentage: 60,
-            endTime: "2024-09-01T23:59:59Z"
+            endTime: "2024-10-01T23:59:59Z"
         },
         rating: 3,
         comments: 12
@@ -126,7 +126,7 @@ export const offerProducts: OfferProductsTypes = [
         ],
         offer: {
             percentage: 20,
-            endTime: "2024-08-31T23:59:59Z"
+            endTime: "2024-12-31T23:59:59Z"
         },
         rating: 2,
         comments: 40
@@ -143,7 +143,7 @@ export const offerProducts: OfferProductsTypes = [
         ],
         offer: {
             percentage: 35,
-            endTime: "2024-09-10T23:59:59Z"
+            endTime: "2024-11-10T23:59:59Z"
         },
         rating: 4,
         comments: 22
@@ -159,7 +159,7 @@ export const offerProducts: OfferProductsTypes = [
         ],
         offer: {
             percentage: 25,
-            endTime: "2024-09-05T23:59:59Z"
+            endTime: "2024-10-05T23:59:59Z"
         },
         rating: 1,
         comments: 30

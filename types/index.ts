@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image"
+
 export type PriceCardProps = {
     price: number,
     striked_price?: number
@@ -22,3 +24,9 @@ export type ItemsCardProps = {
         endTime: string
     }
 }
+
+export type ItemsProps = {
+    title: string,
+    image: StaticImageData,
+    colors?: string
+  }

@@ -13,16 +13,16 @@ const NavbarActions = () => {
             <Button variant={"ghost"} className='bg-transparent flex items-center space-x-2  relative'>
                 <Image src={icons.favourite} alt='user icon' width={1000} height={1000} className='w-6' />
                 <span className='font-medium text-sm'>Wishlist</span>
-                <div className='w-4 h-4 p-[9px] rounded-full absolute top-[2px] left-3 flex items-center justify-center  bg-red-500'>
+                {/* <div className='w-4 h-4 p-[9px] rounded-full absolute top-[2px] left-3 flex items-center justify-center  bg-red-500'>
                     <span className='text-[10px] text-white font-semibold'>0</span>
-                </div>
+                </div> */}
             </Button>
             <Button variant={"ghost"} className='bg-transparent flex items-center space-x-2 relative'>
                 <Image src={icons.shop} alt='user icon' width={1000} height={1000} className='w-6' />
                 <span className='font-medium text-sm'>Your cart</span>
-                <div className='w-4 h-4 p-[9px] rounded-full absolute top-[2px] left-3 flex items-center justify-center  bg-red-500'>
+                {/* <div className='w-4 h-4 p-[9px] rounded-full absolute top-[2px] left-3 flex items-center justify-center  bg-red-500'>
                     <span className='text-[9px] text-white font-semibold'>20</span>
-                </div>
+                </div> */}
             </Button>
         </div>
     )
