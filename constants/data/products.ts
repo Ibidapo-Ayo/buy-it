@@ -4,7 +4,7 @@ export type ProductTypes = {
     name: string,
     price: number,
     strikedPrice: number,
-    types?: string,
+    type: "organic",
     availableItems: number,
     totalItems: number;
     images: string[],
@@ -15,7 +15,7 @@ export type OfferProductsTypes = {
     name: string,
     price: number,
     strikedPrice: number,
-    types?: string,
+    type?: string,
     availableItems: number,
     totalItems: number;
     images: string[],
@@ -30,10 +30,21 @@ export type OfferProductsTypes = {
 
 export const products: ProductTypes = [
     {
+        name: "Large Bagged Oranges",
+        price: 1.50,
+        strikedPrice: 2.50,
+        type: 'organic',
+        availableItems: 23,
+        totalItems: 100,
+        images: [
+            "/images/products/product-10.png",
+        ]
+    },
+    {
         name: "100% Percent Apple Juice - 64 fl oz Bottle",
         price: 1.50,
         strikedPrice: 2.50,
-        types: "cold-sale",
+        type: "organic",
         availableItems: 23,
         totalItems: 100,
         images: [
@@ -49,12 +60,13 @@ export const products: ProductTypes = [
         images: [
             "/images/products/product-2.png"
         ],
+        type: "organic"
     },
     {
         name: "Simply Orange Pulp Free Juice - 52 fl oz",
         price: 2.46,
         strikedPrice: 4.13,
-        types: "cold-sale",
+        type: "organic",
         availableItems: 20,
         totalItems: 300,
         images: [
@@ -69,13 +81,14 @@ export const products: ProductTypes = [
         totalItems: 60,
         images: [
             "/images/products/product-4.png"
-        ]
+        ],
+        type: "organic"
     },
     {
         name: "Cantaloupe Melon Fresh Organic Cut",
         price: 1.26,
         strikedPrice: 3.42,
-        types: "organic",
+        type: "organic",
         availableItems: 16,
         totalItems: 100,
         images: [
@@ -90,7 +103,8 @@ export const products: ProductTypes = [
         totalItems: 30,
         images: [
             "/images/products/product-6.png"
-        ]
+        ],
+        type: "organic"
     }
 ].map(product => ({
     ...product,

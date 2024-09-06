@@ -31,11 +31,10 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean }) => {
                         </div>
                         <PriceCard price={price} striked_price={striked_price} />
                         <ItemProgress totalItems={totalItems!} availableItems={availableItems!} />
-
-                        {addToCart && <SubmitButton cartBtn={true}>Add to cart</SubmitButton>}
                     </div>
                 </CardContent>
             </Link>
+            {addToCart && <div className='py-2 px-2'><SubmitButton cartBtn={true}>Add to cart</SubmitButton></div>}
             <ItemCardOverlay prices={{
                 price: price,
                 striked_price: striked_price

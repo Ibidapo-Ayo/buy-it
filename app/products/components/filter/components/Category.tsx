@@ -1,26 +1,22 @@
 "use client"
 import { items } from '@/constants/data/category'
 import React from 'react'
-import Link from "next/link"
-import { generateProductLink } from '@/lib/utils'
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Checkbox } from '@/components/ui/checkbox'
 
 const Category = () => {
     return (
-        <div className='flex flex-col space-y-3 p-4 h-64 overflow-y-auto'>
-            <h2 className="font-semibold text-sm tracking-tighter uppercase">Category</h2>
-            <ul className='space-y-1'>
-                <RadioGroup defaultValue='all' onValueChange={(value) => console.log(value)}>
-                    {items.map((item, index) => {
-                        return (
-                            <div key={index} className="flex items-center space-x-2">
-                                <RadioGroupItem value={item.title} id={`r${index + 1}`} />
-                                <Label htmlFor={`r${index + 1}`}>{item.title}</Label>
-                            </div>
-                        )
-                    })}
-                </RadioGroup>
+        <div className='flex flex-col space-y-3 p-4'>
+            <h2 className="font-semibold text-sm tracking-tighter">Product Categories</h2>
+            <ul className='space-y-2'>
+                {items.map((item, index) => {
+                    return (
+                        <div key={index} className="flex items-center space-x-2">
+                            <Checkbox className='data-[state=checked]:bg-secondary-green-60 border-secondary-200 data-[state=checked]:border-secondary-green-50' />
+                            <Label className='text-xs' htmlFor={`r${index + 1}`}>{item.title}</Label>
+                        </div>
+                    )
+                })}
 
             </ul>
         </div>
