@@ -213,7 +213,7 @@ export const offerProducts: OfferProductsTypes = [
     }
 ].map(product => ({
     ...product,
-    path: `products/${generateProductLink(product.name)}`
+    path: `/${generateProductLink(product.name)}`
 }));
 
 

@@ -17,7 +17,7 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean }) => {
     const [activeImage, setActiveImage] = useState(image[0])
     return (
         <Card className={cn('relative pt-2 rounded-none w-full', cardClassName)}>
-            <Link href={path}>
+            <Link href={`/products${path}`}>
                 <CardContent className={cn("flex flex-col h-auto  w-full items-center justify-center p-4 space-y-3", className)}>
                     <div className='space-y-4 w-full relative group overflow-hidden'>
                         <Image src={activeImage} alt='alt' height={1000} width={1000} className='block transition-transform transform-gpu scale-100 hover:scale-110 duration-500' />

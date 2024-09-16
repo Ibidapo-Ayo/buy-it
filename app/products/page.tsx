@@ -16,11 +16,11 @@ const Page = () => {
 
       <div className='fixed bottom-6 w-full flex justify-center items-center md:hidden z-[100]'>
         <div className='bg-dark-200 rounded-full px-3 py-2 flex justify-between items-center'>
-          <Button className='text-white space-x-3 text-sm' variant={"ghost"} size={"sm"}>
+          <Button className='text-white space-x-3 text-sm hover:bg-transparent hover:text-white' variant={"ghost"} size={"sm"}>
             <span>Filters</span>
             <ListFilter className='w-5' />
           </Button>
-          <Button className='text-white space-x-3 text-sm' variant={"ghost"} size={"sm"}>
+          <Button className='text-white space-x-3 text-sm hover:bg-transparent hover:text-white' variant={"ghost"} size={"sm"}>
             <span>Sort</span>
             <ArrowUpDown className='w-5' />
           </Button>

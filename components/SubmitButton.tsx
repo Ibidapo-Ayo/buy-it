@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
-import { ShoppingBag } from 'lucide-react'
+import { ShoppingBag, ShoppingBasket } from 'lucide-react'
 
 type SubmitButtonProps = {
     className?: string,
@@ -12,8 +12,8 @@ type SubmitButtonProps = {
 
 const SubmitButton = ({ className, cartBtn, isLoading, children }: SubmitButtonProps) => {
     return (
-        <Button className={cn("w-full flex space-x-2 items-center justify-center bg-secondary-green-60 hover:bg-secondary-green-50", className)}>
-            {cartBtn && <ShoppingBag className='w-5 text-white' />}
+        <Button className={cn("w-full flex items-center justify-center bg-secondary-green-60 hover:bg-secondary-green-50 font-semibold", className)}>
+            {cartBtn && <ShoppingBasket className='w-5 text-white mr-2' />}
             {children}
         </Button>
     )
