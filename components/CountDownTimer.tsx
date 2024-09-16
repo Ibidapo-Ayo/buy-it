@@ -27,7 +27,7 @@ const CountDownTimer = ({ targetDate }: { targetDate: string }) => {
         return () => clearInterval(timerId);
     }, [targetDate])
     return (
-        <div className='flex space-x-2 items-center px-4'>
+        <div className='flex space-x-2 items-center px-4 py-3'>
             {Object.entries(timeLeft).map(([label, value], index) => (
                 <div key={index} className='flex items-center space-x-2'>
                     {label === "seconds" && <span className="text-md font-bold">:</span>}

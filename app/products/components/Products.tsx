@@ -18,8 +18,10 @@ const Products = () => {
 
 
       <div className='space-y-2'>
-        <div className='w-full h-11 px-2 py-1 bg-gray-200 rounded-md'></div>
-        <div className='grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-4'>
+        <div className='w-full h-11 px-2 py-1 bg-gray-200 rounded-md flex'>
+            
+        </div>
+        <div className='grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4'>
           {products.map((product, index) => (
             <ItemsCard
               key={index}

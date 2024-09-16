@@ -1,6 +1,8 @@
 import React from 'react'
 import Filter from './components/filter'
 import Products from './components/Products'
+import { Button } from '@/components/ui/button'
+import { ArrowUpDown, ListFilter } from 'lucide-react'
 
 const Page = () => {
   return (
@@ -10,6 +12,19 @@ const Page = () => {
       <div className='grid xl:grid-cols-[auto,1fr] md:grid-cols-1 items-start gap-3'>
         <Filter />
         <Products />
+      </div>
+
+      <div className='fixed bottom-6 w-full flex justify-center items-center md:hidden z-[100]'>
+        <div className='bg-dark-200 rounded-full px-3 py-2 flex justify-between items-center'>
+          <Button className='text-white space-x-3 text-sm' variant={"ghost"} size={"sm"}>
+            <span>Filters</span>
+            <ListFilter className='w-5' />
+          </Button>
+          <Button className='text-white space-x-3 text-sm' variant={"ghost"} size={"sm"}>
+            <span>Sort</span>
+            <ArrowUpDown className='w-5' />
+          </Button>
+        </div>
       </div>
     </div>
   )
