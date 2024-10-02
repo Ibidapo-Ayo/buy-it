@@ -1,7 +1,7 @@
 "use client"
 import { loginFormSchema } from '@/constants/validations'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form } from '../ui/form'
@@ -9,6 +9,9 @@ import CustomInput from '../CustomInput'
 import { FormFieldTypes } from '@/lib/utils'
 import SubmitButton from '../SubmitButton'
 import Link from 'next/link'
+import { login } from '@/appwrite/user.actions'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const LoginForm = () => {
     const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -19,8 +22,21 @@ const LoginForm = () => {
         }
     })
 
-    const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
-        console.log(values)
+    const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
+
+    const onSubmit = async(values: z.infer<typeof loginFormSchema>) => {
+        setIsLoading(true)
+        try {
+         const session =   await login(values.email, values.password)
+         console.log(session);
+         
+         if(session) router.push("/")
+        } catch(error) {
+           toast.error(error.message)
+        }finally{
+            setIsLoading(false)
+        }
     }
     return (
         <Form {...form}>
@@ -38,8 +54,9 @@ const LoginForm = () => {
                     name='password'
                     label='Password'
                     placeholder='********'
+                    type="password"
                 />
-                <SubmitButton>Submit</SubmitButton>
+                <SubmitButton isLoading={isLoading}>Submit</SubmitButton>
 
                 <div className='mt-10 w-full'>
                     <span className='text-sm text-center'>Not yet a member? <Link className='text-secondary-green-60' href="/register">Register</Link></span>

@@ -4,12 +4,12 @@ export type ProductTypes = {
     name: string,
     price: number,
     strikedPrice: number,
-    type: "organic",
+    type: "organic" | "cold",
     availableItems: number,
     totalItems: number;
     images: string[],
-    path: string
-}[]
+    path?: string
+}
 
 export type OfferProductsTypes = {
     name: string,
@@ -28,12 +28,12 @@ export type OfferProductsTypes = {
     comments: number
 }[]
 
-export const products: ProductTypes = [
+export const products: ProductTypes[] = [
     {
         name: "Large Bagged Oranges",
         price: 1.50,
         strikedPrice: 2.50,
-        type: 'organic',
+        type: "organic",
         availableItems: 23,
         totalItems: 100,
         images: [
@@ -108,7 +108,7 @@ export const products: ProductTypes = [
     }
 ].map(product => ({
     ...product,
-    path: `products/${generateProductLink(product.name)}`
+    path: `/${generateProductLink(product.name)}`
 }));
 
 export const offerProducts: OfferProductsTypes = [
@@ -215,5 +215,52 @@ export const offerProducts: OfferProductsTypes = [
     ...product,
     path: `/${generateProductLink(product.name)}`
 }));
+
+export type cartItemsProps = ProductTypes & {
+    id: number, 
+    quantity: number
+}
+
+export const cartItems: cartItemsProps[] = [
+    {
+        id: 1,
+        name: "Large Bagged Oranges",
+        price: 1.50,
+        strikedPrice: 2.50,
+        type: 'organic',
+        availableItems: 23,
+        totalItems: 100,
+        images: [
+            "/images/products/product-10.png",
+        ],
+        quantity: 1
+    },
+    {
+        id: 2,
+        name: "100% Percent Apple Juice - 64 fl oz Bottle",
+        price: 1.50,
+        strikedPrice: 2.50,
+        type: "organic",
+        availableItems: 23,
+        totalItems: 100,
+        images: [
+            "/images/products/product-1.png",
+        ],
+        quantity: 1
+    },
+    {
+        id: 3,
+        name: "Great Value Rising Crust Frozen Pizza, Supreme",
+        price: 8.99,
+        strikedPrice: 11.32,
+        availableItems: 50,
+        totalItems: 200,
+        images: [
+            "/images/products/product-2.png"
+        ],
+        type: "organic",
+        quantity: 1
+    },
+]
 
 

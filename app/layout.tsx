@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/footer";
 import Header from "@/components/landing-page/nav/Header";
+import { Toaster } from 'sonner';
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -24,11 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-screen font-sans antialiased mx-auto w-full", fontSans.variable)}>
-        <div className='md:px-20 px-5'>
-          <Header />
-        </div>
         {children}
-        <Footer />
       </body>
     </html>
   );

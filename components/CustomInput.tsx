@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
 import { FormFieldTypes } from '@/lib/utils'
-import Image from 'next/image'
 import { Input } from './ui/input'
 import { Control } from 'react-hook-form'
+import { Textarea } from './ui/textarea'
+import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select'
 
 type CustomProps = {
     control: Control<any>,
@@ -15,11 +16,12 @@ type CustomProps = {
     dateFormat?: string,
     showTimeSelect?: boolean,
     children?: React.ReactNode,
-    renderSkeleton?: (field: any) => React.ReactNode
+    renderSkeleton?: (field: any) => React.ReactNode,
+    type?: string
 }
 
 const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
-    const { control, name, fieldType, label, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props
+    const {fieldType, placeholder, type, renderSkeleton, children} = props
     if (fieldType === FormFieldTypes.INPUT) {
         return (
             <div className='flex rounded-md border-2 border-secondary-100 bg-white'>
@@ -27,10 +29,38 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                     <Input
                         placeholder={placeholder}
                         {...field}
-                        className='shad-input border-0'
+                        className='shad-input border-0 px-2'
+                        type={type || "text"}
                     />
                 </FormControl>
             </div>
+        )
+    }
+
+    if(fieldType === FormFieldTypes.TEXTAREA){
+        return (
+            <Textarea placeholder={placeholder} {...field} className='textArea'></Textarea>
+        )
+    }
+
+    if(fieldType === FormFieldTypes.SKELETON){
+        return renderSkeleton ? renderSkeleton(field) : null
+    }
+
+    if(fieldType === FormFieldTypes.SELECT){
+        return (
+            <FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                        <SelectTrigger className='shad-select-trigger'>
+                            <SelectValue className='' placeholder={placeholder} />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className='shad-select-content'>
+                        {children}
+                    </SelectContent>
+                </Select>
+            </FormControl>
         )
     }
 }

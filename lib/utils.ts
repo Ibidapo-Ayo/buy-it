@@ -1,3 +1,4 @@
+import { cartItemsProps } from "@/constants/data/products"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -8,7 +9,13 @@ export function cn(...inputs: ClassValue[]) {
 
 export const calculateProductPercentage = (price: number, strikedPrice: number): number => {
   const discountedPrice = ((strikedPrice - price) / strikedPrice) * 100
-  return parseFloat(discountedPrice.toFixed(2))
+  return parseFloat(discountedPrice.toFixed(0))
+}
+
+export const calculateTotalCartItems = (arr: cartItemsProps[]) => {
+  return `$ ${arr.reduce((acc, cart) => {
+    return acc + (cart.quantity * cart.price)
+  }, 0).toFixed(2)}`
 }
 
 export const checkItemStatus = (availableItems: number, totalItems: number): string | null => {
@@ -25,6 +32,17 @@ export const generateProductLink = (name: string): string => {
   const link = name.split(" ").join("-").toLowerCase()
   return link
 }
+
+
+export function encryptKey(passkey: string): string {
+  return btoa(passkey);
+}
+
+export function decryptKey(passkey: string): string {
+  return atob(passkey);
+}
+
+export const convertFileToUrl = (file: File) => URL.createObjectURL(file)
 
 
 export const bodyParser = (value: string) => {

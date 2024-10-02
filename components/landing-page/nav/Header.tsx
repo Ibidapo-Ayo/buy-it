@@ -1,7 +1,4 @@
 import React from 'react'
-import { Input } from '../../ui/input'
-import { Button } from '../../ui/button'
-import { Search, User } from 'lucide-react'
 import Image from "next/image"
 import Sidebar from '../Sidebar'
 import NavbarActions from './NavbarActions'

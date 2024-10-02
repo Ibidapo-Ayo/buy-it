@@ -30,3 +30,9 @@ export type ItemsProps = {
     image: StaticImageData,
     colors?: string
   }
+
+  export type RegisterParams = {
+    email: string,
+    password: string,
+    username: string
+  }

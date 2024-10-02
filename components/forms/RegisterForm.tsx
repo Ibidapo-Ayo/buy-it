@@ -1,7 +1,7 @@
 "use client"
 import { registerFormSchema } from '@/constants/validations'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form } from '../ui/form'
@@ -9,6 +9,9 @@ import CustomInput from '../CustomInput'
 import { FormFieldTypes } from '@/lib/utils'
 import SubmitButton from '../SubmitButton'
 import Link from 'next/link'
+import { register } from '@/appwrite/user.actions'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const RegisterForm = () => {
     const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -20,8 +23,22 @@ const RegisterForm = () => {
         }
     })
 
-    const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
-        console.log(values)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const router = useRouter()
+
+    const onSubmit = async (values: z.infer<typeof registerFormSchema>) => {
+        setIsLoading(true)
+        try {
+            const result = await register(values)
+            router.push("/login")
+            console.log(result)
+        } catch (error) {
+            toast.error("User with that email already exist in our database, please login to continue")
+        } finally {
+            setIsLoading(false)
+        }
+
     }
     return (
         <Form {...form}>
@@ -47,7 +64,7 @@ const RegisterForm = () => {
                     label='Password'
                     placeholder='********'
                 />
-                <SubmitButton>Submit</SubmitButton>
+                <SubmitButton isLoading={isLoading}>Submit</SubmitButton>
 
                 <div className='mt-10 w-full'>
                     <span className='text-sm text-center'>Already a member? <Link className='text-secondary-green-60' href="/login">Login</Link></span>

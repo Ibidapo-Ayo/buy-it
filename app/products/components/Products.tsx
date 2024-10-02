@@ -4,7 +4,9 @@ import { products } from '@/constants/data/products'
 import { ArrowRight } from 'lucide-react'
 import React from 'react'
 
-const Products = () => {
+const Products = ({products}: {
+  products: []
+}) => {
   return (
     <div className='w-full bg-white rounded-md p-4 h-auto space-y-16'>
 
@@ -25,13 +27,13 @@ const Products = () => {
           {products.map((product, index) => (
             <ItemsCard
               key={index}
-              image={product.images}
+              image={product.image}
               path={product.path}
               price={product.price}
-              title={product.name}
-              availableItems={product.availableItems}
-              totalItems={product.totalItems}
-              striked_price={product.strikedPrice}
+              title={product.product_name}
+              availableItems={product.available_product	}
+              totalItems={product.total_product}
+              striked_price={product.striked_price}
               addToCart={true}
             />
           ))}
