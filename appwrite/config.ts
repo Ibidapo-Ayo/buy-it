@@ -1,4 +1,4 @@
-import { Account, Client, Databases } from 'node-appwrite';
+import { Account, Client, Databases, Storage } from 'node-appwrite';
 
 const client = new Client()
 
@@ -12,11 +12,14 @@ const createAdminClient = async () => {
 
         get databases() {
             return new Databases(client)
+        },
+        get storage(){
+            return new Storage(client)
         }
     }
 }
 
-const createSessionClient = async (session) => {
+const createSessionClient = async (session:any) => {
     client.setEndpoint(process.env.NEXT_BASE_URL!).setProject(process.env.PROJECT_ID!)
     
     if (session) {

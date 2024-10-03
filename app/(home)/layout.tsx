@@ -1,6 +1,6 @@
 import Footer from "@/components/footer"
 import Header from "@/components/landing-page/nav/Header"
-import { Toaster } from "sonner"
+
 
 export default function MainLayout({ children }: {
     children: React.ReactNode
@@ -11,7 +11,6 @@ export default function MainLayout({ children }: {
                 <Header />
             </div>
             {children}
-            <Toaster position="top-center" />
             <Footer />
         </div>
     )

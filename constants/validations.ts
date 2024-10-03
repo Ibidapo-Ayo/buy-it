@@ -38,17 +38,19 @@ export const loginFormSchema = z.object({
 export const productFormSchema = z.object({
   name: z.string({
     message: "Product name is required"
+  }).min(1, {
+    message: "Product name is required"
   }),
-  image: z.string({
-    message: "Product Image is required"
-  }),
+  image: z.custom<File[]>().optional(),
   description: z.string({
     message: "Product description is required"
   }),
-  price: z.number({
+  price: z.string({
     message: "Product Price is required"
+  }).min(1, {
+    message:"Price is required"
   }),
-  strikedPrice: z.number().optional(),
-  availableProducts: z.number().optional(),
-  totalProducts: z.number().optional()
+  strikedPrice: z.string().optional(),
+  availableProducts: z.string().optional(),
+  totalProducts: z.string().optional()
 })

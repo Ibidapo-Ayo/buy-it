@@ -1,11 +1,16 @@
+import { getFilePreview } from '@/appwrite/product.actions'
 import ItemsCard from '@/components/ItemsCard'
 import { Button } from '@/components/ui/button'
 import { products } from '@/constants/data/products'
+import { CreateProductsParams, ProductsProps } from '@/types'
 import { ArrowRight } from 'lucide-react'
+import { Models } from 'node-appwrite'
 import React from 'react'
 
-const Products = ({products}: {
-  products: []
+interface ProductsProp extends ProductsProps { }
+
+const Products = ({ products }: {
+  products: ProductsProp[]
 }) => {
   return (
     <div className='w-full bg-white rounded-md p-4 h-auto space-y-16'>
@@ -21,19 +26,19 @@ const Products = ({products}: {
 
       <div className='space-y-2'>
         <div className='w-full h-11 px-2 py-1 bg-gray-200 rounded-md flex'>
-            
+
         </div>
         <div className='grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4'>
-          {products.map((product, index) => (
+          {products.map(async(product, index) => (
             <ItemsCard
               key={index}
-              image={product.image}
+              image={await getFilePreview(product.imageId)}
               path={product.path}
               price={product.price}
               title={product.product_name}
-              availableItems={product.available_product	}
-              totalItems={product.total_product}
-              striked_price={product.striked_price}
+              availableItems={product.availableProducts}
+              totalItems={product.totalProducts}
+              striked_price={product.strikedPrice}
               addToCart={true}
             />
           ))}
