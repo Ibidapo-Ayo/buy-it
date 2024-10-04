@@ -15,11 +15,13 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import { ProductsProps } from '@/types'
 import { useRouter } from 'next/navigation'
+import { Button } from '../ui/button'
+import { Checkbox } from '../ui/checkbox'
 
 type AddProductFormProps = {
     data?: {
         product: ProductsProps,
-        imageUrl: string
+        imageUrl: string | undefined
     },
     type?: "update" | "create"
 }
@@ -30,7 +32,7 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
     const form = useForm<z.infer<typeof productFormSchema>>({
         resolver: zodResolver(productFormSchema),
         defaultValues: {
-            name: data?.product.name || "",
+            name: data?.product?.name || "",
             price: data?.product.price || "",
             description: data?.product.description || "",
             strikedPrice: data?.product.strikedPrice || "",
@@ -188,6 +190,10 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                         })}
                     </CustomInput>
                 </div>
+
+
+                {/* <input type="checkbox" onChange={(e) => console.log(e.target.value) } /> */}
+
 
                 <SubmitButton isLoading={isLoading} className={type === "create" ? "bg-secondary-green-60 hover:bg-secondary-green-50" : "bg-secondary-200 text-white hover:bg-secondary"}>{buttonLable()}</SubmitButton>
             </form>

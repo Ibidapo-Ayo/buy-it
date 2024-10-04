@@ -48,9 +48,13 @@ export const productFormSchema = z.object({
   price: z.string({
     message: "Product Price is required"
   }).min(1, {
-    message:"Price is required"
+    message: "Price is required"
   }),
   strikedPrice: z.string().optional(),
   availableProducts: z.string().optional(),
-  totalProducts: z.string().optional()
+  totalProducts: z.string().optional(),
+  offer: z.string().optional(),
+  rating: z.string().optional(),
+  comments: z.string().optional(),
+  hasOffer: z.boolean().optional()
 })

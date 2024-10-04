@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -11,9 +10,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import ItemsCard from '@/components/ItemsCard'
-import { products } from '@/constants/data/products'
+import { getFilePreview, getProducts } from '@/appwrite/product.actions'
 
-const Product = () => {
+const Product = async () => {
+  const products = await getProducts()
   return (
     <div className='space-y-4'>
       <div className='w-full flex justify-between items-center'>
@@ -38,18 +38,18 @@ const Product = () => {
           className="w-full max-w-full"
         >
           <CarouselContent>
-            {products.map((product, index) => {
-              const { name, images, price, strikedPrice, types, availableItems, totalItems, path } = product
+            {products!.map((product, index) => {
+              const { name, productImageUrl, price, strikedPrice, availableProducts, totalProducts, $id } = product
               return (
                 <CarouselItem key={index} className="basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/5">
                   <ItemsCard
                     title={name}
-                    image={images}
+                    image={productImageUrl}
                     price={price}
                     striked_price={strikedPrice}
-                    availableItems={availableItems}
-                    totalItems={totalItems}
-                    path={path}
+                    availableItems={availableProducts}
+                    totalItems={totalProducts}
+                    productId={$id}
                   />
                 </CarouselItem>
               )

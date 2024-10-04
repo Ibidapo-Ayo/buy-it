@@ -11,7 +11,7 @@ export const getProducts = async () => {
     try {
 
         const { databases, storage } = await createAdminClient()
-        const products = await databases.listDocuments(
+        const products = await databases.listDocuments<ProductsProps>(
             DATABASE_ID!,
             PRODUCT_ID!
         )
@@ -43,7 +43,7 @@ export const getProduct = async (productId: string) => {
     try {
 
         const { databases } = await createAdminClient()
-        const product = await databases.listDocuments(
+        const product = await databases.listDocuments<ProductsProps>(
             DATABASE_ID!,
             PRODUCT_ID!,
             [Query.equal("$id", productId)]
@@ -75,12 +75,12 @@ export const createProducts = async ({ image, ...products }: CreateProductsParam
             ID.unique(),
             {
                 imageId: file?.$id,
-                productImageUrl: `${process.env.NEXT_BASE_URL}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PRODUCT_ID}`,
+                productImageUrl: await getFilePreview(file.$id),
                 ...products
             },
         )
 
-        return newProduct;
+        return newProduct && newProduct;
 
     } catch (error) {
         console.log(error);

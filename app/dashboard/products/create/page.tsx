@@ -10,7 +10,7 @@ const CreateProduct = () => {
             </div>
 
             <div className='max-w-3xl'>
-                <AddProductForm />
+                <AddProductForm type='create' />
             </div>
         </div>
     )

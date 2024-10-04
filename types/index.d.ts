@@ -15,7 +15,7 @@ declare type ItemsCardProps = {
     inStock?: number,
     availableItems?: number,
     totalItems?: number,
-    path: string,
+    path?: string,
     className?: string,
     cardClassName?: string,
     rating?: number,

@@ -2,10 +2,16 @@ import { getProduct } from '@/appwrite/product.actions'
 import AddProductForm from '@/components/forms/AddProductForm'
 import React from 'react'
 
-const EditProducts = async ({ params }) => {
+
+interface Params {
+    params: {
+        productId: string
+    }
+}
+
+const EditProducts = async ({ params }: Params) => {
     const { productId } = params
     const product = await getProduct(productId)
-
     return (
         <div className='space-y-10'>
             <div>
