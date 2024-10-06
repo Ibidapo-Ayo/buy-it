@@ -15,8 +15,6 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import { ProductsProps } from '@/types'
 import { useRouter } from 'next/navigation'
-import { Button } from '../ui/button'
-import { Checkbox } from '../ui/checkbox'
 
 type AddProductFormProps = {
     data?: {

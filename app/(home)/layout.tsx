@@ -8,7 +8,7 @@ export default function MainLayout({ children }: {
     return (
         <div>
             <div className='md:px-20 px-5 bg-white'>
-                <Header />
+            <Header />
             </div>
             {children}
             <Footer />

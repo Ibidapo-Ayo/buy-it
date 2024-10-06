@@ -6,25 +6,14 @@ import { Trash } from 'lucide-react'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import AddQuantity from './components/AddQuantity'
+import { useProducts } from '../context/product-context'
 
 const CartPage = () => {
-    const product = cartItems.slice(0, 3)
-    const [carts, setCarts] = useState(product)
+    const { carts } = useProducts()
 
 
     const handleAddItems = (id: number, type: "add" | "minus"): void => {
-        const updated = carts.map((cart) => {
-            if (id === cart.id) {
-                return {
-                    ...cart,
-                    quantity: type === "add" ? cart.quantity + 1 : cart.quantity - 1
-                }
-            } else {
-                return cart
-            }
-        })
 
-        setCarts(updated)
     }
     return (
         <div className='max-w-7xl mx-auto py-10 bg-white md:px-20 px-5'>
@@ -34,12 +23,12 @@ const CartPage = () => {
                 <div className='w-3/4 shadow-md bg-white h-auto py-3 px-2 rounded-md flex flex-col divide-y divide-secondary-100 space-y-5'>
                     <h2 className="font-semibold text-md tracking-tighter">Cart (2)</h2>
 
-                    {carts.map((product, index) => {
+                    {carts!.map((product, index) => {
                         return (
                             <div key={index}>
                                 <div className='w-full flex justify-between p-2'>
                                     <div className='w-full flex gap-2'>
-                                        <Image src={product.images[0]} alt={product.name + "image"} width={100} height={100} className='rounded-md w-20' />
+                                        <Image src={product.productImageUrl} alt={product.name + "image"} width={100} height={100} className='rounded-md w-20' />
 
                                         <div className='flex flex-col space-y-2'>
                                             <h4 className='text-sm font-medium tracking-wide'>{product.name}</h4>

@@ -1,16 +1,17 @@
 "use server"
 import { CreateProductsParams, ProductsProps } from "@/types";
-import { createAdminClient } from "./config";
+import { createAdminClient, createSessionClient } from "./config";
 import { InputFile } from "node-appwrite/file"
 import { ID, Query } from "node-appwrite";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
-const { DATABASE_ID, PRODUCT_ID, BUCKET_ID } = process.env
+const { DATABASE_ID, PRODUCT_ID, BUCKET_ID, CART_ID, USER_COLLECTION_ID } = process.env
 
 export const getProducts = async () => {
     try {
 
-        const { databases, storage } = await createAdminClient()
+        const { databases } = await createAdminClient()
         const products = await databases.listDocuments<ProductsProps>(
             DATABASE_ID!,
             PRODUCT_ID!
@@ -102,11 +103,59 @@ export const updateProducts = async (productId: string, data: {
             ...data
         })
 
-        console.log(updateDocument);
+        revalidatePath(`/dashboard/products/${updateDocument.$id}/edit`)
 
-        // revalidatePath(`/dashboard/products/${updateDocument.$id}/edit`)
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+
+        }
+    }
+}
 
 
+// TODO: simplify this apis
+export const getCart = async () => {
+    try {
+        const { databases, account } = await createSessionClient(cookies().get("session")?.value)
+        const userAccountId = await account.get()
+
+        const user = await databases.listDocuments(
+            DATABASE_ID!,
+            USER_COLLECTION_ID!,
+            [Query.equal("accountId", userAccountId.$id)]
+        )
+        const data = await databases.listDocuments(
+            DATABASE_ID!,
+            CART_ID!,
+            [Query.equal("user", user.documents[0].$id)]
+        )
+
+        return data.documents
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error);
+        }
+    }
+}
+
+export const AddProductToCart = async (productId?: string, userId?: string) => {
+    try {
+
+        const { databases } = await createSessionClient(cookies().get("session")?.value)
+
+        const result = await databases.createDocument(
+            DATABASE_ID!,
+            CART_ID!,
+            ID.unique(),
+            {
+                user: "66fb9b09002c88ec99b8",
+                product: productId
+            }
+        )
+
+        const cart = await getCart()
+        return cart
     } catch (error) {
         if (error instanceof Error) {
             console.log(error.message);

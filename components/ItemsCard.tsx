@@ -11,9 +11,22 @@ import ItemCardOverlay from './ItemCardOverlay'
 import ItemProgress from './ItemProgress'
 import { ItemsCardProps } from '@/types'
 import SubmitButton from './SubmitButton'
+import { useProducts } from '@/app/context/product-context'
+import { AddProductToCart } from '@/appwrite/product.actions'
+import { Button } from './ui/button'
+import { Minus, Plus } from 'lucide-react'
 
 const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: string }) => {
     const { title, price, striked_price, image, availableItems, totalItems, className, rating, offer, cardClassName, addToCart, productId } = props
+
+    const { dispatch, carts } = useProducts()
+
+    const handleAddProducts = async () => {
+        const result = await AddProductToCart(productId)
+        dispatch({ type: "add-to-cart", payload: result })
+    }
+
+
     return (
         <Card className={cn('relative pt-2 rounded-none w-full', cardClassName)}>
             <Link href={`/products/${productId}/`}>
@@ -33,7 +46,30 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
                     </div>
                 </CardContent>
             </Link>
-            {addToCart && <div className='py-2 px-2'><SubmitButton cartBtn={true}>Add to cart</SubmitButton></div>}
+            {addToCart && <div className='w-full py-2 px-2'>
+                {carts?.map((cart, index) => {
+                    if (cart.product.$id === productId) {
+                        return (
+                            <div className='w-full flex justify-between items-center' key={index}>
+                                <Button className='bg-green-500 hover:bg-green-600' size={"sm"} variant={"ghost"}>
+                                    <Plus className='text-white' />
+                                </Button>
+
+                                <Button className='hover:bg-transparent' variant={"ghost"} size={"sm"}>
+                                    {cart.quantity}
+                                </Button>
+                                <Button className='bg-green-500 hover:bg-green-600' size={"sm"} variant={"ghost"}>
+                                    <Minus className='text-white' />
+                                </Button>
+                            </div>
+                        )
+                    } else {
+
+                        //@ts-expect-error
+                        <SubmitButton cartBtn={true} onClick={handleAddProducts}>Add to cart</SubmitButton>
+                    }
+                })}
+            </div>}
             <ItemCardOverlay prices={{
                 price: price,
                 striked_price: striked_price

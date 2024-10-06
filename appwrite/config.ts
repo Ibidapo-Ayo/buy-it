@@ -1,8 +1,9 @@
 import { Account, Client, Databases, Storage } from 'node-appwrite';
 
-const client = new Client()
+
 
 const createAdminClient = async () => {
+    const client = new Client()
     client.setEndpoint(process.env.NEXT_BASE_URL!).setProject(process.env.PROJECT_ID!).setKey(process.env.NEXT_API_KEY!);
 
     return {
@@ -20,6 +21,7 @@ const createAdminClient = async () => {
 }
 
 const createSessionClient = async (session:any) => {
+    const client = new Client()
     client.setEndpoint(process.env.NEXT_BASE_URL!).setProject(process.env.PROJECT_ID!)
     
     if (session) {
