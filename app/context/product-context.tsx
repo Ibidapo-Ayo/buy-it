@@ -44,6 +44,8 @@ function reducer(state: State, action: ActionType<Actions, any>) {
             return { ...state, carts: payload, totalCarts: payload?.length }
         case "get-carts":
             return { ...state, carts: payload, totalCarts: payload.length }
+        case "update":
+            return { ...state, carts: payload, totalCarts: payload.length }
         default:
             return state
     }
