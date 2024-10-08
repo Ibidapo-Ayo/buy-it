@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
@@ -12,18 +12,69 @@ import ItemProgress from './ItemProgress'
 import { ItemsCardProps } from '@/types'
 import SubmitButton from './SubmitButton'
 import { useProducts } from '@/app/context/product-context'
-import { AddProductToCart } from '@/appwrite/product.actions'
+import { AddProductToCart, updateCarts } from '@/appwrite/product.actions'
 import { Button } from './ui/button'
 import { Minus, Plus } from 'lucide-react'
 
 const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: string }) => {
     const { title, price, striked_price, image, availableItems, totalItems, className, rating, offer, cardClassName, addToCart, productId } = props
 
-    const { dispatch, carts } = useProducts()
+    const { dispatch, carts, quantity } = useProducts()
+
+    const [isLoading, setIsLoading] = useState(false)
+
+    const buttonClickRef = useRef<number>(null)
 
     const handleAddProducts = async () => {
+        setIsLoading(true)
         const result = await AddProductToCart(productId)
         dispatch({ type: "add-to-cart", payload: result })
+        setIsLoading(false)
+    }
+
+    const handleUpdateQuantity = async (cartId: string, quantity: number, type: "add" | "minus") => {
+        setIsLoading(true)
+        try {
+            let q = quantity
+            if (type === "add") {
+                q = quantity + 1
+            }
+
+            if (type === "minus") {
+                q = quantity <= 0 ? 0 : quantity - 1
+            }
+
+            dispatch({
+                type: "update", payload: {
+                    quantity: q
+                }
+            })
+
+            if (buttonClickRef.current) {
+                clearTimeout(buttonClickRef.current)
+            }
+
+            // @ts-expect-error
+            buttonClickRef.current = setTimeout(async () => {
+                try {
+                    const result = await updateCarts(cartId, q)
+                    console.log(result);
+                } catch (error) {
+                    if (error instanceof Error) {
+                        console.log(error.message);
+                    }
+                } finally {
+                    setIsLoading(false)
+                }
+            }, 2000)
+
+
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message);
+
+            }
+        }
     }
 
 
@@ -51,22 +102,28 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
                     if (cart.product.$id === productId) {
                         return (
                             <div className='w-full flex justify-between items-center' key={index}>
-                                <Button className='bg-green-500 hover:bg-green-600' size={"sm"} variant={"ghost"}>
-                                    <Plus className='text-white' />
-                                </Button>
 
+                                <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto' isLoading={isLoading} onClick={() => {
+                                    handleUpdateQuantity(cart.$id, quantity!, "minus")
+                                }}>
+                                    <Minus className='text-white w-5' />
+                                </SubmitButton>
                                 <Button className='hover:bg-transparent' variant={"ghost"} size={"sm"}>
-                                    {cart.quantity}
+                                    {quantity}
                                 </Button>
-                                <Button className='bg-green-500 hover:bg-green-600' size={"sm"} variant={"ghost"}>
-                                    <Minus className='text-white' />
-                                </Button>
+                                
+                                <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto'  isLoading={isLoading} onClick={() => {
+                                    handleUpdateQuantity(cart.$id, quantity!, "add")
+                                }}>
+                                    <Plus className='text-white w-5' />
+                                </SubmitButton>
+
                             </div>
                         )
                     } else {
-
-                        //@ts-expect-error
-                        <SubmitButton cartBtn={true} onClick={handleAddProducts}>Add to cart</SubmitButton>
+                        return (
+                            <SubmitButton key={index} cartBtn={true} onClick={handleAddProducts} isLoading={isLoading}>Add to cart</SubmitButton>
+                        )
                     }
                 })}
             </div>}

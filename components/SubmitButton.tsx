@@ -8,11 +8,12 @@ type SubmitButtonProps = PropsWithChildren<{
     className?: string,
     cartBtn?: boolean,
     isLoading?: boolean,
+    onClick?:React.MouseEventHandler<HTMLButtonElement> | undefined
 }>
 
-const SubmitButton = ({ className, cartBtn, isLoading, children, ...props }: SubmitButtonProps) => {
+const SubmitButton = ({ className, cartBtn, isLoading, children, onClick }: SubmitButtonProps) => {
     return (
-        <Button {...props} className={cn("w-full flex items-center space-x-10 justify-center bg-secondary-green-60 hover:bg-secondary-green-50 font-semibold", className)}>
+        <Button onClick={onClick} className={cn("w-full flex items-center space-x-10 justify-center bg-secondary-green-60 hover:bg-secondary-green-50 font-semibold", className)}>
             {cartBtn && <ShoppingBasket className='w-5 text-white mr-2' />}
             {isLoading && <Image src="/icons/loader.svg" alt='loader' className='animate-spin' width={24} height={24} />}
             {children}

@@ -15,6 +15,8 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import { ProductsProps } from '@/types'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { ChevronLeft } from 'lucide-react'
 
 type AddProductFormProps = {
     data?: {
@@ -58,6 +60,8 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                     availableProducts: values.availableProducts,
                 }
                 await updateProducts(data?.product.$id!, value)
+
+                toast.success("Product updated successfully")
             } catch (error) {
                 if (error instanceof Error) {
                     console.log(error.message);
@@ -83,6 +87,7 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
 
         try {
             const result = await createProducts(productDetails)
+            toast.success("Product created successfully")
             router.push(`/dashboard/products/${result?.$id}/edit`)
         } catch (error) {
             if (error instanceof Error) {
@@ -189,11 +194,11 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                     </CustomInput>
                 </div>
 
-
-                {/* <input type="checkbox" onChange={(e) => console.log(e.target.value) } /> */}
-
-
                 <SubmitButton isLoading={isLoading} className={type === "create" ? "bg-secondary-green-60 hover:bg-secondary-green-50" : "bg-secondary-200 text-white hover:bg-secondary"}>{buttonLable()}</SubmitButton>
+
+                {type === "update" && (
+                    <Link href={"/dashboard/products/create"} className='flex text-sm text-secondary-200'><ChevronLeft className='w-4' /> <span>Go back</span></Link>
+                )}
             </form>
         </Form>
     )

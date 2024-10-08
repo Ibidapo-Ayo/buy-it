@@ -131,6 +131,8 @@ export const getCart = async () => {
             [Query.equal("user", user.documents[0].$id)]
         )
 
+        // console.log(data.documents);
+
         return data.documents
     } catch (error) {
         if (error instanceof Error) {
@@ -160,6 +162,25 @@ export const AddProductToCart = async (productId?: string, userId?: string) => {
         if (error instanceof Error) {
             console.log(error.message);
 
+        }
+    }
+}
+
+export const updateCarts = async (cartId: string, quantity: number) => {
+    try {
+        const { databases } = await createSessionClient(cookies().get("session")?.value)
+        const result = await databases.updateDocument(
+            DATABASE_ID!,
+            CART_ID!,
+            cartId,
+            {
+                quantity
+            }
+        )
+        return
+    } catch (err) {
+        if (err instanceof Error) {
+            console.log(err.message);
         }
     }
 }

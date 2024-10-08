@@ -1,7 +1,7 @@
 "use client"
 import { getCart } from "@/appwrite/product.actions"
 import { ProductsProps } from "@/types"
-import React, { createContext, useContext, useEffect, useReducer } from "react"
+import React, { createContext, useContext, useEffect, useReducer, useState } from "react"
 
 type ContextProps = State & {
     dispatch: React.Dispatch<ActionType<Actions, any>>
@@ -18,6 +18,7 @@ type ActionType<T = string, P = any> = {
 type Actions = "add-to-cart" | "update" | "create" | "get-carts"
 
 type Cart = {
+    $id: string,
     product: ProductsProps,
     user: {
         accountId?: string,
@@ -28,12 +29,14 @@ type Cart = {
 
 type State = {
     carts?: Cart[],
-    totalCarts?: number
+    totalCarts?: number,
+    quantity?: number
 }
 
 const initialState: State = {
     carts: [],
-    totalCarts: 0
+    totalCarts: 0,
+    quantity: 0
 }
 
 function reducer(state: State, action: ActionType<Actions, any>) {
@@ -41,11 +44,11 @@ function reducer(state: State, action: ActionType<Actions, any>) {
 
     switch (type) {
         case "add-to-cart":
-            return { ...state, carts: payload, totalCarts: payload?.length }
+            return { ...state, carts:  payload?.carts, totalCarts: payload?.carts?.length }
         case "get-carts":
-            return { ...state, carts: payload, totalCarts: payload.length }
+            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length, quantity: payload?.quantity }
         case "update":
-            return { ...state, carts: payload, totalCarts: payload.length }
+            return { ...state, quantity: payload.quantity }
         default:
             return state
     }
@@ -53,18 +56,42 @@ function reducer(state: State, action: ActionType<Actions, any>) {
 
 const ProductProvider = ({ children }: React.PropsWithChildren) => {
     const [state, dispatch] = useReducer(reducer, initialState)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await getCart()
-            dispatch({ type: "get-carts", payload: result })
+            try {
+                const result = await getCart()
+                dispatch({
+                    type: "get-carts", payload: {
+                        carts: result,
+                        quantity: result![0].quantity,
+                    }
+                })
+
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.log("An error occured", error.message);
+                    throw new Error("An error occured while fetching")
+                }
+            } finally {
+                setIsLoading(false)
+            }
         }
+
+        
         fetchData()
+
+
     }, [])
 
     return (
         <ProuductContext.Provider value={{ ...state, dispatch }}>
-            {children}
+            {isLoading ? (
+                <div className="w-full flex justify-center items-center h-screen">
+                    <p>Loading</p>
+                </div>
+            ) : (children)}
         </ProuductContext.Provider>
     )
 }
