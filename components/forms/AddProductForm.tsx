@@ -49,6 +49,12 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
     const onSubmit = async (values: z.infer<typeof productFormSchema>) => {
         setIsLoading(true)
 
+        if (parseInt(values.availableProducts!) > parseInt(values.totalProducts!)) {
+            toast.error("Available products can't be greater than the total product")
+            setIsLoading(false)
+            return
+        }
+
         if (type === "update") {
             try {
                 const value = {
