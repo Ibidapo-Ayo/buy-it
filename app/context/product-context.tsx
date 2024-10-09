@@ -1,36 +1,11 @@
 "use client"
 import { getCart } from "@/appwrite/product.actions"
-import { ProductsProps } from "@/types"
+import { Actions, ActionType, Cart, ContextProps, State } from "@/types"
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react"
 
-type ContextProps = State & {
-    dispatch: React.Dispatch<ActionType<Actions, any>>
-}
 
 // @ts-expect-error
 export const ProuductContext = createContext<ContextProps>()
-
-type ActionType<T = string, P = any> = {
-    type: T
-    payload?: P
-}
-
-type Actions = "add-to-cart" | "update" | "create" | "get-carts"
-
-type Cart = {
-    $id: string,
-    product: ProductsProps,
-    user: {
-        accountId?: string,
-        name?: string
-    },
-    quantity: number
-}
-
-type State = {
-    carts?: Cart[],
-    totalCarts?: number,
-}
 
 const initialState: State = {
     carts: [],

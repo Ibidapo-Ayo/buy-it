@@ -1,5 +1,5 @@
 "use server"
-import { CreateProductsParams, ProductsProps } from "@/types";
+import { Cart, CreateProductsParams, ProductsProps } from "@/types";
 import { createAdminClient, createSessionClient } from "./config";
 import { InputFile } from "node-appwrite/file"
 import { ID, Query } from "node-appwrite";
@@ -7,6 +7,8 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 const { DATABASE_ID, PRODUCT_ID, BUCKET_ID, CART_ID, USER_COLLECTION_ID } = process.env
+
+const userId = cookies().get("userId")?.value
 
 export const getProducts = async () => {
     try {
@@ -117,21 +119,12 @@ export const updateProducts = async (productId: string, data: {
 // TODO: simplify this apis
 export const getCart = async () => {
     try {
-        const { databases, account } = await createSessionClient(cookies().get("session")?.value)
-        const userAccountId = await account.get()
-
-        const user = await databases.listDocuments(
-            DATABASE_ID!,
-            USER_COLLECTION_ID!,
-            [Query.equal("accountId", userAccountId.$id)]
-        )
+        const { databases } = await createSessionClient(cookies().get("session")?.value)
         const data = await databases.listDocuments(
             DATABASE_ID!,
             CART_ID!,
-            [Query.equal("user", user.documents[0].$id)]
+            [Query.equal("user", userId!)]
         )
-
-        // console.log(data.documents);
 
         return data.documents
     } catch (error) {
@@ -143,15 +136,14 @@ export const getCart = async () => {
 
 export const AddProductToCart = async (productId?: string, userId?: string) => {
     try {
-
         const { databases } = await createSessionClient(cookies().get("session")?.value)
 
-        const result = await databases.createDocument(
+        await databases.createDocument(
             DATABASE_ID!,
             CART_ID!,
             ID.unique(),
             {
-                user: "66fb9b09002c88ec99b8",
+                user: userId,
                 product: productId
             }
         )
@@ -169,7 +161,7 @@ export const AddProductToCart = async (productId?: string, userId?: string) => {
 export const updateCarts = async (cartId: string, quantity: number) => {
     try {
         const { databases } = await createSessionClient(cookies().get("session")?.value)
-        const result = await databases.updateDocument(
+        await databases.updateDocument(
             DATABASE_ID!,
             CART_ID!,
             cartId,
@@ -177,6 +169,7 @@ export const updateCarts = async (cartId: string, quantity: number) => {
                 quantity
             }
         )
+        revalidatePath("/cart")
         return
     } catch (err) {
         if (err instanceof Error) {

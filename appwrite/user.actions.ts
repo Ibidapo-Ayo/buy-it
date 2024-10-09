@@ -30,7 +30,7 @@ export const register = async ({ email, password, username }: RegisterParams) =>
             }
         )
 
-
+        cookies().set("userId", newUser.$id)
         if (!newAccount) return newUser
     } catch (error) {
         if (error) {
@@ -53,13 +53,13 @@ export const login = async (email: string, password: string) => {
         if (user) {
             const decryptedPassword = decryptKey(user.documents[0].password)
             if (decryptedPassword === password) {
-                const {account} = await createAdminClient()
+                const { account } = await createAdminClient()
 
                 const session = await account.createEmailPasswordSession(
                     email,
                     password
                 )
-                
+
                 cookies().set("session", session.secret, {
                     httpOnly: true,
                     sameSite: "strict",
@@ -77,11 +77,11 @@ export const login = async (email: string, password: string) => {
         }
 
     } catch (error) {
-       if(error){
-        throw new Error(`${error}`)
-       }
+        if (error) {
+            throw new Error(`${error}`)
+        }
 
-       console.log(error)
+        console.log(error)
     }
 }
 

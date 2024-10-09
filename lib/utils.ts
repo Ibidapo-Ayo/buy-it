@@ -1,5 +1,11 @@
+import { updateCarts } from "@/appwrite/product.actions"
 import { cartItemsProps } from "@/constants/data/products"
+import { Cart } from "@/types"
 import { type ClassValue, clsx } from "clsx"
+import { revalidatePath } from "next/cache"
+import { Models } from "node-appwrite"
+import { Dispatch, SetStateAction } from "react"
+import { toast } from "sonner"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -12,9 +18,9 @@ export const calculateProductPercentage = (price: number, strikedPrice: number):
   return parseFloat(discountedPrice.toFixed(0))
 }
 
-export const calculateTotalCartItems = (arr: cartItemsProps[]) => {
-  return `$ ${arr.reduce((acc, cart) => {
-    return acc + (cart.quantity * cart.price)
+export const calculateTotalCartItems = (arr: Cart[] | undefined | Models.Document[]) => {
+  return `$ ${arr?.reduce((acc, cart) => {
+    return acc + (cart.quantity * cart.product.price)
   }, 0).toFixed(2)}`
 }
 
@@ -64,3 +70,42 @@ export enum FormFieldTypes {
 }
 
 export const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+
+
+export const handleUpdateQuantity = async (cartId: string, quantity: number, type: "add" | "minus", buttonClickRef: any, setCartQuantity: Dispatch<SetStateAction<number | undefined>>) => {
+  try {
+    let q = quantity
+    if (type === "add") {
+      q = quantity + 1
+    }
+
+    if (type === "minus") {
+      q = quantity <= 0 ? 0 : quantity - 1
+    }
+
+
+    setCartQuantity(q)
+
+
+    if (buttonClickRef.current) {
+      clearTimeout(buttonClickRef.current)
+    }
+
+    buttonClickRef.current = setTimeout(async () => {
+      try {
+        const result = await updateCarts(cartId, q)
+        toast.success("Updated successfully ")
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
+      }
+    }, 2000)
+
+
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    }
+  }
+}

@@ -1,8 +1,8 @@
 "use client"
 import Image from 'next/image'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Card, CardContent } from './ui/card'
-import { cn } from '@/lib/utils'
+import { cn, handleUpdateQuantity } from '@/lib/utils'
 import Link from 'next/link'
 import CountDownTimer from './CountDownTimer'
 import RatingStar from './RatingStar'
@@ -39,50 +39,8 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
 
     const cart = carts?.filter((c) => c.product.$id === productId)
 
-    const [cartQuantity, setCartQuantity] = useState<number | undefined>(cart![0].quantity)
+    const [cartQuantity, setCartQuantity] = useState<number | undefined>(cart![0]?.quantity)
 
-    const handleUpdateQuantity = async (cartId: string, quantity: number, type: "add" | "minus") => {
-        setIsLoading(true)
-        try {
-            let q = quantity
-            if (type === "add") {
-                q = quantity + 1
-            }
-
-            if (type === "minus") {
-                q = quantity <= 0 ? 0 : quantity - 1
-            }
-
-
-            setCartQuantity(q)
-
-
-            if (buttonClickRef.current) {
-                clearTimeout(buttonClickRef.current)
-            }
-
-            // @ts-expect-error
-            buttonClickRef.current = setTimeout(async () => {
-                try {
-                    const result = await updateCarts(cartId, q)
-                    toast.success("Updated successfully ")
-                } catch (error) {
-                    if (error instanceof Error) {
-                        console.log(error.message);
-                    }
-                } finally {
-                    setIsLoading(false)
-                }
-            }, 2000)
-
-
-        } catch (error) {
-            if (error instanceof Error) {
-                console.log(error.message);
-
-            }
-        }
-    }
 
     return (
         <Card className={cn('relative pt-2 rounded-none w-full', cardClassName)}>
@@ -106,20 +64,20 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
             {addToCart && <div className='w-full py-2 px-2'>
                 {carts?.some((c) => c.product.$id === productId) ? (
                     <div className='w-full flex justify-between items-center'>
-                        <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto' onClick={() => {
-                            handleUpdateQuantity(cart![0].$id, cartQuantity!, "minus")
+                        <Button className='bg-green-500 hover:bg-green-600 w-7 h-7' size={"icon"} disabled={cartQuantity! <= 1} onClick={() => {
+                            handleUpdateQuantity(cart![0].$id, cartQuantity!, "minus", buttonClickRef, setCartQuantity)
                         }}>
                             <Minus className='text-white w-5' />
-                        </SubmitButton>
+                        </Button>
                         <Button className='hover:bg-transparent' variant={"ghost"} size={"sm"}>
                             {cartQuantity}
                         </Button>
 
-                        <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto' onClick={() => {
-                            handleUpdateQuantity(cart![0].$id, cartQuantity!, "add")
+                        <Button className='bg-green-500 hover:bg-green-600 w-7 h-7' size={"icon"} onClick={() => {
+                            handleUpdateQuantity(cart![0].$id, cartQuantity!, "add", buttonClickRef, setCartQuantity)
                         }}>
                             <Plus className='text-white w-5' />
-                        </SubmitButton>
+                        </Button>
                     </div>
                 ) : (
                     <SubmitButton cartBtn={true} onClick={handleAddProducts} isLoading={isLoading}>Add to cart</SubmitButton>

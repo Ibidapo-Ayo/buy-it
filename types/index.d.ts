@@ -52,3 +52,29 @@ declare interface ProductsProps extends Omit<CreateProductParams, "image">, Mode
     imageUrl: string,
     imageId: string
 }
+
+declare type ContextProps = State & {
+    dispatch: React.Dispatch<ActionType<Actions, any>>
+}
+
+declare type ActionType<T = string, P = any> = {
+    type: T
+    payload?: P
+}
+
+declare type Actions = "add-to-cart" | "update" | "create" | "get-carts"
+
+declare type Cart = {
+    $id: string,
+    product: ProductsProps,
+    user: {
+        accountId?: string,
+        name?: string
+    },
+    quantity: number
+}
+
+declare type State = {
+    carts?: Cart[],
+    totalCarts?: number,
+}

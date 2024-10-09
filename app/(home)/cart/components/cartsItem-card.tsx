@@ -1,0 +1,42 @@
+import { Button } from '@/components/ui/button'
+import { calculateProductPercentage } from '@/lib/utils'
+import { Cart } from '@/types'
+import { Trash } from 'lucide-react'
+import Image from 'next/image'
+import React from 'react'
+import AddQuantity from './AddQuantity'
+
+const CartItemsCard = ({cart}: {
+    cart: Cart
+}) => {
+    return (
+        <div>
+            <div className='w-full flex justify-between p-2'>
+                <div className='w-full flex gap-2'>
+                    <Image src={cart.product.productImageUrl} alt={cart.product.name + "image"} width={100} height={100} className='rounded-md w-40 object-contain' />
+                    <div className='flex flex-col space-y-2'>
+                        <h4 className='text-sm font-medium tracking-wide'>{cart.product.name}</h4>
+                    </div>
+                </div>
+                <div className='flex flex-col items-end space-y-5'>
+                    <h2 className='font-semibold text-xl tracking-tighter'>${cart.product.price}</h2>
+                    <div className='flex space-x-3'>
+                        <p className='line-through text-secondary'>${cart.product.strikedPrice}</p>
+                        <div className='w-auto bg-red-200 text-red-600 px-1'>
+                            <span className='text-[10px]'>-{calculateProductPercentage(cart.product.price, cart.product.strikedPrice)}%</span>
+                        </div>
+                    </div>
+                    <AddQuantity cart={cart} />
+                </div>
+            </div>
+            <div className='flex justify-between'>
+                <Button variant={"ghost"} size={"sm"} className='text-secondary-green-50 font-semibold uppercase hover:bg-secondary-green-60/10 hover:text-secondary-green-50 rounded-md'>
+                    <Trash className='w-4' />
+                    <span>Remove</span>
+                </Button>
+            </div>
+        </div>
+    )
+}
+
+export default CartItemsCard
