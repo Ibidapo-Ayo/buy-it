@@ -30,13 +30,11 @@ type Cart = {
 type State = {
     carts?: Cart[],
     totalCarts?: number,
-    quantity?: number
 }
 
 const initialState: State = {
     carts: [],
     totalCarts: 0,
-    quantity: 0
 }
 
 function reducer(state: State, action: ActionType<Actions, any>) {
@@ -44,9 +42,9 @@ function reducer(state: State, action: ActionType<Actions, any>) {
 
     switch (type) {
         case "add-to-cart":
-            return { ...state, carts:  payload?.carts, totalCarts: payload?.carts?.length }
+            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length }
         case "get-carts":
-            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length, quantity: payload?.quantity }
+            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length }
         case "update":
             return { ...state, quantity: payload.quantity }
         default:
@@ -65,21 +63,21 @@ const ProductProvider = ({ children }: React.PropsWithChildren) => {
                 dispatch({
                     type: "get-carts", payload: {
                         carts: result,
-                        quantity: result![0].quantity,
                     }
                 })
 
             } catch (error) {
                 if (error instanceof Error) {
                     console.log("An error occured", error.message);
-                    throw new Error("An error occured while fetching")
                 }
+
+                throw new Error("An error occured while fetching")
             } finally {
                 setIsLoading(false)
             }
         }
 
-        
+
         fetchData()
 
 

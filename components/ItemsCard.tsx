@@ -15,11 +15,12 @@ import { useProducts } from '@/app/context/product-context'
 import { AddProductToCart, updateCarts } from '@/appwrite/product.actions'
 import { Button } from './ui/button'
 import { Minus, Plus } from 'lucide-react'
+import { toast } from 'sonner'
 
 const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: string }) => {
     const { title, price, striked_price, image, availableItems, totalItems, className, rating, offer, cardClassName, addToCart, productId } = props
 
-    const { dispatch, carts, quantity } = useProducts()
+    const { dispatch, carts } = useProducts()
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -28,9 +29,17 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
     const handleAddProducts = async () => {
         setIsLoading(true)
         const result = await AddProductToCart(productId)
-        dispatch({ type: "add-to-cart", payload: result })
+        dispatch({
+            type: "add-to-cart", payload: {
+                carts: result,
+            }
+        })
         setIsLoading(false)
     }
+
+    const cart = carts?.filter((c) => c.product.$id === productId)
+
+    const [cartQuantity, setCartQuantity] = useState<number | undefined>(cart![0].quantity)
 
     const handleUpdateQuantity = async (cartId: string, quantity: number, type: "add" | "minus") => {
         setIsLoading(true)
@@ -44,11 +53,9 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
                 q = quantity <= 0 ? 0 : quantity - 1
             }
 
-            dispatch({
-                type: "update", payload: {
-                    quantity: q
-                }
-            })
+
+            setCartQuantity(q)
+
 
             if (buttonClickRef.current) {
                 clearTimeout(buttonClickRef.current)
@@ -58,7 +65,7 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
             buttonClickRef.current = setTimeout(async () => {
                 try {
                     const result = await updateCarts(cartId, q)
-                    console.log(result);
+                    toast.success("Updated successfully ")
                 } catch (error) {
                     if (error instanceof Error) {
                         console.log(error.message);
@@ -76,7 +83,6 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
             }
         }
     }
-
 
     return (
         <Card className={cn('relative pt-2 rounded-none w-full', cardClassName)}>
@@ -98,34 +104,27 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
                 </CardContent>
             </Link>
             {addToCart && <div className='w-full py-2 px-2'>
-                {carts?.map((cart, index) => {
-                    if (cart.product.$id === productId) {
-                        return (
-                            <div className='w-full flex justify-between items-center' key={index}>
+                {carts?.some((c) => c.product.$id === productId) ? (
+                    <div className='w-full flex justify-between items-center'>
+                        <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto' onClick={() => {
+                            handleUpdateQuantity(cart![0].$id, cartQuantity!, "minus")
+                        }}>
+                            <Minus className='text-white w-5' />
+                        </SubmitButton>
+                        <Button className='hover:bg-transparent' variant={"ghost"} size={"sm"}>
+                            {cartQuantity}
+                        </Button>
 
-                                <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto' isLoading={isLoading} onClick={() => {
-                                    handleUpdateQuantity(cart.$id, quantity!, "minus")
-                                }}>
-                                    <Minus className='text-white w-5' />
-                                </SubmitButton>
-                                <Button className='hover:bg-transparent' variant={"ghost"} size={"sm"}>
-                                    {quantity}
-                                </Button>
-                                
-                                <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto'  isLoading={isLoading} onClick={() => {
-                                    handleUpdateQuantity(cart.$id, quantity!, "add")
-                                }}>
-                                    <Plus className='text-white w-5' />
-                                </SubmitButton>
+                        <SubmitButton className='bg-green-500 hover:bg-green-600 w-auto' onClick={() => {
+                            handleUpdateQuantity(cart![0].$id, cartQuantity!, "add")
+                        }}>
+                            <Plus className='text-white w-5' />
+                        </SubmitButton>
+                    </div>
+                ) : (
+                    <SubmitButton cartBtn={true} onClick={handleAddProducts} isLoading={isLoading}>Add to cart</SubmitButton>
 
-                            </div>
-                        )
-                    } else {
-                        return (
-                            <SubmitButton key={index} cartBtn={true} onClick={handleAddProducts} isLoading={isLoading}>Add to cart</SubmitButton>
-                        )
-                    }
-                })}
+                )}
             </div>}
             <ItemCardOverlay prices={{
                 price: price,
