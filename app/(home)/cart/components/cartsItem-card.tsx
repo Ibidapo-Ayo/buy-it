@@ -5,8 +5,9 @@ import { Trash } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import AddQuantity from './AddQuantity'
+import RemoveCartsDialog from './remove-cart-dialog'
 
-const CartItemsCard = ({cart}: {
+const CartItemsCard = ({ cart }: {
     cart: Cart
 }) => {
     return (
@@ -26,14 +27,12 @@ const CartItemsCard = ({cart}: {
                             <span className='text-[10px]'>-{calculateProductPercentage(cart.product.price, cart.product.strikedPrice)}%</span>
                         </div>
                     </div>
-                    <AddQuantity cart={cart} />
+
                 </div>
             </div>
             <div className='flex justify-between'>
-                <Button variant={"ghost"} size={"sm"} className='text-secondary-green-50 font-semibold uppercase hover:bg-secondary-green-60/10 hover:text-secondary-green-50 rounded-md'>
-                    <Trash className='w-4' />
-                    <span>Remove</span>
-                </Button>
+                <RemoveCartsDialog cartId={cart.$id} />
+                <AddQuantity cart={cart} />
             </div>
         </div>
     )

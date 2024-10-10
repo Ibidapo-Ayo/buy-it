@@ -12,7 +12,7 @@ const CartPage = async() => {
 
             <div className='w-full flex gap-10 items-start'>
                 <div className='w-3/4 shadow-md bg-white h-auto py-3 px-2 rounded-md flex flex-col divide-y divide-secondary-100 space-y-5'>
-                    <h2 className="font-semibold text-md tracking-tighter">Cart (2)</h2>
+                    <h2 className="font-semibold text-md tracking-tighter">Cart ({carts?.length})</h2>
                     {carts!.map((cart, index) => {
                         return (
                             // @ts-expect-error

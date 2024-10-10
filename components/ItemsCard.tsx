@@ -28,13 +28,22 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
 
     const handleAddProducts = async () => {
         setIsLoading(true)
-        const result = await AddProductToCart(productId)
-        dispatch({
-            type: "add-to-cart", payload: {
-                carts: result,
+        try {
+            const result = await AddProductToCart(productId)
+            dispatch({
+                type: "add-to-cart", payload: {
+                    carts: result,
+                }
+            })
+
+            toast.success("Products added successfully")
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error);
             }
-        })
-        setIsLoading(false)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const cart = carts?.filter((c) => c.product.$id === productId)

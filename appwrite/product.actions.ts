@@ -135,6 +135,8 @@ export const getCart = async () => {
 }
 
 export const AddProductToCart = async (productId?: string, userId?: string) => {
+    console.log(userId);
+    
     try {
         const { databases } = await createSessionClient(cookies().get("session")?.value)
 
@@ -148,6 +150,7 @@ export const AddProductToCart = async (productId?: string, userId?: string) => {
             }
         )
 
+        revalidatePath("/products")
         const cart = await getCart()
         return cart
     } catch (error) {
@@ -174,6 +177,24 @@ export const updateCarts = async (cartId: string, quantity: number) => {
     } catch (err) {
         if (err instanceof Error) {
             console.log(err.message);
+        }
+    }
+}
+
+export const deleteCarts = async (cartId: string) => {
+    try {
+        const { databases } = await createSessionClient(cookies().get("session")?.value)
+        const deleteCart = await databases.deleteDocument(
+            DATABASE_ID!,
+            CART_ID!,
+            cartId
+        )
+        console.log(deleteCart);
+        revalidatePath("/cart")
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error);
+
         }
     }
 }
