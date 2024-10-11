@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import ItemsCard from '@/components/ItemsCard'
-import { getFilePreview, getProducts } from '@/appwrite/product.actions'
+import { getProducts } from '@/appwrite/product.actions'
 
 const Product = async () => {
   const products = await getProducts()
