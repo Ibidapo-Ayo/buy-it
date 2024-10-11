@@ -12,7 +12,7 @@ import ItemProgress from './ItemProgress'
 import { ItemsCardProps } from '@/types'
 import SubmitButton from './SubmitButton'
 import { useProducts } from '@/app/context/product-context'
-import { AddProductToCart, updateCarts } from '@/appwrite/product.actions'
+import { AddProductToCart } from '@/appwrite/product.actions'
 import { Button } from './ui/button'
 import { Minus, Plus } from 'lucide-react'
 import { toast } from 'sonner'
@@ -36,7 +36,7 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
                 }
             })
 
-            toast.success("Products added successfully")
+            toast.success("Products added to cart successfully")
         } catch (error) {
             if (error instanceof Error) {
                 console.log(error);
@@ -47,8 +47,7 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
     }
 
     const cart = carts?.filter((c) => c.product.$id === productId)
-
-    const [cartQuantity, setCartQuantity] = useState<number | undefined>(cart![0]?.quantity)
+    const [cartQuantity, setCartQuantity] = useState<number | undefined>(cart && cart![0]?.quantity)
 
 
     return (

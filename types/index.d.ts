@@ -38,7 +38,7 @@ declare type RegisterParams = {
     username: string
 }
 
-declare type CreateProductsParams = {
+declare interface CreateProductsParams {
     name: string,
     price: string,
     strikedPrice?: string,

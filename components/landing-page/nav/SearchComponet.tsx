@@ -1,19 +1,21 @@
 "use client"
+import { searchProducts } from '@/appwrite/product.actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { products as Products, ProductTypes } from '@/constants/data/products'
-import { Search, X } from 'lucide-react'
+import { ProductsProps } from '@/types'
+import { X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useRef, useState } from 'react'
+import { Models } from 'node-appwrite'
+import React, { useRef, useState } from 'react'
 
 const SearchComponet = () => {
     const [isSearching, setIsSearching] = useState<boolean>(false)
     const [searchValue, setSearchValue] = useState("")
 
-    const [searchResult, setSearchResult] = useState<ProductTypes>([])
+    const [searchResult, setSearchResult] = useState<ProductsProps[] | Models.Document[]>([])
     const keyUpTimer = useRef(null)
-                
+
 
     const handleKeyUpTimer = () => {
         setIsSearching(true)
@@ -22,10 +24,18 @@ const SearchComponet = () => {
             clearTimeout(keyUpTimer.current)
         }
 
-        keyUpTimer.current = setTimeout(() => {
-            const products = Products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase()))
-            setSearchResult(products)
-            setIsSearching(false)
+        // @ts-expect-error
+        keyUpTimer.current = setTimeout(async () => {
+            try {
+                const result = await searchProducts(searchValue)
+                setSearchResult(result!)
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.log(error);
+                }
+            } finally {
+                setIsSearching(false)
+            }
         }, 2000)
     }
 
@@ -52,15 +62,15 @@ const SearchComponet = () => {
                     )}
 
                     {!isSearching && (
-                        searchResult.length > 0 ? (
+                        searchResult?.length > 0 ? (
                             <div className='w-full h-52 space-y-5'>
                                 <h3 className='text-md font-semibold tracking-tight'>{searchResult.length} items found</h3>
                                 <div className='w-full h-full overflow-y-auto space-y-2'>
                                     {searchResult.map((result, index) => {
                                         return (
                                             <div className='grid grid-cols-[auto,1fr] gap-5' key={index}>
-                                                <Image src={result.images[0]} alt={result.name + "image"} className='rounded-md' width={50} height={50} />
-                                                <Link href={result.path}>
+                                                <Image src={result.productImageUrl} alt={result.name + "image"} className='rounded-md' width={50} height={50} />
+                                                <Link href={result.$id}>
                                                     <div className='flex flex-col space-y-2'>
                                                         <h3 className='text-sm tracking-tight font-semibold'>{result.name}</h3>
                                                         <p className='text-sm text-secondary-200'></p>

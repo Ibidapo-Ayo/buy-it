@@ -64,6 +64,25 @@ export const getProduct = async (productId: string) => {
     }
 }
 
+export const searchProducts = async (searchString: string) => {
+
+    const { databases } = await createSessionClient(cookies().get("session")?.value)
+
+    try {
+        const result = await databases.listDocuments(
+            DATABASE_ID!,
+            PRODUCT_ID!,
+            [Query.contains("name", searchString), Query.contains("description", searchString)]
+        );
+
+        return result.documents
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error);
+        }
+    }
+}
+
 export const createProducts = async ({ image, ...products }: CreateProductsParams) => {
     try {
         let file;
@@ -134,9 +153,7 @@ export const getCart = async () => {
     }
 }
 
-export const AddProductToCart = async (productId?: string, userId?: string) => {
-    console.log(userId);
-    
+export const AddProductToCart = async (productId?: string) => {
     try {
         const { databases } = await createSessionClient(cookies().get("session")?.value)
 
@@ -150,7 +167,6 @@ export const AddProductToCart = async (productId?: string, userId?: string) => {
             }
         )
 
-        revalidatePath("/products")
         const cart = await getCart()
         return cart
     } catch (error) {

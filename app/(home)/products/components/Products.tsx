@@ -28,20 +28,24 @@ const Products = ({ products }: {
 
         </div>
         <div className='grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-4'>
-          {products!.map(async (product, index) => (
-            <ItemsCard
-              key={index}
-              image={product.productImageUrl}
-              path={generateProductLink(product.name)}
-              price={product.price}
-              title={product.product_name}
-              availableItems={product.availableProducts}
-              totalItems={product.totalProducts}
-              striked_price={product.strikedPrice}
-              addToCart={true}
-              productId={product.$id}
-            />
-          ))}
+          {products?.length === 0 || !products ? (
+            <div>No Products</div>
+          ) : (
+            products!.map(async (product, index) => (
+              <ItemsCard
+                key={index}
+                image={product.productImageUrl}
+                path={generateProductLink(product.name)}
+                price={product.price}
+                title={product.name}
+                availableItems={product.availableProducts}
+                totalItems={product.totalProducts}
+                striked_price={product.strikedPrice}
+                addToCart={true}
+                productId={product.$id}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
