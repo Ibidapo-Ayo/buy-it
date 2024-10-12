@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen font-sans antialiased mx-auto w-full", fontSans.variable)}>
+      <body className={cn("min-h-screen font-sans antialiased mx-auto w-full max-w-full flex flex-col items-center justify-center", fontSans.variable)}>
         
           {children}
           <Toaster position="top-center" />

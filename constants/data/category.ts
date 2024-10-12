@@ -1,7 +1,7 @@
 import { ItemsProps } from "@/types";
 import { images } from "../images";
 
-export const items: ItemsProps[] = [
+export const productCategory: ItemsProps[] = [
     {
       title: 'Fruits & Vegetation',
       image: images.fruits,

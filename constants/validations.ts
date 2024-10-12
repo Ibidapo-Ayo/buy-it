@@ -56,5 +56,6 @@ export const productFormSchema = z.object({
   offer: z.string().optional(),
   rating: z.string().optional(),
   comments: z.string().optional(),
-  hasOffer: z.boolean().optional()
+  hasOffer: z.boolean().optional(),
+  category: z.string().optional()
 })

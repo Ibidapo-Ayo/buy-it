@@ -1,7 +1,7 @@
 "use client"
 import { productFormSchema } from '@/constants/validations'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl } from '../ui/form'
@@ -17,6 +17,7 @@ import { ProductsProps } from '@/types'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
+import { productCategory } from '@/constants/data/category'
 
 type AddProductFormProps = {
     data?: {
@@ -39,12 +40,14 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
             image: [],
             availableProducts: data?.product.availableProducts || "",
             totalProducts: data?.product.totalProducts || "",
+            category: data?.product.category || ""
         }
     })
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
     const router = useRouter()
+
+    const productItems = Array.from({ length: 100 }, (_, i) => `${i + 1}`)
 
     const onSubmit = async (values: z.infer<typeof productFormSchema>) => {
         setIsLoading(true)
@@ -175,7 +178,7 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                         placeholder="Available products"
                         label="Available products"
                     >
-                        {["10", "20", "30", "40", "50"].map((type) => {
+                        {productItems.map((type) => {
                             return (
                                 <SelectItem value={type} key={type}>
                                     {type}
@@ -190,7 +193,7 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                         placeholder="Total products"
                         label="Total products"
                     >
-                        {[10, 20, 30, 40, 50].map((type) => {
+                        {productItems.map((type) => {
                             return (
                                 <SelectItem value={`${type}`} key={type}>
                                     {type}
@@ -199,6 +202,25 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                         })}
                     </CustomInput>
                 </div>
+
+                <CustomInput
+                    control={form.control}
+                    fieldType={FormFieldTypes.SELECT}
+                    name="category"
+                    placeholder="Product Category"
+                    label="Category"
+                >
+                    {productCategory.map((category, index) => {
+                        return (
+                            <SelectItem value={`${category.title}`} key={index} className="flex space-x-2">
+                                <div className="flex cursor-pointer items-center gap-2">
+                                    <Image src={category.image} alt={category.title + "image"} width={100} height={100} className='w-10' />
+                                    <p>{category.title}</p>
+                                </div>
+                            </SelectItem>
+                        )
+                    })}
+                </CustomInput>
 
                 <SubmitButton isLoading={isLoading} className={type === "create" ? "bg-secondary-green-60 hover:bg-secondary-green-50" : "bg-secondary-200 text-white hover:bg-secondary"}>{buttonLable()}</SubmitButton>
 

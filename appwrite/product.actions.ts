@@ -8,7 +8,6 @@ import { cookies } from "next/headers";
 
 const { DATABASE_ID, PRODUCT_ID, BUCKET_ID, CART_ID, USER_COLLECTION_ID } = process.env
 
-const userId = cookies().get("userId")?.value
 
 export const getProducts = async () => {
     try {
@@ -137,6 +136,7 @@ export const updateProducts = async (productId: string, data: {
 
 // TODO: simplify this apis
 export const getCart = async () => {
+    const userId = cookies().get("userId")?.value
     try {
         const { databases } = await createSessionClient(cookies().get("session")?.value)
         const data = await databases.listDocuments(
@@ -154,6 +154,7 @@ export const getCart = async () => {
 }
 
 export const AddProductToCart = async (productId?: string) => {
+    const userId = cookies().get("userId")?.value
     try {
         const { databases } = await createSessionClient(cookies().get("session")?.value)
 

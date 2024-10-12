@@ -30,34 +30,23 @@ const Product = async () => {
         </div>
       </div>
 
-      <div className=''>
-        <Carousel
-          opts={{
-            align: "start",
-          }}
-          className="w-full max-w-full"
-        >
-          <CarouselContent>
-            {products!.map((product, index) => {
-              const { name, productImageUrl, price, strikedPrice, availableProducts, totalProducts, $id } = product
-              return (
-                <CarouselItem key={index} className="basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/5">
-                  <ItemsCard
-                    title={name}
-                    image={productImageUrl}
-                    price={price}
-                    striked_price={strikedPrice}
-                    availableItems={availableProducts}
-                    totalItems={totalProducts}
-                    productId={$id}
-                  />
-                </CarouselItem>
-              )
-            })}
-          </CarouselContent>
-          <CarouselPrevious className='' />
-          <CarouselNext />
-        </Carousel>
+      <div className='grid 2xl:grid-cols-5 gap-10 xl:grid-cols-4 md:grid-cols-3 grid-cols-2'>
+        {products!.map((product, index) => {
+          const { name, productImageUrl, price, strikedPrice, availableProducts, totalProducts, $id } = product
+          return (
+            <ItemsCard
+              key={index}
+              title={name}
+              image={productImageUrl}
+              price={price}
+              striked_price={strikedPrice}
+              availableItems={availableProducts}
+              totalItems={totalProducts}
+              productId={$id}
+            />
+          )
+        })}
+
       </div>
     </div>
   )

@@ -45,7 +45,8 @@ declare interface CreateProductsParams {
     description: string,
     availableProducts?: string,
     totalProducts?: string,
-    image?: FormData| undefined
+    image?: FormData | undefined,
+    category?: string
 }
 
 declare interface ProductsProps extends Omit<CreateProductParams, "image">, Models.Document {
