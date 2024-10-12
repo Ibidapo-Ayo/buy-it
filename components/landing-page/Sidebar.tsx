@@ -10,7 +10,9 @@ import { Menu } from "lucide-react"
 import NavbarActions from "./nav/NavbarActions"
 
 
-const Sidebar = () => {
+const Sidebar = ({ totalCarts }: {
+    totalCarts: number | undefined
+}) => {
     return (
         <Sheet>
             <SheetTrigger className="md:hidden block">
@@ -18,7 +20,7 @@ const Sidebar = () => {
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
-                    <NavbarActions />
+                    <NavbarActions totalCarts={totalCarts} />
                 </SheetHeader>
             </SheetContent>
         </Sheet>

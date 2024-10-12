@@ -18,7 +18,7 @@ const Header = () => {
             <div className='md:block hidden w-[300px]'>
                 <NavbarActions totalCarts={totalCarts} />
             </div>
-            <Sidebar />
+            <Sidebar totalCarts={totalCarts} />
         </div>
     )
 }
