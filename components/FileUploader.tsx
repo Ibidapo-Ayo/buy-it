@@ -12,7 +12,7 @@ type FileUploaderProps = {
 const FileUploader = ({ onChange, files }: FileUploaderProps) => {
     const onDrop = useCallback((acceptedFiles: File[]) => {
         onChange(acceptedFiles)
-    }, [])
+    }, [onChange])
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
     return (
         <div {...getRootProps()} className='file-upload'>

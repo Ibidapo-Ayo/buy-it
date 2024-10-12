@@ -25,16 +25,18 @@ const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
-    const onSubmit = async(values: z.infer<typeof loginFormSchema>) => {
+    const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
         setIsLoading(true)
         try {
-         const session =   await login(values.email, values.password)
-         console.log(session);
-         
-         if(session) router.push("/")
-        } catch(error) {
-           toast.error(error.message)
-        }finally{
+            const session = await login(values.email, values.password)
+            console.log(session);
+
+            if (session) router.push("/")
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message)
+            }
+        } finally {
             setIsLoading(false)
         }
     }
