@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from './nav/Header'
 import Banner from './Banner'
 import { PopularItems } from './PopularItems'
 import Products from './products'
