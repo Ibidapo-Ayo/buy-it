@@ -30,28 +30,6 @@ export type OfferProductsTypes = {
 
 export const products: ProductTypes[] = [
     {
-        name: "Large Bagged Oranges",
-        price: 1.50,
-        strikedPrice: 2.50,
-        type: "organic",
-        availableItems: 23,
-        totalItems: 100,
-        images: [
-            "/images/products/product-10.png",
-        ]
-    },
-    {
-        name: "100% Percent Apple Juice - 64 fl oz Bottle",
-        price: 1.50,
-        strikedPrice: 2.50,
-        type: "organic",
-        availableItems: 23,
-        totalItems: 100,
-        images: [
-            "/images/products/product-1.png",
-        ]
-    },
-    {
         name: "Great Value Rising Crust Frozen Pizza, Supreme",
         price: 8.99,
         strikedPrice: 11.32,
