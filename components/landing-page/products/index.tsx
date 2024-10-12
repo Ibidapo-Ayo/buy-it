@@ -1,6 +1,6 @@
 import React from 'react'
 import Product from './Product'
-import Services from './services'
+import Services from './services/services'
 
 const Products = () => {
   return (

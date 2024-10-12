@@ -1,7 +1,3 @@
-// @ts-check
- 
-/**
- * @type {import('next').NextConfig}*/
 const nextConfig = {
   compress: true,
   webpack: (config, { isServer }) => {
