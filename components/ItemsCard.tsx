@@ -24,6 +24,10 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
 
     const [isLoading, setIsLoading] = useState(false)
 
+
+    const cart = carts?.filter((c) => c.product.$id === productId)
+    const [cartQuantity, setCartQuantity] = useState<number | undefined>(cart && cart![0]?.quantity)
+
     const buttonClickRef = useRef<number>(null)
 
     const handleAddProducts = async () => {
@@ -35,7 +39,7 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
                     carts: result,
                 }
             })
-
+            setCartQuantity(result![0].quantity)
             toast.success("Products added to cart successfully")
         } catch (error) {
             if (error instanceof Error) {
@@ -46,8 +50,6 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
         }
     }
 
-    const cart = carts?.filter((c) => c.product.$id === productId)
-    const [cartQuantity, setCartQuantity] = useState<number | undefined>(cart && cart![0]?.quantity)
 
 
     return (
