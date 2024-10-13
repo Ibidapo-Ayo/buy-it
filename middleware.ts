@@ -5,7 +5,6 @@ import { getCart } from "./appwrite/product.actions";
 
 export async function middleware(request: NextRequest) {
     const user = await auth.getUser()
-    console.log(user?.userId);
 
     if (user && (request.url.includes("/login") || request.url.includes("/register"))) {
         const response = NextResponse.redirect(new URL("/", request.url))
@@ -22,9 +21,12 @@ const auth = {
     user: undefined,
     sessionCookie: undefined,
     getUser: async () => {
+        // @ts-expect-error
         auth.sessionCookie = cookies().get("session");
         try {
+            // @ts-expect-error
             const { account } = await createSessionClient(auth.sessionCookie!.value)
+            // @ts-expect-error
             auth.user = await account.get()
 
             return auth.user
