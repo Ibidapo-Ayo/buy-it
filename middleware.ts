@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createSessionClient } from "./appwrite/config";
-import { getCart } from "./appwrite/product.actions";
 
 export async function middleware(request: NextRequest) {
     const user = await auth.getUser()

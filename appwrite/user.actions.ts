@@ -68,6 +68,8 @@ export const login = async (email: string, password: string) => {
                     path: "/"
                 })
 
+                cookies().set("userId", user.documents[0].$id)
+
                 return session.secret
             } else {
                 throw new Error("incorrect password")
