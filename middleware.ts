@@ -1,19 +1,31 @@
+"use server"
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createSessionClient } from "./appwrite/config";
+import { decryptKey } from "./lib/utils";
 
 export async function middleware(request: NextRequest) {
     const user = await auth.getUser()
+
+    const response = NextResponse.next();
+    const isAdmin = decryptKey(cookies().get("adminPasskey")?.value!) === process.env.ADMIN_PIN
 
     if (user && (request.url.includes("/login") || request.url.includes("/register"))) {
         const response = NextResponse.redirect(new URL("/", request.url))
         return response
     }
-    return NextResponse.next()
+
+    if (!isAdmin && (request.url.includes("/dashboard"))) {
+        return NextResponse.redirect(new URL("/admin/access", request.url))
+    } else if (isAdmin && (request.url.includes("access"))) {
+        return NextResponse.redirect(new URL("/", request.url))
+    }
+
+    return response;
 }
 
 export const config = {
-    matcher: ["/", "/cart", "/login", "/register"]
+    matcher: ["/", "/cart", "/login", "/register", "/dashboard", "/admin/access"]
 }
 
 const auth = {
@@ -37,3 +49,4 @@ const auth = {
         }
     },
 }
+

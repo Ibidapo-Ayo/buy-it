@@ -3,6 +3,7 @@ import { cartItemsProps } from "@/constants/data/products"
 import { Cart } from "@/types"
 import { type ClassValue, clsx } from "clsx"
 import { revalidatePath } from "next/cache"
+import { cookies } from "next/headers"
 import { Models } from "node-appwrite"
 import { Dispatch, SetStateAction } from "react"
 import { toast } from "sonner"
@@ -109,3 +110,5 @@ export const handleUpdateQuantity = async (cartId: string, quantity: number, typ
     }
   }
 }
+
+

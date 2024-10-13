@@ -1,6 +1,6 @@
 import React from 'react'
 
-const page = () => {
+const DashboardPage = () => {
   return (
     <div className=''>
       <h1 className='text-xl tracking-tighter font-semibold'>Welcome back, Ayomide</h1>
@@ -8,4 +8,4 @@ const page = () => {
   )
 }
 
-export default page
+export default DashboardPage

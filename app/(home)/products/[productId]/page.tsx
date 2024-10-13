@@ -6,13 +6,19 @@ import Image from 'next/image'
 import React from 'react'
 import ProductSize from './components/ProductSize'
 import RatingStar from '@/components/RatingStar'
-import { useSearchParams } from 'next/navigation'
-import { getProduct } from '@/appwrite/product.actions'
+import { getProduct, getProducts } from '@/appwrite/product.actions'
 
 interface ProductPageProps {
     params: {
         productId: string
     }
+}
+
+export async function generateStaticParams() {
+    const products = await getProducts()
+    return products?.map((product) => ({
+        productId: product.$id
+    }))
 }
 
 const ProductPage = async ({ params }: ProductPageProps) => {

@@ -87,6 +87,10 @@ export const login = async (email: string, password: string) => {
     }
 }
 
+export const saveAdminPasskey = (passkey: string) => {
+     cookies().set("adminPasskey", passkey)
+}
+
 export const logout = async () => {
     try {
         await cookies().delete("session")

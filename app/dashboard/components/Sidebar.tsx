@@ -16,7 +16,7 @@ export default function Sidebar() {
         },
         {
             name: "Create Product",
-            href: "/dashboard/create",
+            href: "/dashboard/products/create",
             Icon: Plus
         }
     ]
