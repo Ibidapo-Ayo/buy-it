@@ -31,7 +31,7 @@ const Services = () => {
         },
     ]
     return (
-        <div className='grid grid-cols-4'>
+        <div className='grid grid-cols-1 gap-10 md:grid-cols-4'>
             {services.map((service, index) => {
                 const { title, description, image } = service
                 return (

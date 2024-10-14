@@ -8,7 +8,8 @@ type SubmitButtonProps = PropsWithChildren<{
     className?: string,
     cartBtn?: boolean,
     isLoading?: boolean,
-    onClick?:React.MouseEventHandler<HTMLButtonElement> | undefined
+    onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined,
+    disabled?: boolean | undefined
 }>
 
 const SubmitButton = ({ className, cartBtn, isLoading, children, onClick, ...props }: SubmitButtonProps) => {

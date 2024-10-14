@@ -201,12 +201,11 @@ export const updateCarts = async (cartId: string, quantity: number) => {
 export const deleteCarts = async (cartId: string) => {
     try {
         const { databases } = await createSessionClient(cookies().get("session")?.value)
-        const deleteCart = await databases.deleteDocument(
+        await databases.deleteDocument(
             DATABASE_ID!,
             CART_ID!,
             cartId
         )
-        console.log(deleteCart);
         revalidatePath("/cart")
     } catch (error) {
         if (error instanceof Error) {

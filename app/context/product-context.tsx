@@ -1,6 +1,7 @@
 "use client"
 import { getCart } from "@/appwrite/product.actions"
 import { Actions, ActionType, Cart, ContextProps, State } from "@/types"
+import Image from "next/image"
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react"
 
 
@@ -17,11 +18,11 @@ function reducer(state: State, action: ActionType<Actions, any>) {
 
     switch (type) {
         case "add-to-cart":
-            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length }
+            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length || 0 }
         case "get-carts":
-            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length }
+            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length || 0 }
         case "update":
-            return { ...state, quantity: payload.quantity }
+            return { ...state, carts: payload.carts, totalCarts: payload?.carts?.length  }
         default:
             return state
     }
@@ -62,7 +63,7 @@ const ProductProvider = ({ children }: React.PropsWithChildren) => {
         <ProuductContext.Provider value={{ ...state, dispatch }}>
             {isLoading ? (
                 <div className="w-full flex justify-center items-center h-screen">
-                    <p>Loading</p>
+                    <Image src={"/icons/spinner.svg"} alt="" className="w-16" width={100} height={100} />
                 </div>
             ) : (children)}
         </ProuductContext.Provider>

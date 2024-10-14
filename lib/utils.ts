@@ -46,7 +46,7 @@ export function encryptKey(passkey: string): string {
 }
 
 export function decryptKey(passkey: string): string {
-  return atob(passkey);
+  return passkey && atob(passkey);
 }
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file)
