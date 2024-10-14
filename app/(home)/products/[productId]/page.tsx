@@ -14,13 +14,6 @@ interface ProductPageProps {
     }
 }
 
-// export async function generateStaticParams() {
-//     const products = await getProducts()
-//     return products?.map((product) => ({
-//         productId: product.$id
-//     }))
-// }
-
 const ProductPage = async ({ params }: ProductPageProps) => {
     const { productId } = params
     const product = await getProduct(productId!)
