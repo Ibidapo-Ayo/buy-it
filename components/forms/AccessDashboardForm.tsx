@@ -8,9 +8,8 @@ import CustomInput from '../CustomInput'
 import { encryptKey, FormFieldTypes } from '@/lib/utils'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp'
 import SubmitButton from '../SubmitButton'
-import { cookies } from 'next/headers'
 import { toast } from 'sonner'
-import { saveAdminPasskey } from '@/appwrite/user.actions'
+import { adminPin, saveAdminPasskey } from '@/appwrite/user.actions'
 import { useRouter } from 'next/navigation'
 
 const AccessDashboardSchema = z.object({
@@ -32,10 +31,10 @@ const AccessDashboardForm = () => {
 
     const onSubmit = (values: z.infer<typeof AccessDashboardSchema>) => {
 
-        if (values.pin === "384938") {
+        if (values.pin === adminPin) {
             const encryptedPin = encryptKey(values.pin)
             saveAdminPasskey(encryptedPin)
-            router.push("/dashbaord")
+            router.push("/dashboard")
         } else {
             toast.error("Incorrect admin pin")
             form.reset()

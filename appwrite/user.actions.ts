@@ -4,8 +4,9 @@ import { createAdminClient } from "./config"
 import { RegisterParams } from "@/types"
 import { decryptKey, encryptKey } from "@/lib/utils"
 import { cookies } from "next/headers"
-const { DATABASE_ID, USER_COLLECTION_ID } = process.env
+const { DATABASE_ID, USER_COLLECTION_ID, ADMIN_PIN } = process.env
 
+export const adminPin = ADMIN_PIN
 
 export const register = async ({ email, password, username }: RegisterParams) => {
     try {
