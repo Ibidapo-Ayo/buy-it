@@ -70,7 +70,7 @@ const SearchComponet = () => {
                                         return (
                                             <div className='grid grid-cols-[auto,1fr] gap-5' key={index}>
                                                 <Image src={result.productImageUrl} alt={result.name + "image"} className='rounded-md' width={50} height={50} />
-                                                <Link href={`products/${result.$id}`}>
+                                                <Link href={`products/${result.$id}`} onClick={() => setIsSearching(false)}>
                                                     <div className='flex flex-col space-y-2'>
                                                         <h3 className='text-sm tracking-tight font-semibold'>{result.name}</h3>
                                                         <p className='text-sm text-secondary-200'></p>

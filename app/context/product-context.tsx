@@ -52,11 +52,7 @@ const ProductProvider = ({ children }: React.PropsWithChildren) => {
                 setIsLoading(false)
             }
         }
-
-
         fetchData()
-
-
     }, [])
 
     return (

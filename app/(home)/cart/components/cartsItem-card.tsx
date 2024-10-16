@@ -1,7 +1,5 @@
-import { Button } from '@/components/ui/button'
 import { calculateProductPercentage } from '@/lib/utils'
 import { Cart } from '@/types'
-import { Trash } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import AddQuantity from './AddQuantity'
@@ -17,6 +15,7 @@ const CartItemsCard = ({ cart }: {
                     <Image src={cart.product.productImageUrl} alt={cart.product.name + "image"} width={100} height={100} className='rounded-md w-40 object-contain' />
                     <div className='flex flex-col space-y-2'>
                         <h4 className='text-sm font-medium tracking-wide'>{cart.product.name}</h4>
+                        <p className='text-sm text-secondary'>{cart.product.description}</p>
                     </div>
                 </div>
                 <div className='flex flex-col items-end space-y-5'>

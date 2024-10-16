@@ -30,7 +30,8 @@ const AccessDashboardForm = () => {
     const router = useRouter()
 
     const onSubmit = (values: z.infer<typeof AccessDashboardSchema>) => {
-
+        console.log(adminPin);
+        
         if (values.pin === adminPin) {
             const encryptedPin = encryptKey(values.pin)
             saveAdminPasskey(encryptedPin)
