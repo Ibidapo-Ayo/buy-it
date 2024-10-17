@@ -1,10 +1,13 @@
 "use client"
 import PriceCard from '@/components/PriceCard'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import ProductQuantity from './ProductSize'
 import SubmitButton from '@/components/SubmitButton'
 import { ProductsProps } from '@/types'
+import { AddProductToCart } from '@/appwrite/product.actions'
+import { useProducts } from '@/app/context/product-context'
+import { useRouter } from 'next/navigation'
 
 type ProductCardProps = {
     product: {
@@ -17,9 +20,42 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
     const [cartQuantity, setCartQuantity] = useState(1)
 
+    const { dispatch, carts } = useProducts()
 
-    const handleAddToCart = () => {
-        console.log(`${product?.product.$id}`);
+    const router = useRouter()
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [isCarted, setIsCarted] = useState(false)
+
+    useEffect(() => {
+        const cart = carts?.find((cart) => cart.product.$id === product?.product.$id)
+
+        if (cart) {
+            router.push("/cart")
+        }
+    }, [isCarted])
+
+    const handleAddToCart = async () => {
+        setIsLoading(true)
+        try {
+            const result = await AddProductToCart(product?.product.$id)
+            dispatch({
+                type: "add-to-cart",
+                payload: {
+                    carts: result
+                }
+            })
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message);
+
+                if (error.message.includes("no-user")) {
+                    router.push("/login")
+                }
+            }
+        } finally {
+            setIsLoading(false)
+        }
     }
     return (
         <>
@@ -35,8 +71,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
                 <div className='w-full grid xl:grid-cols-3 grid-cols-2 gap-10 items-center'>
                     <ProductQuantity setCartQuantity={setCartQuantity} cartQuantity={cartQuantity} />
-                    <SubmitButton cartBtn className='bg-secondary-green-60 hover:bg-secondary-green-50'>Add to cart</SubmitButton>
-                    <SubmitButton cartBtn className='bg-dark-200 hover:bg-dark-300'>Buy Now</SubmitButton>
+                    {!isCarted && (
+                        <SubmitButton cartBtn className='bg-secondary-green-60 hover:bg-secondary-green-50' isLoading={isLoading} onClick={handleAddToCart}>Add to cart</SubmitButton>
+                    )}
                 </div>
             </div>
         </>

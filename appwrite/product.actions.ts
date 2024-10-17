@@ -153,10 +153,14 @@ export const getCart = async () => {
     }
 }
 
-export const AddProductToCart = async (productId?: string) => {
+export const AddProductToCart = async (productId?: string, quantity?: number) => {
     const userId = cookies().get("userId")?.value
     try {
         const { databases } = await createSessionClient(cookies().get("session")?.value)
+
+        if (!userId) {
+            throw new Error("no-user")
+        }
 
         await databases.createDocument(
             DATABASE_ID!,
@@ -164,7 +168,8 @@ export const AddProductToCart = async (productId?: string) => {
             ID.unique(),
             {
                 user: userId,
-                product: productId
+                product: productId,
+                quantity: quantity || 1
             }
         )
 
