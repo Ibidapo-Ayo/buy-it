@@ -1,6 +1,6 @@
 "use client"
 import { getCart } from "@/appwrite/product.actions"
-import { Actions, ActionType, Cart, ContextProps, State } from "@/types"
+import { Actions, ActionType, ContextProps, State } from "@/types"
 import Image from "next/image"
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react"
 

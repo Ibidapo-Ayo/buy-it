@@ -6,18 +6,31 @@ import { ID, Query } from "node-appwrite";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-const { DATABASE_ID, PRODUCT_ID, BUCKET_ID, CART_ID, USER_COLLECTION_ID } = process.env
+const { DATABASE_ID, PRODUCT_ID, BUCKET_ID, CART_ID, WISHLIST_COLLECTION } = process.env
 
 
-export const getProducts = async () => {
+export const getProducts = async (category?: string) => {
     try {
 
         const { databases } = await createAdminClient()
-        const products = await databases.listDocuments<ProductsProps>(
-            DATABASE_ID!,
-            PRODUCT_ID!
-        )
-        return products.documents
+
+        if (category) {
+            const categoryProducts = await databases.listDocuments(
+                DATABASE_ID!,
+                PRODUCT_ID!,
+                [Query.contains("category", category.toLowerCase())]
+            );
+
+            return categoryProducts.documents
+        } else {
+            const products = await databases.listDocuments<ProductsProps>(
+                DATABASE_ID!,
+                PRODUCT_ID!
+            )
+
+            return products.documents
+        }
+
     } catch (error) {
         console.log(error);
     }
@@ -64,8 +77,8 @@ export const getProduct = async (productId: string) => {
 }
 
 export const searchProducts = async (searchString: string) => {
-
-    const { databases } = await createSessionClient(cookies().get("session")?.value)
+    const cookieStore = await cookies()
+    const { databases } = await createSessionClient(cookieStore.get("session")?.value)
 
     try {
         const result = await databases.listDocuments(
@@ -136,9 +149,10 @@ export const updateProducts = async (productId: string, data: {
 
 // TODO: simplify this apis
 export const getCart = async () => {
-    const userId = cookies().get("userId")?.value
+    const cookieStore = await cookies()
+    const userId = cookieStore.get("userId")?.value
     try {
-        const { databases } = await createSessionClient(cookies().get("session")?.value)
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value)
         const data = await databases.listDocuments(
             DATABASE_ID!,
             CART_ID!,
@@ -154,9 +168,10 @@ export const getCart = async () => {
 }
 
 export const AddProductToCart = async (productId?: string, quantity?: number) => {
-    const userId = cookies().get("userId")?.value
+    const cookieStore = await cookies()
+    const userId = cookieStore.get("userId")?.value
     try {
-        const { databases } = await createSessionClient(cookies().get("session")?.value)
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value)
 
         if (!userId) {
             throw new Error("no-user")
@@ -184,8 +199,9 @@ export const AddProductToCart = async (productId?: string, quantity?: number) =>
 }
 
 export const updateCarts = async (cartId: string, quantity: number) => {
+    const cookieStore = await cookies()
     try {
-        const { databases } = await createSessionClient(cookies().get("session")?.value)
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value)
         await databases.updateDocument(
             DATABASE_ID!,
             CART_ID!,
@@ -203,9 +219,41 @@ export const updateCarts = async (cartId: string, quantity: number) => {
     }
 }
 
-export const deleteCarts = async (cartId: string) => {
+export const addToWishList = async (productId: string, userId: string) => {
     try {
-        const { databases } = await createSessionClient(cookies().get("session")?.value)
+        const cookieStore = await cookies()
+
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value)
+
+        await databases.createDocument(
+            DATABASE_ID!,
+            WISHLIST_COLLECTION!,
+            ID.unique(),
+
+            {
+                product: productId,
+                user: userId
+            }
+        )
+
+        const wishLists = await databases.listDocuments(
+            DATABASE_ID!,
+            WISHLIST_COLLECTION!
+        )
+
+        return wishLists.documents
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+
+        }
+    }
+}
+
+export const deleteCarts = async (cartId: string) => {
+    const cookieStore = await cookies()
+    try {
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value)
         await databases.deleteDocument(
             DATABASE_ID!,
             CART_ID!,

@@ -8,13 +8,13 @@ export default function MainLayout({ children }: {
 }) {
     return (
         <ProductProvider>
-            <div>
-                <div className='md:px-20 px-5 bg-white'>
-                    <Header />
-                </div>
-                {children}
-                <Footer />
+            <div className="w-full md:px-20 px-5">
+                <Header />
             </div>
+            <div className='md:px-20 px-5 bg-white'>
+            </div>
+            {children}
+            <Footer />
         </ProductProvider>
     )
 }

@@ -5,8 +5,16 @@ import { Button } from '@/components/ui/button'
 import { ArrowUpDown, ListFilter } from 'lucide-react'
 import { getProducts } from '@/appwrite/product.actions'
 
-const Page = async() => {
-  const products = await getProducts()
+
+type SearchParams = Promise<{ [key: string]: string |  undefined }>
+
+const Page = async (props: {
+  searchParams: SearchParams
+}) => {
+
+  const searchParams = await props.searchParams
+  const products = await getProducts(searchParams?.category)
+
   return (
     <div className='w-full py-10 bg-white md:px-20 px-5'>
       <h2 className="font-semibold text-xl tracking-tighter">All Products</h2>

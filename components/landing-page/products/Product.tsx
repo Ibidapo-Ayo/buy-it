@@ -2,18 +2,12 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import ItemsCard from '@/components/ItemsCard'
 import { getProducts } from '@/appwrite/product.actions'
 
 const Product = async () => {
   const products = await getProducts()
+  
   return (
     <div className='space-y-4'>
       <div className='w-full flex justify-between items-center'>
@@ -31,7 +25,7 @@ const Product = async () => {
       </div>
 
       <div className='grid 2xl:grid-cols-5 gap-10 xl:grid-cols-4 md:grid-cols-3 grid-cols-2'>
-        {products!.map((product, index) => {
+        {products?.map((product, index) => {
           const { name, productImageUrl, price, strikedPrice, availableProducts, totalProducts, $id } = product
           return (
             <ItemsCard

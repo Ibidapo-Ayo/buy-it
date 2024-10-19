@@ -1,13 +1,9 @@
 
 import PriceCard from '@/components/PriceCard'
-import SubmitButton from '@/components/SubmitButton'
-import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import React from 'react'
-import ProductSize from './components/ProductSize'
-import RatingStar from '@/components/RatingStar'
-import { getProduct, getProducts } from '@/appwrite/product.actions'
-import ProductCard from './components/ProductCard'
+import { getProduct } from '@/appwrite/product.actions'
+import AddToCartBtn from '@/components/add-to-cart-btn'
 
 interface ProductPageProps {
     params: {
@@ -16,12 +12,33 @@ interface ProductPageProps {
 }
 
 const ProductPage = async ({ params }: ProductPageProps) => {
-    const { productId } = params
+    const { productId } = await params
     const product = await getProduct(productId!)
 
+    if (!product) {
+        throw new Error("Something went wrong")
+    }
+
     return (
-        <div className='py-10 bg-white md:px-20 px-5 flex 2xl:flex-row xl:flex-row lg:flex-col flex-col xl:items-start lg:items-center items-center justify-center'>
-           <ProductCard product={product} />
+        <div className='max-w-6xl grid grid-cols-1 justify-center  gap-10 my-20'>
+            <div className="rounded-md shadow-md p-4 grid grid-cols-[400px,1fr] gap-5 items-start">
+                <div className='w-full shadow-md rounded-md'>
+                    <Image src={`${product!.imageUrl}`} alt={product?.product.name + "image"} width={1000} height={1000} className='object-cover w-full h-full' />
+                </div>
+
+                <div className='w-full'>
+                    <div className='flex flex-col gap-5'>
+                        <h3 className='font-semibold'>{product.product.name}</h3>
+                        <p className='text-sm text-secondary'>{product.product.description}</p>
+
+                        <PriceCard price={product.product.price} striked_price={product.product.strikedPrice} />
+
+                        <div className='flex flex-col justify-end items-end h-52 w-52'>
+                            <AddToCartBtn productId={product.product.$id} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
