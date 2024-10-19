@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { generateProductLink } from '@/lib/utils'
 import { ProductsProps } from '@/types'
 import { ArrowRight } from 'lucide-react'
-import { Models } from 'node-appwrite'
 import React from 'react'
 
 

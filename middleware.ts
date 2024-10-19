@@ -6,9 +6,10 @@ import { decryptKey } from "./lib/utils";
 
 export async function middleware(request: NextRequest) {
     const user = await auth.getUser()
+    const cookieStore = await cookies()
 
     const response = NextResponse.next();
-    const isAdmin = decryptKey(cookies().get("adminPasskey")?.value!) === process.env.ADMIN_PIN
+    const isAdmin = decryptKey(cookieStore.get("adminPasskey")?.value!) === process.env.ADMIN_PIN
 
     if (user && (request.url.includes("/login") || request.url.includes("/register"))) {
         const response = NextResponse.redirect(new URL("/", request.url))
@@ -32,8 +33,9 @@ const auth = {
     user: undefined,
     sessionCookie: undefined,
     getUser: async () => {
+        const cookieStore = await cookies()
         // @ts-expect-error
-        auth.sessionCookie = cookies().get("session");
+        auth.sessionCookie = cookieStore.get("session");
         try {
             // @ts-expect-error
             const { account } = await createSessionClient(auth.sessionCookie!.value)
