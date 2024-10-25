@@ -2,7 +2,6 @@ import { calculateProductPercentage } from '@/lib/utils'
 import { Cart } from '@/types'
 import Image from 'next/image'
 import React from 'react'
-import AddQuantity from './AddQuantity'
 import RemoveCartsDialog from './remove-cart-dialog'
 import AddToCartBtn from '@/components/add-to-cart-btn'
 

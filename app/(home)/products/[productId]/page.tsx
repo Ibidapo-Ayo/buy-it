@@ -19,7 +19,7 @@ const ProductPage = async ({ params }: {
 
     return (
         <div className='max-w-6xl grid grid-cols-1 justify-center  gap-10 my-20'>
-            <div className="rounded-md shadow-md p-4 grid grid-cols-[400px,1fr] gap-5 items-start">
+            <div className="rounded-md shadow-md p-4 grid lg:grid-cols-[400px,1fr] md:grid-cols-1 gap-5 items-start">
                 <div className='w-full shadow-md rounded-md'>
                     <Image src={`${product!.productImageUrl}`} alt={product?.name + "image"} width={1000} height={1000} className='object-cover w-full h-full' />
                 </div>
@@ -31,7 +31,7 @@ const ProductPage = async ({ params }: {
 
                         <PriceCard price={product.price} striked_price={product.strikedPrice} />
 
-                        <div className='flex flex-col justify-end items-end h-52 w-52'>
+                        <div className='flex flex-col justify-end items-end h-52 w-full lg:w-52'>
                             <AddToCartBtn productId={product.$id} />
                         </div>
                     </div>
