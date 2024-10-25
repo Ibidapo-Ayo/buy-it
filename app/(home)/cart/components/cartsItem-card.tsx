@@ -10,12 +10,12 @@ const CartItemsCard = ({ cart }: {
 }) => {
     return (
         <div>
-            <div className='w-full flex justify-between p-2'>
-                <div className='w-full flex gap-2'>
+            <div className='w-full flex justify-between p-2 gap-10'>
+                <div className='w-full flex gap-3'>
                     <Image src={cart.product.productImageUrl} alt={cart.product.name + "image"} width={100} height={100} className='rounded-md w-40 object-contain' />
                     <div className='flex flex-col space-y-2'>
                         <h4 className='text-sm font-medium tracking-wide'>{cart.product.name}</h4>
-                        <p className='text-sm text-secondary'>{cart.product.description}</p>
+                        <p className='text-sm text-secondary line-clamp-2'>{cart.product.description}</p>
                     </div>
                 </div>
                 <div className='flex flex-col items-end space-y-5'>
