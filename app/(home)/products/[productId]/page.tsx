@@ -5,13 +5,11 @@ import React from 'react'
 import { getProduct } from '@/appwrite/product.actions'
 import AddToCartBtn from '@/components/add-to-cart-btn'
 
-interface ProductPageProps {
-    params: {
-        productId: string
-    }
-}
+type Params = Promise<{ productId: string }>
 
-const ProductPage = async ({ params }: ProductPageProps) => {
+const ProductPage = async ({ params }: {
+    params: Params
+}) => {
     const { productId } = await params
     const product = await getProduct(productId!)
 
