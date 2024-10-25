@@ -13,10 +13,10 @@ const CartPage = () => {
             {carts?.length === 0 || !carts ? (
                 <NoCarts />
             ) : (
-                <div className='h-screen'>
+                <div className='h-auto py-10'>
                     <h2 className="font-semibold text-xl tracking-tighter">Your Cart</h2>
-                    <div className='w-full flex gap-10 items-start'>
-                        <div className='w-3/4 shadow-md bg-white h-auto py-3 px-2 rounded-md flex flex-col divide-y divide-secondary-100 space-y-5'>
+                    <div className='w-full flex xl:flex-row flex-col-reverse gap-10 items-start'>
+                        <div className='w-full md:w-full xl:w-3/4 shadow-md bg-white h-auto py-3 px-2 rounded-md flex flex-col divide-y divide-secondary-100 space-y-5'>
                             <h2 className="font-semibold text-md tracking-tighter">Cart ({carts?.length})</h2>
                             {carts.map((cart, index) => {
                                 return (

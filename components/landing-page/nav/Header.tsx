@@ -18,7 +18,7 @@ const Header = () => {
             </div>
             <SearchComponent />
 
-            <div className='md:block hidden w-[300px]'>
+            <div className='md:block hidden md:w-[200px] xl:w-[300px]'>
                 <NavbarActions totalCarts={totalCarts} />
             </div>
             <Sidebar totalCarts={totalCarts} />
