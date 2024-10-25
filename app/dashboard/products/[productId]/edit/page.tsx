@@ -3,14 +3,14 @@ import AddProductForm from '@/components/forms/AddProductForm'
 import React from 'react'
 
 
-interface Params {
-    params: {
-        productId: string
-    }
-}
+type Params = Promise<{
+    productId: string
+}>
 
-const EditProducts = async ({ params }: Params) => {
-    const { productId } = params
+const EditProducts = async ({ params }: {
+    params: Params
+}) => {
+    const { productId } = await params
     const product = await getProduct(productId)
     return (
         <div className='space-y-10'>
