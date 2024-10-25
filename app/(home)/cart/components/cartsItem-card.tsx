@@ -11,11 +11,11 @@ const CartItemsCard = ({ cart }: {
 }) => {
     return (
         <div>
-            <div className='w-full flex justify-between p-2 gap-10'>
-                <div className='w-full flex gap-3'>
+            <div className='w-full flex xl:flex-row lg:flex-row flex-col justify-between p-2 gap-10'>
+                <div className='w-full flex xl:flex-row lg:flex-row md:flex-row flex-col gap-3 justify-center items-center'>
                     <Image src={cart.product.productImageUrl} alt={cart.product.name + "image"} width={100} height={100} className='rounded-md w-40 object-contain' />
-                    <div className='flex flex-col space-y-2'>
-                        <h4 className='text-sm font-medium tracking-wide'>{cart.product.name}</h4>
+                    <div className='w-full flex flex-col space-y-2'>
+                        <h4 className='text-sm font-semibold tracking-wide'>{cart.product.name}</h4>
                         <p className='text-sm text-secondary line-clamp-2'>{cart.product.description}</p>
                     </div>
                 </div>
@@ -32,7 +32,7 @@ const CartItemsCard = ({ cart }: {
             </div>
             <div className='flex justify-between'>
                 <RemoveCartsDialog cartId={cart.$id} />
-                <div className='w-60'>
+                <div className='w-40 xl:w-60'>
                     <AddToCartBtn productId={cart.product.$id} />
                 </div>
             </div>
