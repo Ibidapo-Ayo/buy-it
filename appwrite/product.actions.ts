@@ -15,7 +15,7 @@ export const getProducts = async (category?: string) => {
         const { databases } = await createAdminClient()
 
         if (category) {
-            const categoryProducts = await databases.listDocuments(
+            const categoryProducts = await databases.listDocuments<ProductsProps>(
                 DATABASE_ID!,
                 PRODUCT_ID!,
                 [Query.contains("category", category.toLowerCase())]

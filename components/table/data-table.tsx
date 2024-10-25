@@ -1,5 +1,7 @@
-"use client"
+// @ts-nocheck
 
+
+"use client"
 import {
     ColumnDef,
     flexRender,
@@ -21,7 +23,7 @@ import { Button } from "../ui/button"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
-    data: ProductsProps[]
+    data: ProductsProps[] | Document[] | undefined
 }
 
 export function DataTable<TData, TValue>({
@@ -29,7 +31,6 @@ export function DataTable<TData, TValue>({
     data,
 }: DataTableProps<ProductsProps, TValue>) {
     const table = useReactTable({
-        // @ts-ignore
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),

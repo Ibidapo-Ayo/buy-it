@@ -1,4 +1,3 @@
-import { getFilePreview } from '@/appwrite/product.actions'
 import ItemsCard from '@/components/ItemsCard'
 import { Button } from '@/components/ui/button'
 import { generateProductLink } from '@/lib/utils'
