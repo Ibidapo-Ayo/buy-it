@@ -2,6 +2,7 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Banner = () => {
     return (
@@ -13,9 +14,11 @@ const Banner = () => {
                 <p className='text-sm md:text-xl lg:text-start text-center'>We have prepared special discounts for you on grocery products. Don't miss these opportunities...</p>
 
                 <div className='w-full flex lg:justify-start justify-center'>
-                    <Button className='flex space-x-4 bg-secondary-green-60 hover:bg-secondary-50 hover:bg-primary-purple-200 font-semibold h-auto rounded-full'>
-                        Shop now
-                    </Button>
+                    <Link href={"/products"}>
+                        <Button className='flex space-x-4 bg-secondary-green-60 hover:bg-secondary-50 hover:bg-secondary-green-50 font-semibold h-auto rounded-full'>
+                            Shop now
+                        </Button>
+                    </Link>
                     <div>
                     </div>
                 </div>

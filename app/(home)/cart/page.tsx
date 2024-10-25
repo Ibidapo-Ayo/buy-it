@@ -1,12 +1,13 @@
+"use client"
 import CartItemsCard from './components/cartsItem-card'
 import CartsSubTotal from './components/carts-total'
-import { getCart } from '@/appwrite/product.actions'
 import NoCarts from './components/no-carts'
+import { useProducts } from '@/app/context/product-context'
 
 
 
-const CartPage = async () => {
-    const carts = await getCart()
+const CartPage = () => {
+    const { carts } = useProducts()
     return (
         <div className='max-w-7xl mx-auto py-10 bg-white md:px-20 px-5'>
             {carts?.length === 0 || !carts ? (
@@ -19,13 +20,12 @@ const CartPage = async () => {
                             <h2 className="font-semibold text-md tracking-tighter">Cart ({carts?.length})</h2>
                             {carts.map((cart, index) => {
                                 return (
-                                    // @ts-expect-error
                                     <CartItemsCard key={index} cart={cart} />
                                 )
                             })}
                         </div>
 
-                        <CartsSubTotal carts={carts} />
+                        <CartsSubTotal />
                     </div>
                 </div>
             )}

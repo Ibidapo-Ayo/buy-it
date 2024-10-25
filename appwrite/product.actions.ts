@@ -64,10 +64,7 @@ export const getProduct = async (productId: string) => {
             [Query.equal("$id", productId)]
         )
 
-        return {
-            product: product.documents[0],
-            imageUrl: await getFilePreview(product.documents[0].imageId)
-        }
+        return product.documents[0]
 
     } catch (error) {
         if (error instanceof Error) {
@@ -210,8 +207,9 @@ export const updateCarts = async (cartId: string, quantity: number) => {
                 quantity
             }
         )
-        revalidatePath("/cart")
-        return
+
+        const cart = await getCart()
+        return cart
     } catch (err) {
         if (err instanceof Error) {
             console.log(err.message);

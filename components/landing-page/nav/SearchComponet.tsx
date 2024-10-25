@@ -40,7 +40,7 @@ const SearchComponet = () => {
     }
 
     return (
-        <div className='w-full px-3 py-3 h-12 rounded-t-md bg-secondary-100 flex items-center relative'>
+        <div className='w-full px-3 py-3 h-12 rounded-md bg-secondary-100 flex items-center relative'>
             <Input className='px-0 py-0 h-full border-none rounded-md focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent focus:outline-none' placeholder='Search for products, categories or brands...'
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}

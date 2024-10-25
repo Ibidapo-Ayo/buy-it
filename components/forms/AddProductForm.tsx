@@ -1,7 +1,7 @@
 "use client"
 import { productFormSchema } from '@/constants/validations'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl } from '../ui/form'
@@ -15,32 +15,28 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import { ProductsProps } from '@/types'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
 import { productCategory } from '@/constants/data/category'
 
 type AddProductFormProps = {
-    data?: {
-        product: ProductsProps,
-        imageUrl: string | undefined
-    },
-    type?: "update" | "create"
+    data?: ProductsProps
+    type?: "update" | "create",
+    setOpen?: (open: boolean) => void
 }
 
-const AddProductForm = ({ data, type }: AddProductFormProps) => {
+const AddProductForm = ({ data, type, setOpen }: AddProductFormProps) => {
 
 
     const form = useForm<z.infer<typeof productFormSchema>>({
         resolver: zodResolver(productFormSchema),
         defaultValues: {
-            name: data?.product?.name || "",
-            price: data?.product.price || "",
-            description: data?.product.description || "",
-            strikedPrice: data?.product.strikedPrice || "",
+            name: data?.name || "",
+            price: data?.price || "",
+            description: data?.description || "",
+            strikedPrice: data?.strikedPrice || "",
             image: [],
-            availableProducts: data?.product.availableProducts || "",
-            totalProducts: data?.product.totalProducts || "",
-            category: data?.product.category || ""
+            availableProducts: data?.availableProducts || "",
+            totalProducts: data?.totalProducts || "",
+            category: data?.category || ""
         }
     })
 
@@ -67,8 +63,9 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                     description: values.description,
                     totalProducts: values.totalProducts,
                     availableProducts: values.availableProducts,
+                    category: values.category
                 }
-                await updateProducts(data?.product.$id!, value)
+                await updateProducts(data?.$id!, value)
 
                 toast.success("Product updated successfully")
             } catch (error) {
@@ -77,6 +74,7 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                 }
             } finally {
                 setIsLoading(false)
+                setOpen && setOpen(false)
             }
             return
         }
@@ -154,8 +152,8 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                     label='Description'
                 />
 
-                {data?.imageUrl && (
-                    <Image src={data.imageUrl} alt={data.product.name} width={100} height={100} className='w-64' />
+                {data?.productImageUrl && (
+                    <Image src={data.productImageUrl} alt={data.name} width={100} height={100} className='w-64' />
                 )}
 
                 <CustomInput
@@ -223,10 +221,6 @@ const AddProductForm = ({ data, type }: AddProductFormProps) => {
                 </CustomInput>
 
                 <SubmitButton isLoading={isLoading} className={type === "create" ? "bg-secondary-green-60 hover:bg-secondary-green-50" : "bg-secondary-200 text-white hover:bg-secondary"}>{buttonLable()}</SubmitButton>
-
-                {type === "update" && (
-                    <Link href={"/dashboard/products/create"} className='flex text-sm text-secondary-200'><ChevronLeft className='w-4' /> <span>Go back</span></Link>
-                )}
             </form>
         </Form>
     )

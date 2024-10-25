@@ -1,12 +1,11 @@
+import { useProducts } from '@/app/context/product-context'
 import { Button } from '@/components/ui/button'
 import { calculateTotalCartItems } from '@/lib/utils'
-import { Cart } from '@/types'
-import { Models } from 'node-appwrite'
 import React from 'react'
 
-const CartsSubTotal = ({ carts }: {
-    carts: Cart[] | undefined | Models.Document[]
-}) => {
+const CartsSubTotal = () => {
+    const { carts } = useProducts()
+    
     const totalCarts = calculateTotalCartItems(carts)
     return (
         <div className='w-3/12 shadow-md bg-white h-auto rounded-md px-2 py-3 divide-y divide-secondary-100 space-y-3'>

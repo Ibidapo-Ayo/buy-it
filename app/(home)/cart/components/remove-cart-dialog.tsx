@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Trash, X } from "lucide-react"
 import { useState } from "react"
+import { toast } from "sonner"
 
 
 
@@ -44,7 +45,7 @@ const RemoveCartsDialog = ({ cartId }: RemoveCartsDialogProps) => {
                 })
             } catch (error) {
                 if (error instanceof Error) {
-                    console.log(error.message);
+                    toast.error("An error occured, please try again")
                 }
             } finally {
                 setIsLoading(false)
@@ -66,7 +67,7 @@ const RemoveCartsDialog = ({ cartId }: RemoveCartsDialogProps) => {
                 </AlertDialogTitle>
                 <AlertDialogHeader className="space-y-10">
                     <div className="flex flex-col space-y-3">
-                        
+
                         <SubmitButton disabled={isLoading} onClick={() => console.log(cartId)} className="bg-secondary-green-60 hover:bg-secondary-green-50 text-white hover:text-white">Save to Favourites</SubmitButton>
 
                         <SubmitButton disabled={isLoading} onClick={() => handleCartActions("remove-from-cart")} className="bg-red-500 hover:bg-red-600 text-white hover:text-white">Remove</SubmitButton>

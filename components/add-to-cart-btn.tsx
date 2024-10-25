@@ -27,7 +27,7 @@ const AddToCartBtn = ({ productId }: { productId: string }) => {
                     carts: result,
                 }
             })
-            setCartQuantity(result![0].quantity)
+            setCartQuantity(1)
             toast.success("Products added to cart successfully")
         } catch (error) {
             if (error instanceof Error) {
@@ -66,9 +66,14 @@ const AddToCartBtn = ({ productId }: { productId: string }) => {
             buttonClickRef.current = setTimeout(async () => {
                 try {
                     const result = await updateCarts(cart![0].$id, q)
-                    console.log(result);
+                    
+                    dispatch({  
+                        type: "update", payload: {
+                            carts: result,
+                        }
+                    })
 
-                    toast.success("Updated successfully ")
+                    toast.success("Updated successfully")
                 } catch (error) {
                     if (error instanceof Error) {
                         console.log(error.message);

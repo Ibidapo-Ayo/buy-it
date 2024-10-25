@@ -4,6 +4,7 @@ import Image from 'next/image'
 import React from 'react'
 import AddQuantity from './AddQuantity'
 import RemoveCartsDialog from './remove-cart-dialog'
+import AddToCartBtn from '@/components/add-to-cart-btn'
 
 const CartItemsCard = ({ cart }: {
     cart: Cart
@@ -31,7 +32,9 @@ const CartItemsCard = ({ cart }: {
             </div>
             <div className='flex justify-between'>
                 <RemoveCartsDialog cartId={cart.$id} />
-                <AddQuantity cart={cart} />
+                <div className='w-60'>
+                    <AddToCartBtn productId={cart.product.$id} />
+                </div>
             </div>
         </div>
     )

@@ -50,7 +50,7 @@ declare interface CreateProductsParams {
 }
 
 declare interface ProductsProps extends Omit<CreateProductParams, "image">, Models.Document {
-    imageUrl: string,
+    productImageUrl: string,
     imageId: string
 }
 

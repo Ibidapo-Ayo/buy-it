@@ -9,8 +9,10 @@ import { encryptKey, FormFieldTypes } from '@/lib/utils'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp'
 import SubmitButton from '../SubmitButton'
 import { toast } from 'sonner'
-import { adminPin, saveAdminPasskey } from '@/appwrite/user.actions'
+import { saveAdminPasskey } from '@/appwrite/user.actions'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 const AccessDashboardSchema = z.object({
     pin: z.string().min(6, {
@@ -30,9 +32,8 @@ const AccessDashboardForm = () => {
     const router = useRouter()
 
     const onSubmit = (values: z.infer<typeof AccessDashboardSchema>) => {
-        console.log(adminPin);
-        
-        if (values.pin === adminPin) {
+
+        if (values.pin === process.env.NEXT_PUBLIC_ADMIN_PIN) {
             const encryptedPin = encryptKey(values.pin)
             saveAdminPasskey(encryptedPin)
             router.push("/dashboard")
@@ -65,6 +66,7 @@ const AccessDashboardForm = () => {
                 </form>
 
             </Form>
+            <Link href={"/"} className='text-secondary-green-60 text-xs tracking-tight pt-10 flex items-center space-x-3'><ArrowLeft className='w-4' /> Go to home</Link>
         </div>
     )
 }
