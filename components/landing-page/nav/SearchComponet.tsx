@@ -68,9 +68,9 @@ const SearchComponet = () => {
                                 <div className='w-full h-full overflow-y-auto space-y-2'>
                                     {searchResult.map((result, index) => {
                                         return (
-                                            <div className='grid grid-cols-[auto,1fr] gap-5' key={index}>
+                                            <div className='grid grid-cols-[auto,1fr] gap-5' key={index}  onClick={() => setSearchValue("")}>
                                                 <Image src={result.productImageUrl} alt={result.name + "image"} className='rounded-md' width={50} height={50} />
-                                                <Link href={`products/${result.$id}`} onClick={() => setIsSearching(false)}>
+                                                <Link href={`products/${result.$id}`}>
                                                     <div className='flex flex-col space-y-2'>
                                                         <h3 className='text-sm tracking-tight font-semibold'>{result.name}</h3>
                                                         <p className='text-sm text-secondary-200'></p>
