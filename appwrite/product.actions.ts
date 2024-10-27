@@ -36,12 +36,12 @@ export const getProducts = async (category?: string) => {
     }
 }
 
-export const getFilePreview = async (imageId: string) => {
+export const getFilePreview = async (imageId: string | undefined, bucketId:string) => {
     try {
         const { storage } = await createAdminClient()
         const productImage = await storage.getFileView(
-            BUCKET_ID!,
-            imageId,
+            bucketId!,
+            imageId!,
         )
         const buffer = Buffer.from(productImage).toString("base64");
         const image = `data:image/png;base64,${buffer}`
@@ -106,7 +106,7 @@ export const createProducts = async ({ image, ...products }: CreateProductsParam
             ID.unique(),
             {
                 imageId: file?.$id,
-                productImageUrl: await getFilePreview(file.$id),
+                productImageUrl: await getFilePreview(file.$id, BUCKET_ID!),
                 ...products
             },
         )

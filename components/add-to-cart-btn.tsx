@@ -23,7 +23,7 @@ const AddToCartBtn = ({ productId }: { productId: string }) => {
         try {
             const result = await AddProductToCart(productId)
             dispatch({
-                type: "add-to-cart", payload: {
+                type: "update", payload: {
                     carts: result,
                 }
             })

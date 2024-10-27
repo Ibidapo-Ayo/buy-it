@@ -35,7 +35,7 @@ declare type ItemsProps = {
 declare type RegisterParams = {
     email: string,
     password: string,
-    username: string
+    username: string,
 }
 
 declare interface CreateProductsParams {
@@ -49,6 +49,15 @@ declare interface CreateProductsParams {
     category?: string
 }
 
+declare interface UserInfoParams extends Models.Document {
+    bio?: string,
+    address?: string,
+    name?: string,
+    image?: FormData | undefined,
+    phone_number?: string,
+    email?: string,
+    accountId?:string
+}
 declare interface ProductsProps extends Omit<CreateProductParams, "image">, Models.Document, Document {
     productImageUrl: string,
     imageId: string

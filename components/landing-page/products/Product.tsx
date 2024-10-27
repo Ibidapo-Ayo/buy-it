@@ -4,10 +4,14 @@ import Link from 'next/link'
 import React from 'react'
 import ItemsCard from '@/components/ItemsCard'
 import { getProducts } from '@/appwrite/product.actions'
+import { ProductsProps } from '@/types'
 
-const Product = async () => {
-  const products = await getProducts()
-  
+const Product = async ({ products }: {
+  products: ProductsProps[] | undefined
+}) => {
+
+
+
   return (
     <div className='space-y-4'>
       <div className='w-full flex justify-between items-center'>

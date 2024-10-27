@@ -5,6 +5,8 @@ import { Input } from './ui/input'
 import { Control } from 'react-hook-form'
 import { Textarea } from './ui/textarea'
 import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select'
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 type CustomProps = {
     control: Control<any>,
@@ -21,7 +23,7 @@ type CustomProps = {
 }
 
 const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
-    const {fieldType, placeholder, type, renderSkeleton, children} = props
+    const { fieldType, placeholder, type, renderSkeleton, children } = props
     if (fieldType === FormFieldTypes.INPUT) {
         return (
             <div className='flex rounded-md border-2 border-secondary-100 bg-white'>
@@ -37,17 +39,17 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
         )
     }
 
-    if(fieldType === FormFieldTypes.TEXTAREA){
+    if (fieldType === FormFieldTypes.TEXTAREA) {
         return (
             <Textarea placeholder={placeholder} {...field} className='textArea'></Textarea>
         )
     }
 
-    if(fieldType === FormFieldTypes.SKELETON){
+    if (fieldType === FormFieldTypes.SKELETON) {
         return renderSkeleton ? renderSkeleton(field) : null
     }
 
-    if(fieldType === FormFieldTypes.SELECT){
+    if (fieldType === FormFieldTypes.SELECT) {
         return (
             <FormControl>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -61,6 +63,24 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                     </SelectContent>
                 </Select>
             </FormControl>
+        )
+    }
+
+    if (fieldType === FormFieldTypes.PHONE_INPUT) {
+        return (
+            <div className='flex rounded-md border-2 border-secondary-100 bg-white w-full p-2'>
+                <FormControl className="w-full">
+                    <PhoneInput
+                        placeholder={placeholder}
+                        value={field.value}
+                        onChange={field.onChange}
+                        defaultCountry='NG'
+                        international
+                        withCountryCallingCode
+                        className="input-phone"
+                    />
+                </FormControl>
+            </div>
         )
     }
 }

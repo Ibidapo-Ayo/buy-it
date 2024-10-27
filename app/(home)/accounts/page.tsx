@@ -1,12 +1,14 @@
 import React from 'react'
+import AccountInfoForm from '@/components/forms/AccountInfoForm'
+import { getUserInfo } from '@/appwrite/user.actions'
 
-const AccountPage = () => {
+
+const AccountPage = async() => {
+  const userInfo = await getUserInfo()  
   return (
-    <div className='grid lg:grid-cols-[300px,1fr] gap-10 md:grid-cols-1 items-start'>
-        <div className='bg-white shadow-md rounded-md'>
-            
-        </div>
-    </div>
+    <div className='w-full md:px-40 px-5'>
+        <AccountInfoForm userInfo={userInfo} />
+      </div>
   )
 }
 

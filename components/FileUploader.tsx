@@ -3,10 +3,11 @@ import Image from 'next/image'
 import React, { useCallback } from 'react'
 import { useDropzone } from "react-dropzone"
 
-type FileUploaderProps = {
+export type FileUploaderProps = {
     files: File[] | undefined,
     onChange: (files: File[]) => void,
-    type?: string
+    type?: string,
+    image?: string
 }
 
 const FileUploader = ({ onChange, files }: FileUploaderProps) => {

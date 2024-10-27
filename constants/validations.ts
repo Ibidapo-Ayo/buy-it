@@ -59,3 +59,16 @@ export const productFormSchema = z.object({
   hasOffer: z.boolean().optional(),
   category: z.string().optional()
 })
+
+export const accountInfoFormSchema = z.object({
+  name: z.string({
+    message: "Username is required"
+  }).min(1, {
+    message: "Username is required"
+  }),
+
+  bio: z.string().optional(),
+  image: z.custom<File[]>().optional(),
+  address: z.string().optional(),
+  phone_number: z.string().optional()
+})

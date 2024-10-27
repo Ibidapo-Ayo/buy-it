@@ -1,10 +1,12 @@
 "use server"
 import { ID, Query } from "appwrite"
-import { createAdminClient } from "./config"
-import { RegisterParams } from "@/types"
+import { createAdminClient, createSessionClient } from "./config"
+import { RegisterParams, UserInfoParams } from "@/types"
 import { decryptKey, encryptKey } from "@/lib/utils"
 import { cookies } from "next/headers"
-const { DATABASE_ID, USER_COLLECTION_ID } = process.env
+import { InputFile } from "node-appwrite/file"
+import { getFilePreview } from "./product.actions"
+const { DATABASE_ID, USER_COLLECTION_ID, USERIMAGE_BUCKETID } = process.env
 
 
 export const register = async ({ email, password, username }: RegisterParams) => {
@@ -86,6 +88,67 @@ export const login = async (email: string, password: string) => {
         }
 
         console.log(error)
+    }
+}
+
+export const updateUserInfo = async ({ image, ...userInfo }: UserInfoParams) => {
+
+    const cookieStore = await cookies()
+    const userId = cookieStore.get("userId")?.value
+    try {
+
+        let file;
+        const { storage, databases } = await createAdminClient()
+        if (typeof image !== "string") {
+            const imageFile = InputFile.fromBuffer(image?.get("blobFile") as Blob, image?.get("fileName") as string)
+            file = await storage.createFile(process.env.USERIMAGE_BUCKETID!, ID.unique(), imageFile)
+        }
+
+        let data
+
+        if (image) {
+            data = {
+                image: await getFilePreview(file?.$id, USERIMAGE_BUCKETID!),
+                ...userInfo
+            }
+        } else {
+            data = {
+                ...userInfo
+            }
+        }
+
+        const update = await databases.updateDocument(
+            DATABASE_ID!,
+            USER_COLLECTION_ID!,
+            userId!,
+            data
+        )
+
+        return update
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+
+        }
+    }
+}
+
+export const getUserInfo = async () => {
+    const cookieStore = await cookies()
+    const userId = cookieStore.get("userId")?.value
+    try {
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value)
+        const userInfo = await databases.listDocuments<UserInfoParams>(
+            DATABASE_ID!,
+            USER_COLLECTION_ID!,
+            [Query.equal("$id", userId!)]
+        )
+
+        return userInfo.documents[0]
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
     }
 }
 

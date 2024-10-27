@@ -17,12 +17,10 @@ function reducer(state: State, action: ActionType<Actions, any>) {
     const { type, payload } = action
 
     switch (type) {
-        case "add-to-cart":
-            return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length || 0 }
         case "get-carts":
             return { ...state, carts: payload?.carts, totalCarts: payload?.carts?.length || 0 }
         case "update":
-            return { ...state, carts: payload.carts, totalCarts: payload?.carts?.length  }
+            return { ...state, carts: payload.carts, totalCarts: payload?.carts?.length }
         default:
             return state
     }
@@ -44,7 +42,8 @@ const ProductProvider = ({ children }: React.PropsWithChildren) => {
 
             } catch (error) {
                 if (error instanceof Error) {
-                    console.log("An error occured", error.message);
+                    console.log("An error occured");
+                    throw new Error("An error occured" + error.message);
                 }
 
                 throw new Error("An error occured while fetching")

@@ -6,14 +6,22 @@ import { ArrowUpDown, ListFilter } from 'lucide-react'
 import { getProducts } from '@/appwrite/product.actions'
 
 
-type SearchParams = Promise<{ [key: string]: string |  undefined }>
+type SearchParams = Promise<{ [key: string]: string | undefined }>
 
 const Page = async (props: {
   searchParams: SearchParams
 }) => {
 
   const searchParams = await props.searchParams
-  const products = await getProducts(searchParams?.category)
+  let products
+
+  try {
+    products = await getProducts(searchParams?.category)
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("An error occured")
+    }
+  }
 
   return (
     <div className='w-full py-10 bg-white md:px-20 px-5'>

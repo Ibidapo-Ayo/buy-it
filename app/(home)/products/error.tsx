@@ -7,7 +7,7 @@ type ErrorProps = {
     reset: () => void
 }
 
-const Error = ({ error, reset, }: ErrorProps) => {
+const ErrorComponent = ({ error, reset, }: ErrorProps) => {
     return (
         <div className='flex justify-center items-center flex-col space-y-4 h-screen'>
             <h3 className="text-xl tracking-wide font-semibold">Oops! something went wrong! </h3>
@@ -21,4 +21,4 @@ const Error = ({ error, reset, }: ErrorProps) => {
     )
 }
 
-export default Error
+export default ErrorComponent
