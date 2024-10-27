@@ -13,6 +13,7 @@ import { Edit2 } from 'lucide-react'
 import ProfileUploader from '@/app/(home)/accounts/components/ProfileUploader'
 import { updateUserInfo } from '@/appwrite/user.actions'
 import { UserInfoParams } from '@/types'
+import { toast } from 'sonner'
 
 const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }) => {
     const form = useForm<z.infer<typeof accountInfoFormSchema>>({
@@ -50,6 +51,7 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
 
             // @ts-ignore
             const result = await updateUserInfo(data)
+            toast.success("Profile updated successfully")
         } catch (error) {
             if (error instanceof Error) {
                 console.log(error.message);
