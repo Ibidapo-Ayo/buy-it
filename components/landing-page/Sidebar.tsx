@@ -1,28 +1,40 @@
+"use client"
+
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
     SheetHeader,
-    SheetTitle,
     SheetTrigger,
+    SheetTitle,
+    SheetDescription
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import NavbarActions from "./nav/NavbarActions"
+import { useState } from "react"
 
 
 const Sidebar = ({ totalCarts }: {
     totalCarts: number | undefined
 }) => {
+
+    const [open, setOpen] = useState(false)
+
     return (
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger className="md:hidden block">
                 <Menu />
             </SheetTrigger>
-            <SheetContent>
-                <SheetHeader>
-                    <NavbarActions totalCarts={totalCarts} />
-                </SheetHeader>
-            </SheetContent>
+
+            <SheetDescription>
+                <SheetContent>
+                    <SheetHeader>
+                        <SheetTitle>
+
+                        </SheetTitle>
+                    </SheetHeader>
+                    <NavbarActions totalCarts={totalCarts} setOpen={setOpen} />
+                </SheetContent>
+            </SheetDescription>
         </Sheet>
 
     )

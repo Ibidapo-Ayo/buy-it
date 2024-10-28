@@ -6,6 +6,7 @@ import { decryptKey, encryptKey } from "@/lib/utils"
 import { cookies } from "next/headers"
 import { InputFile } from "node-appwrite/file"
 import { getFilePreview } from "./product.actions"
+import { revalidatePath } from "next/cache"
 const { DATABASE_ID, USER_COLLECTION_ID, USERIMAGE_BUCKETID } = process.env
 
 
@@ -117,12 +118,15 @@ export const updateUserInfo = async ({ image, ...userInfo }: UserInfoParams) => 
             }
         }
 
+
         const update = await databases.updateDocument(
             DATABASE_ID!,
             USER_COLLECTION_ID!,
             userId!,
             data
         )
+
+        revalidatePath("/accounts")
 
         return update
     } catch (error) {
@@ -157,10 +161,20 @@ export const saveAdminPasskey = async (passkey: string) => {
     cookieStore.set("adminPasskey", passkey)
 }
 
-export const logout = async () => {
+export const adminLogout = async () => {
     const cookieStore = await cookies()
     try {
         await cookieStore.delete("adminPasskey")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const logout = async () => {
+    const cookieStore = await cookies()
+    try {
+        await cookieStore.delete("session")
+        await cookieStore.delete("userId")
     } catch (error) {
         console.log(error)
     }

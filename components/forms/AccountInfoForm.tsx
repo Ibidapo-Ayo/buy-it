@@ -9,11 +9,12 @@ import CustomInput from '../CustomInput'
 import { FormFieldTypes } from '@/lib/utils'
 import SubmitButton from '../SubmitButton'
 import { Button } from '../ui/button'
-import { Edit2 } from 'lucide-react'
+import { Edit2, LogOut } from 'lucide-react'
 import ProfileUploader from '@/app/(home)/accounts/components/ProfileUploader'
-import { updateUserInfo } from '@/appwrite/user.actions'
+import { logout, updateUserInfo } from '@/appwrite/user.actions'
 import { UserInfoParams } from '@/types'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }) => {
     const form = useForm<z.infer<typeof accountInfoFormSchema>>({
@@ -28,6 +29,8 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
     })
 
     const [isLoading, setIsLoading] = useState(false)
+
+    const router = useRouter()
 
 
     const onSubmit = async (values: z.infer<typeof accountInfoFormSchema>) => {
@@ -61,6 +64,13 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
             setIsLoading(false)
         }
     }
+
+    const handleLogout = async () => {
+        await logout()
+        router.push("/login")
+    }
+
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-4 pt-10'>
@@ -72,7 +82,7 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
                             fieldType={FormFieldTypes.SKELETON}
                             renderSkeleton={(field) => (
                                 <FormControl>
-                                    <ProfileUploader files={field.value} onChange={field.onChange} image={`${userInfo?.image}`} />
+                                    <ProfileUploader files={field.value} onChange={field.onChange} userInfo={userInfo} />
                                 </FormControl>
                             )}
 
@@ -116,9 +126,12 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
                                 label="Address"
                             />
 
-                            <div className='w-full flex flex-col items-end justify-end'>
-                                <div className='w-auto'>
-                                    <SubmitButton isLoading={isLoading}>Save</SubmitButton>
+                            <div className='flex justify-between items-center'>
+                                <Button onClick={handleLogout} variant={"ghost"} size={"sm"} type='button' className='text-red-500 hover:bg-transparent hover:text-red-500  text-sm space-x-2'><LogOut className='w-4' /> <span>Logout</span></Button>
+                                <div className='w-full flex flex-col items-end justify-end'>
+                                    <div className='w-auto'>
+                                        <SubmitButton isLoading={isLoading}>Save</SubmitButton>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -16,6 +16,10 @@ export async function middleware(request: NextRequest) {
         return response
     }
 
+    if (!user && (request.url.includes("/accounts"))) {
+        return NextResponse.redirect(new URL("/login", request.url))
+    }
+
     if (!isAdmin && (request.url.includes("/dashboard"))) {
         return NextResponse.redirect(new URL("/admin/access", request.url))
     } else if (isAdmin && (request.url.includes("access"))) {
@@ -26,7 +30,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/", "/cart", "/login", "/register", "/dashboard", "/admin/access"]
+    matcher: ["/", "/cart", "/login", "/register", "/dashboard", "/admin/access", "/accounts"]
 }
 
 const auth = {

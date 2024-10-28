@@ -1,15 +1,20 @@
 "use client"
-import { updateUserInfo } from '@/appwrite/user.actions'
 import { FileUploaderProps } from '@/components/FileUploader'
 import { Button } from '@/components/ui/button'
 import { convertFileToUrl } from '@/lib/utils'
+import { UserInfoParams } from '@/types'
 import { ImageIcon } from 'lucide-react'
 import Image from 'next/image'
 import React, { useState } from 'react'
 
-const ProfileUploader = ({ files, onChange, image }: FileUploaderProps) => {
+
+interface ProfielUploaderProps extends FileUploaderProps {
+  userInfo?: UserInfoParams | undefined,
+}
+
+const ProfileUploader = ({ files, onChange, userInfo }: ProfielUploaderProps) => {
   const [hoverImage, setHoverImage] = useState(false)
-  const [profileImage, setProfileImage] = useState(image || "/images/users.png")
+  const [profileImage, setProfileImage] = useState(userInfo?.image || "/images/users.png")
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -54,10 +59,10 @@ const ProfileUploader = ({ files, onChange, image }: FileUploaderProps) => {
       </div>
       <div className='space-y-0 flex flex-col items-center'>
         <div className='flex space-x-2 items-center'>
-          <h3 className='font-semibold text-sm'>Ayomide Ibidapo</h3>
+          <h3 className='font-semibold text-sm'>{userInfo?.name}</h3>
         </div>
         <Button className='hover:bg-transparent disabled:cursor-not-allowed' variant={"ghost"} disabled>
-          <p className='text-secondary text-sm'>ayomideibidapo76@gmail.com</p>
+          <p className='text-secondary text-sm'>{userInfo?.email}</p>
         </Button>
       </div>
     </div>
