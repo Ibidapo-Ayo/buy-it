@@ -11,9 +11,9 @@ export default function MainLayout({ children }: {
             <div className="w-full md:px-20 px-5">
                 <Header />
             </div>
-            <div className='md:px-20 px-5 bg-white'>
+            <div className='w-full md:px-20 px-5 bg-white'>
+                {children}
             </div>
-            {children}
             <Footer />
         </ProductProvider>
     )

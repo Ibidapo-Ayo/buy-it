@@ -7,6 +7,8 @@ import { Textarea } from './ui/textarea'
 import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select'
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
 
 type CustomProps = {
     control: Control<any>,
@@ -23,7 +25,7 @@ type CustomProps = {
 }
 
 const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
-    const { fieldType, placeholder, type, renderSkeleton, children } = props
+    const { fieldType, placeholder, type, renderSkeleton, children, dateFormat } = props
     if (fieldType === FormFieldTypes.INPUT) {
         return (
             <div className='flex rounded-md border-2 border-secondary-100 bg-white'>
@@ -83,6 +85,20 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
             </div>
         )
     }
+
+    if (fieldType === FormFieldTypes.DATE_PICKER) {
+        return (
+            <div className='flex rounded-md border-2 border-secondary-100 bg-white w-full p-2'>
+                <FormControl>
+                    <DatePicker selected={field.value} onChange={(date) => field.onChange(date)}
+                        dateFormat={dateFormat ?? "Pp"}
+                        
+                        wrapperClassName='date-picker'
+                    />
+                </FormControl>
+            </div>
+        )
+    }
 }
 
 const CustomInput = (props: CustomProps) => {
@@ -94,7 +110,7 @@ const CustomInput = (props: CustomProps) => {
             render={({ field }) => (
                 <FormItem className='flex-1'>
                     {fieldType !== FormFieldTypes.CHECKBOX && label && (
-                        <FormLabel className='text-black'>{label}</FormLabel>
+                        <FormLabel className='text-black text-xs tracking-tight font-semibold'>{label}</FormLabel>
                     )}
                     <RenderField
                         field={field}

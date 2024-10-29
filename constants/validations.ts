@@ -72,3 +72,41 @@ export const accountInfoFormSchema = z.object({
   address: z.string().optional(),
   phone_number: z.string().optional()
 })
+
+export const checkoutFormSchema = z.object({
+  paymentMethod: z.string({
+    message: "Payment method is required"
+  }),
+  shippingAddress: z.string().optional(),
+  state: z.string().optional(),
+  city: z.string().optional(),
+  zipCode: z.string().optional(),
+  cardNumber: z.string({
+    message: "cardNumber is required (1234, 5678, 9101, 3456)"
+  }).min(1, {
+    message: "Incorrect card number"
+  }).max(20, {
+    message: "More the required card number"
+  }),
+  cardExpiration: z.string({
+    message: "Card expiration is required (Any value can be inputed here)"
+  }),
+  cardSecurityCode: z.string({
+    message: "Card security is required"
+  }).max(3, {
+    message: "Card security code must not be more than 3 value"
+  }),
+  first_name: z.string({
+    message: "First name is required"
+  }).trim(),
+  last_name: z.string({
+    message: "Last name is required"
+  }).trim(),
+  email: z.string({
+    message: "Email is required"
+  }).email({
+    message: "Invalid email address"
+  }),
+  phone_number: z.string().optional()
+
+});
