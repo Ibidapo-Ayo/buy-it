@@ -29,8 +29,6 @@ const LoginForm = () => {
         setIsLoading(true)
         try {
             const session = await login(values.email, values.password)
-            console.log(session);
-
             if (session) router.push("/")
         } catch (error) {
             if (error instanceof Error) {
