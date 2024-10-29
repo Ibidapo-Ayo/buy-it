@@ -10,7 +10,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { logout } from "@/appwrite/user.actions"
+import { adminLogout } from "@/appwrite/user.actions"
 import { useRouter } from "next/navigation"
 
 const navLinks = [
@@ -44,11 +44,11 @@ export default function Sidebar() {
 }
 
 
-export const SideBarLinks = () => {
+export const SideBarLinks = () => { 
     const router = useRouter()
 
     const handleLogoutAdmin = async () => {
-        await logout()
+        await adminLogout()
         router.push("/admin/access")
     }
     return (

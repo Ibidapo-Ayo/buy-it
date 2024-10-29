@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 type NavActionProps = {
     totalCarts: number | undefined,
-    setOpen: (open: boolean) => void
+    setOpen?: (open: boolean) => void
 }
 
 
