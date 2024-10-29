@@ -43,6 +43,33 @@ export const register = async ({ email, password, username }: RegisterParams) =>
     }
 }
 
+const saveSession = async (email: string, password: string) => {
+    const cookieStore = await cookies()
+    try {
+        const { account } = await createAdminClient()
+
+        const session = await account.createEmailPasswordSession(
+            email,
+            password
+        )
+
+        cookieStore.set("session", session.secret, {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: true,
+            expires: new Date(session.expire),
+            path: "/"
+        })
+
+        return session
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error);
+
+        }
+    }
+}
+
 
 export const login = async (email: string, password: string) => {
     const cookieStore = await cookies()
@@ -58,24 +85,12 @@ export const login = async (email: string, password: string) => {
         if (user) {
             const decryptedPassword = decryptKey(user.documents[0].password)
             if (decryptedPassword === password) {
-                const { account } = await createAdminClient()
 
-                const session = await account.createEmailPasswordSession(
-                    email,
-                    password
-                )
-
-                cookieStore.set("session", session.secret, {
-                    httpOnly: true,
-                    sameSite: "strict",
-                    secure: true,
-                    expires: new Date(session.expire),
-                    path: "/"
-                })
+                const session = await saveSession(email, password)
 
                 cookieStore.set("userId", user.documents[0].$id)
 
-                return session.secret
+                return session?.secret
             } else {
                 throw new Error("incorrect password")
             }

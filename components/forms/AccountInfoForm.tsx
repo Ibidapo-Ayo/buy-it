@@ -93,9 +93,6 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
                     <div className='w-full rounded-md shadow-lg divide-y-2 px-5 py-3 space-y-3'>
                         <div className='flex justify-between items-center'>
                             <h2 className='font-semibold w-1/2'>Account Information</h2>
-                            <div className='flex justify-end items-end w-full mt-5'>
-                                <Button variant={"ghost"} size={"icon"} className='rounded-full w-7 h-7'><Edit2 className='w-4 text-secondary-green-60' /></Button>
-                            </div>
                         </div>
                         <div className='space-y-3 pt-5'>
                             <CustomInput

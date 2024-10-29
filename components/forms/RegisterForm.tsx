@@ -63,6 +63,7 @@ const RegisterForm = () => {
                     name='password'
                     label='Password'
                     placeholder='********'
+                    type='password'
                 />
                 <SubmitButton isLoading={isLoading}>Submit</SubmitButton>
 
