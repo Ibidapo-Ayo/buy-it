@@ -13,9 +13,9 @@ const PopularItemsCard = ({ title, image }: PopularItemsCardProps) => {
         <div className='space-y-3 cursor-pointer w-auto rounded-md flex flex-col justify-center items-center py-5'>
             <Link href={`/products/?category=${title}`}>
                 <div className=''>
-                    <Image src={image} width={100} height={100} className='w-24 scale-90 hover:scale-95 transform' alt={`${title} image`} unoptimized />
+                    <Image src={image} width={1000} height={1000} className='w-44 md:w-24 scale-90 hover:scale-95 transform' alt={`${title} image`} unoptimized />
                 </div>
-                <h3 className='font-bold text-xs'>{title}</h3>
+                <h3 className='font-bold text-xs text-center'>{title}</h3>
             </Link>
         </div>
     )

@@ -4,7 +4,6 @@ import React from 'react'
 import { Card, CardContent } from './ui/card'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import RatingStar from './RatingStar'
 import PriceCard from './PriceCard'
 import ItemCardOverlay from './ItemCardOverlay'
 import ItemProgress from './ItemProgress'
@@ -12,7 +11,7 @@ import { ItemsCardProps } from '@/types'
 import AddToCartBtn from './add-to-cart-btn'
 
 const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: string }) => {
-    const { title, price, striked_price, image, availableItems, totalItems, className, rating, cardClassName, addToCart, productId } = props
+    const { title, price, striked_price, image, availableItems, totalItems, className, cardClassName, addToCart, productId } = props
     return (
         <Card className={cn('relative pt-2 rounded-none w-full', cardClassName)}>
             <Link href={`/products/${productId}/`}>
@@ -23,9 +22,6 @@ const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: st
                     <div className='space-y-3 flex flex-col justify-between'>
                         <div className=''>
                             <h3 className='font-semibold tracking-tight md:text-sm text-xs line-clamp-2'>{title}</h3>
-                            {rating && (
-                                <RatingStar rating={rating} />
-                            )}
                         </div>
                         <PriceCard price={price} striked_price={striked_price} />
                         <ItemProgress totalItems={totalItems!} availableItems={availableItems!} />
