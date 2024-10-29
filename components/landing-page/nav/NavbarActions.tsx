@@ -6,20 +6,20 @@ import Link from 'next/link'
 
 type NavActionProps = {
     totalCarts: number | undefined,
-    setOpen?: (open: boolean) => void
+    setOpen: (open: boolean) => void
 }
 
 
 const NavbarActions = ({ totalCarts, setOpen }: NavActionProps) => {
     return (
         <div className='w-full md:flex md:flex-row flex-col  justify-between items-center'>
-            <Link href={"/accounts"} onClick={() => setOpen(false)}>
+            <Link href={"/accounts"} onClick={() => setOpen!(false)}>
                 <Button variant={"ghost"} className='bg-transparent flex items-center space-x-2'>
                     <Image src={icons.user} alt='user icon' width={1000} height={1000} className='w-6' />
                     <span className='font-medium text-sm'>Account</span>
                 </Button>
             </Link>
-            <Link href={"/cart"} onClick={() => setOpen(false)}>
+            <Link href={"/cart"} onClick={() => setOpen!(false)}>
                 <Button variant={"ghost"} className='bg-transparent flex items-center space-x-2 relative'>
                     <Image src={icons.shop} alt='user icon' width={1000} height={1000} className='w-6' />
                     <span className='font-medium text-sm'>Your cart</span>
