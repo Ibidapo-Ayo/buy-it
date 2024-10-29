@@ -15,6 +15,7 @@ import { logout, updateUserInfo } from '@/appwrite/user.actions'
 import { UserInfoParams } from '@/types'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }) => {
     const form = useForm<z.infer<typeof accountInfoFormSchema>>({
@@ -127,7 +128,7 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
                             />
 
                             <div className='flex justify-between items-center'>
-                                <Button onClick={handleLogout} variant={"ghost"} size={"sm"} type='button' className='text-red-500 hover:bg-transparent hover:text-red-500  text-sm space-x-2'><LogOut className='w-4' /> <span>Logout</span></Button>
+                                <Link className='text-red-500 hover:bg-transparent hover:text-red-500  text-sm space-x-2 flex items-center' href={"/logout"}><LogOut className='w-4' /> <span>Logout</span></Link>
                                 <div className='w-full flex flex-col items-end justify-end'>
                                     <div className='w-auto'>
                                         <SubmitButton isLoading={isLoading}>Save</SubmitButton>
