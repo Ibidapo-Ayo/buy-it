@@ -1,4 +1,6 @@
 import { Account, Client, Databases, Storage } from 'node-appwrite';
+import axios, { AxiosInstance } from "axios";
+
 
 
 
@@ -40,3 +42,16 @@ const createSessionClient = async (session:any) => {
 }
 
 export { createSessionClient, createAdminClient }
+
+
+// Axios Config
+
+
+const API_URL: AxiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export default API_URL;

@@ -10,6 +10,7 @@ import PhoneInput from 'react-phone-number-input'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 
+
 type CustomProps = {
     control: Control<any>,
     fieldType: FormFieldTypes,
@@ -28,7 +29,7 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
     const { fieldType, placeholder, type, renderSkeleton, children, dateFormat } = props
     if (fieldType === FormFieldTypes.INPUT) {
         return (
-            <div className='flex rounded-md border-2 border-secondary-100 bg-white'>
+            <div className='w-full flex rounded-md border-2 border-secondary-100 bg-white'>
                 <FormControl>
                     <Input
                         placeholder={placeholder}

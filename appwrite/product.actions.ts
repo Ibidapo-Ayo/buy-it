@@ -1,6 +1,6 @@
 "use server"
 import { Cart, CreateProductsParams, ProductsProps } from "@/types";
-import { createAdminClient, createSessionClient } from "./config";
+import API_URL, { createAdminClient, createSessionClient } from "./config";
 import { InputFile } from "node-appwrite/file"
 import { ID, Query } from "node-appwrite";
 import { revalidatePath } from "next/cache";
@@ -36,7 +36,7 @@ export const getProducts = async (category?: string) => {
     }
 }
 
-export const getFilePreview = async (imageId: string | undefined, bucketId:string) => {
+export const getFilePreview = async (imageId: string | undefined, bucketId: string) => {
     try {
         const { storage } = await createAdminClient()
         const productImage = await storage.getFileView(

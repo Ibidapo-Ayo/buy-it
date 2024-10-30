@@ -19,10 +19,16 @@ export const calculateProductPercentage = (price: number, strikedPrice: number):
   return parseFloat(discountedPrice.toFixed(0))
 }
 
-export const calculateTotalCartItems = (arr: Cart[] | undefined | Models.Document[]) => {
-  return `$ ${arr?.reduce((acc, cart) => {
-    return acc + (cart.quantity * cart.product.price)
-  }, 0).toFixed(2)}`
+export const calculateTotalCartItems = (arr: Cart[] | undefined | Models.Document[], add: number = 0) => {
+  if (arr?.length) {
+    const total = arr?.reduce((acc, cart) => {
+      return acc + (cart.quantity * cart.product.price)
+    }, 0)
+
+    return `$ ${(total + add).toFixed(2)}`
+  }
+
+  return `$ 0`
 }
 
 export const checkItemStatus = (availableItems: number, totalItems: number): string | null => {
@@ -112,3 +118,4 @@ export const handleUpdateQuantity = async (cartId: string, quantity: number, typ
 }
 
 
+export const expirationDateMask = [/\d/, /\d/, "/", /\d/, /\d/];
