@@ -34,8 +34,10 @@ export const register = async ({ email, password, username }: RegisterParams) =>
             }
         )
 
+        await saveSession(email, password)
+
         cookieStore.set("userId", newUser.$id)
-        if (!newAccount) return newUser
+        if (newUser.$id) return newUser
     } catch (error) {
         if (error) {
             throw new Error("user already exist")

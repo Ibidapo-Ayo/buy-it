@@ -30,9 +30,10 @@ const RegisterForm = () => {
     const onSubmit = async (values: z.infer<typeof registerFormSchema>) => {
         setIsLoading(true)
         try {
-            const result = await register(values)
-            router.push("/login")
-            console.log(result)
+            const result = await register(values);
+            if(result){
+                router.push("/login")
+            }
         } catch (error) {
             toast.error("User with that email already exist in our database, please login to continue")
         } finally {
