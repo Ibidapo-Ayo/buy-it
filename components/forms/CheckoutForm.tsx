@@ -155,7 +155,7 @@ const CheckoutForm = () => {
 
         const data = {
             "email": values.email,
-            "amount": Number(calculateTotalCartItems(carts, 10, "pay")) * 100,
+            "amount": Number(calculateTotalCartItems(carts, 1000, "pay")) * 100,
             "currency": "NGN",
             "first_name": values.first_name,
             "last_name": values.last_name,
