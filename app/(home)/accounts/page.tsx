@@ -10,7 +10,7 @@ const AccountPage = async () => {
     throw new Error("An error occured, please try again ")
   }
   return (
-    <div className='w-full md:px-40 px-5'>
+    <div className='w-full md:px-40'>
       <AccountInfoForm userInfo={userInfo} />
     </div>
   )
