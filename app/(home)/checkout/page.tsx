@@ -7,7 +7,7 @@ import NoCarts from '../cart/components/no-carts'
 const CheckoutPage = () => {
   const { carts } = useProducts()
 
-  if (carts?.length) {
+  if (carts?.length === 0) {
     return (
       <NoCarts />
     )
