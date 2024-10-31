@@ -11,7 +11,7 @@ const Products = ({ products }: {
   products: ProductsProps[] | undefined
 }) => {
   return (
-    <div className='w-full bg-white rounded-md p-4 h-auto space-y-16'>
+    <div className='w-full bg-white rounded-md h-auto space-y-16'>
 
       <div className='space-y-3'>
         <h1 className='text-xl font-semibold tracking-tight w-64'>Grocery store with different treasures</h1>
@@ -23,10 +23,6 @@ const Products = ({ products }: {
 
 
       <div className='space-y-2'>
-        <div className='w-full h-11 px-2 py-1 bg-gray-200 rounded-md flex'>
-
-        </div>
-
         {products?.length === 0 || !products ? (
           <NoProduct />
         ) : (
