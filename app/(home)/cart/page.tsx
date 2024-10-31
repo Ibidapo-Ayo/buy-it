@@ -9,7 +9,7 @@ import { useProducts } from '@/app/context/product-context'
 const CartPage = () => {
     const { carts } = useProducts()
     return (
-        <div className='max-w-7xl mx-auto py-10 bg-white md:px-20 px-5'>
+        <div className='max-w-7xl mx-auto py-10 bg-white md:px-20'>
             {carts?.length === 0 || !carts ? (
                 <NoCarts />
             ) : (

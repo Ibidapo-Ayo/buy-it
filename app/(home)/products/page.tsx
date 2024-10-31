@@ -24,7 +24,7 @@ const Page = async (props: {
   }
 
   return (
-    <div className='w-full py-10 bg-white md:px-20 px-5'>
+    <div className='w-full py-10 bg-white'>
       <h2 className="font-semibold text-xl tracking-tighter">All Products</h2>
 
       <div className='grid items-start gap-3'>
