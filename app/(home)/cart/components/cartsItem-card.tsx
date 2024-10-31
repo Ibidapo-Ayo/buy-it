@@ -1,4 +1,4 @@
-import { calculateProductPercentage } from '@/lib/utils'
+import { calculateProductPercentage, nairaFormatter } from '@/lib/utils'
 import { Cart } from '@/types'
 import Image from 'next/image'
 import React from 'react'
@@ -19,9 +19,9 @@ const CartItemsCard = ({ cart }: {
                     </div>
                 </div>
                 <div className='flex flex-col items-end space-y-5'>
-                    <h2 className='font-semibold text-xl tracking-tighter'>${cart.product.price}</h2>
+                    <h2 className='font-semibold text-xl tracking-tighter'>{nairaFormatter.format(cart.product.price)}</h2>
                     <div className='flex space-x-3'>
-                        <p className='line-through text-secondary'>${cart.product.strikedPrice}</p>
+                        <p className='line-through text-secondary'>{nairaFormatter.format(cart.product.strikedPrice)}</p>
                         <div className='w-auto bg-red-200 text-red-600 px-1'>
                             <span className='text-[10px]'>-{calculateProductPercentage(cart.product.price, cart.product.strikedPrice)}%</span>
                         </div>
