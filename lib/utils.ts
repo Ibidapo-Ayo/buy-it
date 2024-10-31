@@ -19,17 +19,28 @@ export const calculateProductPercentage = (price: number, strikedPrice: number):
   return parseFloat(discountedPrice.toFixed(0))
 }
 
-export const calculateTotalCartItems = (arr: Cart[] | undefined | Models.Document[], add: number = 0) => {
-  if (arr?.length) {
-    const total = arr?.reduce((acc, cart) => {
-      return acc + (cart.quantity * cart.product.price)
-    }, 0)
+export const calculateTotalCartItems = (arr: Cart[] | undefined | Models.Document[], add: number = 0, type?: string): number => {
 
-    return `$ ${(total + add).toFixed(2)}`
+  const total = arr?.reduce((acc, cart) => {
+    return acc + (cart.quantity * cart.product.price)
+  }, 0)
+
+  if (type === "pay") {
+    return Math.round((total! + add))
   }
 
-  return `$ 0`
+  if (arr?.length) {
+    return total! + add
+  }
+
+  return 0
 }
+
+export const nairaFormatter = new Intl.NumberFormat('en-NG', {
+  style: 'currency',
+  currency: 'NGN',
+  minimumFractionDigits: 2
+});
 
 export const checkItemStatus = (availableItems: number, totalItems: number): string | null => {
   const ratio = (availableItems / totalItems) * 100;

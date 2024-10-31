@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import Image from "next/image"
 import Sidebar from '../Sidebar'
 import NavbarActions from './NavbarActions'
@@ -9,6 +9,8 @@ import Link from 'next/link'
 
 const Header = () => {
     const { totalCarts } = useProducts()
+    const [open, setOpen] = useState(false)
+    
     return (
         <div className='w-full grid grid-cols-[auto,1fr,auto] justify-between items-center py-3 gap-4'>
             <div className='w-[60px] md:w-[150px]'>
@@ -19,7 +21,7 @@ const Header = () => {
             <SearchComponent />
 
             <div className='md:block hidden md:w-[200px] xl:w-[300px]'>
-                <NavbarActions totalCarts={totalCarts} />
+                <NavbarActions totalCarts={totalCarts} setOpen={setOpen} />
             </div>
             <Sidebar totalCarts={totalCarts} />
         </div>

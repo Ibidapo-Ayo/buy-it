@@ -98,10 +98,14 @@ export const checkoutFormSchema = z.object({
   }),
   first_name: z.string({
     message: "First name is required"
-  }).trim(),
+  }).trim().min(2, {
+    message: "First name length is small"
+  }),
   last_name: z.string({
     message: "Last name is required"
-  }).trim(),
+  }).trim().min(2, {
+    message: "Last name length is small "
+  }),
   email: z.string({
     message: "Email is required"
   }).email({

@@ -1,12 +1,13 @@
 "use server"
-import { Cart, CreateProductsParams, ProductsProps } from "@/types";
-import API_URL, { createAdminClient, createSessionClient } from "./config";
+import { CreateProductsParams, ProductsProps } from "@/types";
+import { createAdminClient, createSessionClient } from "./config";
 import { InputFile } from "node-appwrite/file"
 import { ID, Query } from "node-appwrite";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
-const { DATABASE_ID, PRODUCT_ID, BUCKET_ID, CART_ID, WISHLIST_COLLECTION } = process.env
+
+const { DATABASE_ID, PRODUCT_ID, BUCKET_ID, CART_ID, WISHLIST_COLLECTION, TRANSACTION_COLLECTION } = process.env
 
 
 export const getProducts = async (category?: string) => {
@@ -134,6 +135,7 @@ export const updateProducts = async (productId: string, data: {
         })
 
         revalidatePath(`/dashboard/products/${updateDocument.$id}/edit`)
+        revalidatePath("/dashboard")
 
     } catch (error) {
         if (error instanceof Error) {
@@ -263,5 +265,29 @@ export const deleteCarts = async (cartId: string) => {
             console.log(error);
 
         }
+    }
+}
+
+export const saveTransaction = async (transaction: string) => {
+    const cookieStore = await cookies()
+
+    try {
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value)
+        const userId = cookieStore.get("userId")?.value
+
+        const savedTransaction = await databases.createDocument(
+            DATABASE_ID!,
+            TRANSACTION_COLLECTION!,
+            ID.unique(),
+            {
+                transaction,
+                users: userId,
+                transactionDate: new Date().toJSON()
+            }
+        )
+
+        return savedTransaction;
+    } catch (error) {
+        console.log(error);
     }
 }
