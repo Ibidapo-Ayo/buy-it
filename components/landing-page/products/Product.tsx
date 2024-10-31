@@ -28,7 +28,7 @@ const Product = async ({ products }: {
         </div>
       </div>
 
-      <div className='grid 2xl:grid-cols-5 gap-3 md:gap-10 xl:grid-cols-4 md:grid-cols-3 grid-cols-2'>
+      <div className='grid 2xl:grid-cols-5 gap-3 md:gap-10 xl:grid-cols-4 md:grid-cols-3 grid-cols-1'>
         {products?.map((product, index) => {
           const { name, productImageUrl, price, strikedPrice, availableProducts, totalProducts, $id } = product
           return (
