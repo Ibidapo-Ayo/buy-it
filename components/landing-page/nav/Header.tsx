@@ -20,7 +20,7 @@ const Header = () => {
             </div>
             <SearchComponent />
 
-            <div className='md:block hidden md:w-[200px] xl:w-[300px]'>
+            <div className='md:block hidden xl:w-auto'>
                 <NavbarActions totalCarts={totalCarts} setOpen={setOpen} />
             </div>
             <Sidebar totalCarts={totalCarts} />
