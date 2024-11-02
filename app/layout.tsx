@@ -13,7 +13,7 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: "Sell It",
-  description: "A marketplace to sell unused items",
+  description: "A marketplace to sell local products",
 };
 
 export default function RootLayout({
