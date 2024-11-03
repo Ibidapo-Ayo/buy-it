@@ -73,6 +73,8 @@ export const accountInfoFormSchema = z.object({
   phone_number: z.string().optional()
 })
 
+
+
 export const checkoutFormSchema = z.object({
   paymentMethod: z.string({
     message: "Payment method is required"
@@ -114,3 +116,47 @@ export const checkoutFormSchema = z.object({
   phone_number: z.string().optional()
 
 });
+
+const passwordForm = z
+  .object({
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirm: z.string(),
+  })
+  .refine((data) => data.password === data.confirm, {
+    message: "Passwords don't match",
+    path: ["confirm"],
+  });
+
+export const becomeVendorFormSchema = z.object({
+  shopName: z.string({
+    message: "Shop name is required!"
+  }).min(5, {
+    message: "Shop name is too small!"
+  }),
+  country: z.string({
+    message: "Vendor country is required!"
+  }),
+  email: z.string({
+    message: "Email address is required!"
+  }).email({
+    message: "Please enter a valid email address"
+  }),
+  accountType: z.string({
+    message: "Account type is required!"
+  }),
+  shippingZone: z.string({
+    message: "Shipping zone is required!"
+  }),
+  password: z.string().min(6, {
+    message: "Enter minimun of 6 character"
+  }).max(16, {
+    message: "Password must not be more than 16 character"
+  }).regex(passwordRegex, {
+    message: "Password must contain atleast a lowercase letter, uppercase, number and special characters"
+  })
+})
+
+export const loginToVendorCenterSchema = becomeVendorFormSchema.pick({
+  email: true,
+  password: true
+})

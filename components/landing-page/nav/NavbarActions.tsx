@@ -39,11 +39,11 @@ const AccountLink = () => {
         <DropdownMenu>
             <DropdownMenuTrigger>
 
-                <Button variant={"ghost"} className='bg-transparent flex items-center space-x-2'>
+                <div className='bg-transparent flex items-center space-x-2'>
                     <User className='w-6 text-secondary-green-50' />
                     <span className='font-medium text-sm'>Account</span>
                     <ChevronDown className='w-6' />
-                </Button>
+                </div>
 
             </DropdownMenuTrigger>
             <DropdownMenuContent className='p-2 space-y-2'>
