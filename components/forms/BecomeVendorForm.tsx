@@ -29,20 +29,20 @@ const BecomeVendorForm = () => {
         console.log(values);
     }
 
-    const [steps, setSteps] = useState("")
+    const [steps, setSteps] = useState("none")
 
     return (
         <Form {...form}>
             <form className='w-full flex justify-center items-center shadow-md rounded-md bg-white p-5' onSubmit={form.handleSubmit(onSubmit)}>
 
-                {steps === "" && (
+                {steps === "none" && (
                     <div className='w-full flex flex-col justify-center space-y-10'>
                         <div className='space-y-0'>
                             <h3 className='font-semibold tracking-tight text-center text-lg'>Sell on BuyIt</h3>
                             <p className='text-center text-sm text-secondary-200'>Choose the country of your shop</p>
                         </div>
 
-                        <div className='bg-white rounded-md space-y-10'>
+                        <div className='bg-white rounded-md space-y-7'>
                             <CustomInput
                                 name="country"
                                 control={form.control}
@@ -72,13 +72,20 @@ const BecomeVendorForm = () => {
                             <p className='text-center text-sm text-secondary-200'>Choose the country of your shop</p>
                         </div>
 
-                        <div className='bg-white rounded-md space-y-10'>
+                        <div className='bg-white rounded-md space-y-7'>
                             <CustomInput
                                 name="email"
                                 control={form.control}
                                 fieldType={FormFieldTypes.INPUT}
                                 placeholder='Enter email address'
                                 label="Email address"
+                            />
+                            <CustomInput
+                                name="email"
+                                control={form.control}
+                                fieldType={FormFieldTypes.PHONE_INPUT}
+                                placeholder='Enter your phone number'
+                                label="Phone number"
                             />
                             <CustomInput
                                 name="password"
@@ -88,7 +95,7 @@ const BecomeVendorForm = () => {
                                 label="Password"
                                 type='password'
                             />
-                            <PrevAndNextButton nextStep={setSteps} next='shop' prev='' />
+                            <PrevAndNextButton nextStep={setSteps} next='shop' prev='none' />
 
                         </div>
                     </div>
@@ -100,7 +107,7 @@ const BecomeVendorForm = () => {
                             <p className='text-center text-sm text-secondary-200'>Choose the country of your shop</p>
                         </div>
 
-                        <div className='bg-white rounded-md space-y-10'>
+                        <div className='bg-white rounded-md space-y-7'>
                             <CustomInput
                                 name="shopName"
                                 control={form.control}
@@ -146,7 +153,7 @@ const PrevAndNextButton = ({ nextStep, next, prev }: {
 }) => {
     return (
         <div className='flex justify-between items-center gap-10'>
-            <Button type="button" className='border-2 border-secondary-green-50 w-full text-secondary-green-60 hover:text-secondary-green-50 font-semibold hover:bg-transparent' variant={"outline"} size={"lg"} onClick={() => nextStep(prev)}>Prev</Button>
+            <Button type="button" className='border-2 border-secondary-green-50 w-full text-secondary-green-60 hover:text-secondary-green-50 font-semibold hover:bg-transparent' variant={"outline"} size={"lg"} disabled={prev === ""} onClick={() => nextStep(prev)}>Prev</Button>
             {next !== "submit" && (
                 <Button type="button" className='bg-secondary-green-60 hover:bg-secondary-green-50 w-full text-white hover:text-white font-semibold' variant={"ghost"} size={"lg"} onClick={() => nextStep(next)}>Next</Button>
             )}
