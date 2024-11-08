@@ -1,31 +1,12 @@
+import { becomeVendorFormSchema } from "@/constants/validations"
 import { StaticImageData } from "next/image"
 import { Models } from "node-appwrite"
+import { z } from "zod"
 
 export type PriceCardProps = {
     price: number,
     striked_price?: number
 }
-
-declare type ItemsCardProps = {
-    title: string,
-    price: number,
-    striked_price?: number,
-    image: string | undefined,
-    productType?: "organic" | "cold-sale",
-    inStock?: number,
-    availableItems?: number,
-    totalItems?: number,
-    path?: string,
-    className?: string,
-    cardClassName?: string,
-    rating?: number,
-    comments?: string,
-    offer?: {
-        percentage: number,
-        endTime: string
-    }
-}
-
 declare type ItemsProps = {
     title: string,
     image: StaticImageData,
@@ -56,7 +37,7 @@ declare interface UserInfoParams extends Models.Document {
     image?: FormData | undefined,
     phone_number?: string,
     email?: string,
-    accountId?:string
+    accountId?: string
 }
 declare interface ProductsProps extends Omit<CreateProductParams, "image">, Models.Document, Document {
     productImageUrl: string,
@@ -88,3 +69,5 @@ declare type State = {
     carts?: Cart[],
     totalCarts?: number,
 }
+
+declare type becomeVendorFormProps = z.infer<typeof becomeVendorFormSchema>

@@ -153,7 +153,7 @@ const PrevAndNextButton = ({ nextStep, next, prev }: {
 }) => {
     return (
         <div className='flex justify-between items-center gap-10'>
-            <Button type="button" className='border-2 border-secondary-green-50 w-full text-secondary-green-60 hover:text-secondary-green-50 font-semibold hover:bg-transparent' variant={"outline"} size={"lg"} disabled={prev === ""} onClick={() => nextStep(prev)}>Prev</Button>
+            <Button type="button" className='border-2 border-secondary-green-50 w-full text-secondary-green-60 hover:text-secondary-green-50 font-semibold hover:bg-transparent disabled:cursor-not-allowed' variant={"outline"} size={"lg"} disabled={prev === ""} onClick={() => nextStep(prev)}>Prev</Button>
             {next !== "submit" && (
                 <Button type="button" className='bg-secondary-green-60 hover:bg-secondary-green-50 w-full text-white hover:text-white font-semibold' variant={"ghost"} size={"lg"} onClick={() => nextStep(next)}>Next</Button>
             )}
