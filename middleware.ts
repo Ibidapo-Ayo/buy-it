@@ -18,12 +18,9 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/login", request.url))
     }
 
-    if (!isAdmin && (request.url.includes("/dashboard"))) {
-        return NextResponse.redirect(new URL("/admin/access", request.url))
-    } else if (isAdmin && (request.url.includes("access"))) {
-        return NextResponse.redirect(new URL("/dashboard", request.url))
-    }
-
+    if (!user && (request.url.includes("/dashboard"))) {
+        return NextResponse.redirect(new URL("/login", request.url))
+    } 
     if(isVendor && (request.url.includes("vendor"))){
         return NextResponse.redirect(new URL("/accounts", request.url))
     }
@@ -37,7 +34,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/", "/cart", "/login", "/register", "/accounts", "/checkout", "/become-vendor"]
+    matcher: ["/", "/cart", "/login", "/register", "/dashboard", "/accounts", "/checkout", "/become-vendor"]
 }
 
 // const auth = {

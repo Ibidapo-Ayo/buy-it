@@ -10,7 +10,13 @@ const AccountPage = async () => {
     throw new Error("An error occured, please try again ")
   }
   return (
-    <div className='w-full md:px-40'>
+    <div className='space-y-5 pr-0 px-5 md:pr-20 lg:pr-24 xl:pr-60'>
+      <div>
+
+        <h1 className='text-xl tracking-tighter font-semibold'>Edit your profile</h1>
+        <p className='text-sm text-secondary'>You can edit your profile details here</p>
+      </div>
+
       <AccountInfoForm userInfo={userInfo} />
     </div>
   )

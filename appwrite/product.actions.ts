@@ -291,3 +291,24 @@ export const saveTransaction = async (transaction: string) => {
         console.log(error);
     }
 }
+
+export const getUserTransactions = async () => {
+    const cookieStore = await cookies()
+
+    try {
+        const { databases } = await createSessionClient(cookieStore.get("session")?.value);
+
+        const userId = cookieStore.get("userId")?.value;
+
+        const transactions = await databases.listDocuments(
+            DATABASE_ID!,
+            TRANSACTION_COLLECTION!,
+            [Query.equal("users", userId!)]
+        )
+
+        return transactions.documents
+    } catch (error) {
+        console.log(error);
+
+    }
+}

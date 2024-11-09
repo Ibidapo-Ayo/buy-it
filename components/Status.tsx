@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { LoaderIcon } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 interface StatusProps {
@@ -7,28 +8,32 @@ interface StatusProps {
     title?: string,
     children?: React.ReactNode,
     Icon?: React.ElementType,
-    type?: "processing" | "accepted" | "declined"
+    type?: "processing" | "accepted" | "declined",
+    href?: string
 }
 
-const Status = ({ count, title, Icon, children, type }: StatusProps) => {
+const Status = ({ count, title, Icon, children, type, href }: StatusProps) => {
     return (
-        <div className='shadow-md w-full rounded-md p-3 flex gap-5 items-center h-28'>
-            {Icon &&
-                (
-                    <div className={cn("bg-green-100 text-green-500  w-11 h-11 rounded-full flex justify-center items-center", {
-                        "bg-amber-300 text-amber-400": type === "processing",
-                        "bg-red-300 text-red-400": type === "declined"
-                    })}>
-                        <Icon className="w-6 text-inherit" />
-                    </div>
-                )}
+        <Link href={href || "/"}>
+            <div className='shadow-md px-5 w-auto rounded-md flex gap-5 items-center h-28 justify-between cursor-pointer'>
+                {Icon &&
+                    (
+                        <div className={cn("bg-green-100 text-green-500  w-11 h-11 rounded-full flex justify-center items-center shrink-0", {
+                            "bg-amber-100 text-amber-500": type === "processing",
+                            "bg-red-100 text-red-400": type === "declined",
+                            "bg-sky-200 text-sky-500": title === "Orders"
+                        })}>
+                            <Icon className="w-6 text-inherit" />
+                        </div>
+                    )}
 
-            <h1 className="text-sm font-semibold tracking-tight">{count}</h1>
+                <h1 className="text-md font-semibold tracking-tight">{count}</h1>
 
-            <h1 className="text-sm font-semibold tracking-tight">{title}</h1>
+                <h1 className="text-md font-semibold tracking-tight">{title}</h1>
 
-            {children && children}
-        </div>
+                {children && children}
+            </div>
+        </Link>
     )
 }
 
