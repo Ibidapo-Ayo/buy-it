@@ -4,6 +4,8 @@ import { becomeVendorFormProps } from "@/types"
 import { cookies } from "next/headers"
 import { createSessionClient } from "./config"
 import { ID, Query } from "node-appwrite"
+import { z } from "zod"
+import { becomeVendorFormSchema } from "@/constants/validations"
 
 const { DATABASE_ID, VENDOR_ID } = process.env
 

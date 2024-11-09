@@ -50,7 +50,7 @@ const AccountLink = () => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className='focus:bg-transparent bg-transparent'>
-                    <Link href={"/accounts"} className='font-semibold'>Account</Link>
+                    <Link href={"/dashboard/profile"} className='font-semibold'>Account</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className='focus:bg-transparent bg-transparent'>
                     <Link href="/become-vendor">

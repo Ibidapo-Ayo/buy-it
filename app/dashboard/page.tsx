@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react'
 import { getUserInfo } from '@/appwrite/user.actions'
 import Status from '@/components/Status'
@@ -40,6 +41,8 @@ const DashboardPage = async () => {
           <Status
             title='Application Status'
             Icon={Hourglass}
+            
+            // @ts-expect-error
             type={`${vendor![0].status}`}>
 
             <div className={cn("w-auto px-2 py-1 rounded-full bg-green-100 text-green-500", {
