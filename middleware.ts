@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
     const cookieStore = await cookies()
 
     const user = cookieStore.get("userId")?.value
+    const isVendor = cookieStore.get("vendorId")?.value
     const isAdmin = decryptKey(cookieStore.get("adminPasskey")?.value!) === process.env.NEXT_PUBLIC_ADMIN_PIN
 
     if (user && (request.url.includes("/login") || request.url.includes("/register"))) {
@@ -23,6 +24,10 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/dashboard", request.url))
     }
 
+    if(isVendor && (request.url.includes("vendor"))){
+        return NextResponse.redirect(new URL("/accounts", request.url))
+    }
+
     if (!user && (request.url.includes("/checkout"))) {
         return NextResponse.redirect(new URL("/login", request.url))
     }
@@ -32,7 +37,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/", "/cart", "/login", "/register", "/dashboard", "/admin/access", "/accounts", "/checkout"]
+    matcher: ["/", "/cart", "/login", "/register", "/accounts", "/checkout", "/become-vendor"]
 }
 
 // const auth = {

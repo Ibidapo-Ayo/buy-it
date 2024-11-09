@@ -7,6 +7,7 @@ import {
     Plus,
     Settings,
     ShoppingBasket,
+    ShoppingBag
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -28,6 +29,11 @@ const navLinks = [
         name: "Manage Orders",
         href: "/dashboard/orders",
         Icon: ShoppingBasket
+    },
+    {
+        name: "Manage Products",
+        href: "/dashboard/products/manage",
+        Icon: ShoppingBag
     }
 ]
 

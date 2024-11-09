@@ -29,8 +29,9 @@ export const createVendorAccount = async (data: becomeVendorFormProps) => {
         return result
     } catch (error) {
         if (error instanceof Error) {
-            // console.log(error.message);
-            console.log(error)
+            if(error?.code === 409){
+            throw new Error(error.type)
+            }
         }
     }
 }
