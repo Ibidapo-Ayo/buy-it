@@ -7,9 +7,15 @@ import { z } from 'zod'
 import CustomInput from '../CustomInput'
 import { FormFieldTypes } from '@/lib/utils'
 import { SelectItem } from '../ui/select'
-import { Form } from '../ui/form'
+import { Form, FormControl, FormMessage } from '../ui/form'
 import { Button } from '../ui/button'
 import SubmitButton from '../SubmitButton'
+import { toast } from 'sonner'
+import { createVendorAccount } from '@/appwrite/vendor.actions'
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
+import {useRouter} from "next/navigation"
+import { decryptKey, encryptKey } from "@/lib/utils"
 
 const BecomeVendorForm = () => {
     const form = useForm<z.infer<typeof becomeVendorFormSchema>>({
@@ -20,16 +26,52 @@ const BecomeVendorForm = () => {
             email: "",
             country: "",
             accountType: "",
-            password: ''
+            password: '',
+            phone_number: ""
         }
     })
 
+    const [isLoading, setIsLoading] = useState(false)
+    const [steps, setSteps] = useState("none")
+
+    const router = useRouter()
+
 
     const onSubmit = async (values: z.infer<typeof becomeVendorFormSchema>) => {
-        console.log(values);
+        setIsLoading(true)
+        try {
+
+            const data = {
+                ...values,
+                password: encryptKey(values.password)
+            }
+            const result = await createVendorAccount(values)
+
+            if(result?.$id){
+                router.push("/become-vendor/success")
+                return;
+            }
+
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error);
+                toast.error(error.message)
+            }
+        } finally {
+            setIsLoading(false)
+        }
     }
 
-    const [steps, setSteps] = useState("none")
+    const accountTypeOptions = [
+        {
+            title: "Individual",
+            value: "individual"
+        },
+        {
+            title: "Organization",
+            value: "organization"
+        }
+    ]
 
     return (
         <Form {...form}>
@@ -73,6 +115,34 @@ const BecomeVendorForm = () => {
                         </div>
 
                         <div className='bg-white rounded-md space-y-7'>
+                        <CustomInput
+                        control={form.control}
+                        fieldType={FormFieldTypes.SKELETON}
+                        name="accountType"
+                        label="Account Type"
+                        renderSkeleton={(field) => {
+                            return (
+                                <FormControl>
+                                    <RadioGroup className="flex h-11 gap-6"
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        {accountTypeOptions.map((type, index) => (
+                                            <div key={index} className="flex h-full flex-1 items-center gap-2 rounded-md border border-dashed border-secondary-green-50 p-3">
+                                                <RadioGroupItem value={type.value}
+                                                    id={type.value}
+                                                />
+                                                <Label htmlFor={type.value} className="cursor-pointer">
+                                                    {type.title}
+                                                </Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </FormControl>
+                            )
+                        }}
+                    />
+
                             <CustomInput
                                 name="email"
                                 control={form.control}
@@ -81,7 +151,7 @@ const BecomeVendorForm = () => {
                                 label="Email address"
                             />
                             <CustomInput
-                                name="email"
+                                name="phone_number"
                                 control={form.control}
                                 fieldType={FormFieldTypes.PHONE_INPUT}
                                 placeholder='Enter your phone number'
@@ -132,7 +202,7 @@ const BecomeVendorForm = () => {
                                 })}
                             </CustomInput>
 
-                            <PrevAndNextButton nextStep={setSteps} next='submit' prev='email' />
+                            <PrevAndNextButton nextStep={setSteps} isLoading={isLoading} next='submit' prev='email' />
 
                         </div>
                     </div>
@@ -146,10 +216,11 @@ const BecomeVendorForm = () => {
 
 export default BecomeVendorForm
 
-const PrevAndNextButton = ({ nextStep, next, prev }: {
+const PrevAndNextButton = ({ nextStep, next, prev, isLoading }: {
     nextStep: (steps: string) => void,
     next: string,
-    prev: string
+    prev: string,
+    isLoading?: boolean
 }) => {
     return (
         <div className='flex justify-between items-center gap-10'>
@@ -158,7 +229,7 @@ const PrevAndNextButton = ({ nextStep, next, prev }: {
                 <Button type="button" className='bg-secondary-green-60 hover:bg-secondary-green-50 w-full text-white hover:text-white font-semibold' variant={"ghost"} size={"lg"} onClick={() => nextStep(next)}>Next</Button>
             )}
             {next === "submit" && (
-                 <Button type="submit" className='bg-secondary-green-60 hover:bg-secondary-green-50 w-full text-white hover:text-white font-semibold' variant={"ghost"} size={"lg"}>Submit</Button>
+                <SubmitButton className='bg-secondary-green-60 hover:bg-secondary-green-50 w-full text-white hover:text-white font-semibold' isLoading={isLoading}>Submit</SubmitButton>
             )}
         </div>
     )

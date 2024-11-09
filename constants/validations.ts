@@ -135,6 +135,8 @@ export const becomeVendorFormSchema = z.object({
   }),
   country: z.string({
     message: "Vendor country is required!"
+  }).min(1, {
+    message: "Vendor country is required!"
   }),
   email: z.string({
     message: "Email address is required!"
@@ -143,9 +145,13 @@ export const becomeVendorFormSchema = z.object({
   }),
   accountType: z.string({
     message: "Account type is required!"
+  }).min(1, {
+    message: "Account Type is required!"
   }),
   shippingZone: z.string({
     message: "Shipping zone is required!"
+  }).min(1,{
+    message: 'Shipping zone is required!'
   }),
   password: z.string().min(6, {
     message: "Enter minimun of 6 character"
@@ -153,7 +159,8 @@ export const becomeVendorFormSchema = z.object({
     message: "Password must not be more than 16 character"
   }).regex(passwordRegex, {
     message: "Password must contain atleast a lowercase letter, uppercase, number and special characters"
-  })
+  }),
+  phone_number: z.string().optional(),
 })
 
 export const loginToVendorCenterSchema = becomeVendorFormSchema.pick({

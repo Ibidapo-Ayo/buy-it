@@ -1,11 +1,9 @@
 "use server"
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { createSessionClient } from "./appwrite/config";
 import { decryptKey } from "./lib/utils";
 
 export async function middleware(request: NextRequest) {
-    // const user = await auth.getUser()
     const cookieStore = await cookies()
 
     const user = cookieStore.get("userId")?.value
