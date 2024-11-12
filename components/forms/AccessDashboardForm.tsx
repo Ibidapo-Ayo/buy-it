@@ -1,6 +1,6 @@
 "use client"
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form } from '../ui/form'
@@ -13,11 +13,18 @@ import { saveAdminPasskey } from '@/appwrite/user.actions'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { Button } from '../ui/button'
+import { getVendor } from '@/appwrite/vendor.actions'
 
 const AccessDashboardSchema = z.object({
     pin: z.string().min(6, {
         message: "Your dashboard access code must be 6 characters.",
-    })
+    }),
+
+    email: z.string().email({
+        message: "Invalid email address"
+    }).optional(),
+    password: z.string().optional()
 })
 
 const AccessDashboardForm = () => {
@@ -25,48 +32,115 @@ const AccessDashboardForm = () => {
     const form = useForm<z.infer<typeof AccessDashboardSchema>>({
         resolver: zodResolver(AccessDashboardSchema),
         defaultValues: {
-            pin: ""
+            pin: "",
+            email: "",
+            password: ''
         }
     })
 
+    const [loginType, setLoginType] = useState("admin")
+    const [isLoading, setIsLoading] = useState(false)
+
     const router = useRouter()
 
-    const onSubmit = (values: z.infer<typeof AccessDashboardSchema>) => {
+    const onSubmit = async (values: z.infer<typeof AccessDashboardSchema>) => {
+        console.log(loginType);
+        
 
-        if (values.pin === process.env.NEXT_PUBLIC_ADMIN_PIN) {
-            const encryptedPin = encryptKey(values.pin)
-            saveAdminPasskey(encryptedPin)
-            router.push("/dashboard")
-        } else {
-            toast.error("Incorrect admin pin")
-            form.reset()
+        if (loginType === "admin") {
+            if (values.pin === process.env.NEXT_PUBLIC_ADMIN_PIN) {
+                const encryptedPin = encryptKey(values.pin)
+                saveAdminPasskey(encryptedPin)
+                router.push("/dashboard")
+            } else {
+                toast.error("Incorrect admin pin")
+                form.reset()
+            }
+
+            return
         }
+
+
+        if (loginType === "vendor") {
+            if (!values.email || !values.password) {
+                toast.warning("Email & password is required!")
+                console.log("Email not entered");
+                
+            } else {
+                setIsLoading(true)
+                try {
+                    const data = await getVendor(values.email)
+                    console.log(data);
+
+                } catch (error) {
+                    if (error instanceof Error) {
+                        toast.error(error.message)
+                    }
+                } finally {
+                    setIsLoading(false)
+                }
+            }
+        }
+
     }
     return (
         <div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-6 flex flex-col justify-center items-center'>
-                    <CustomInput
-                        control={form.control}
-                        name='pin'
-                        fieldType={FormFieldTypes.SKELETON}
-                        label='Enter your access code'
-                        renderSkeleton={(field) => (
-                            <InputOTP maxLength={6} {...field}>
-                                <InputOTPGroup>
-                                    {Array.from({ length: 6 }, (_, i) => i).map((_, index) => (
-                                        <InputOTPSlot key={index} className='h-20 w-20 text-2xl' index={index} />
-                                    ))}
-                                </InputOTPGroup>
-                            </InputOTP>
-                        )}
-                    />
+                    {loginType === "admin" && (
+                        <>
+                            <CustomInput
+                                control={form.control}
+                                name='pin'
+                                fieldType={FormFieldTypes.SKELETON}
+                                label='Enter your access code'
+                                renderSkeleton={(field) => (
+                                    <InputOTP maxLength={6} {...field}>
+                                        <InputOTPGroup>
+                                            {Array.from({ length: 6 }, (_, i) => i).map((_, index) => (
+                                                <InputOTPSlot key={index} className='h-20 w-20 text-2xl' index={index} />
+                                            ))}
+                                        </InputOTPGroup>
+                                    </InputOTP>
+                                )}
+                            />
 
-                    <SubmitButton>Access Dashboard</SubmitButton>
+                            <SubmitButton>Access Dashboard</SubmitButton>
+                        </>
+                    )}
+
+                    {loginType === "vendor" && (
+                        <>
+                            <CustomInput
+                                control={form.control}
+                                name='email'
+                                fieldType={FormFieldTypes.INPUT}
+                                label='Enter your vendor email address'
+                            />
+                            <CustomInput
+                                control={form.control}
+                                name='password'
+                                fieldType={FormFieldTypes.INPUT}
+                                label='Enter your password'
+                                type='password'
+                            />
+
+                            <SubmitButton isLoading={isLoading}>Access Dashboard</SubmitButton>
+                        </>
+                    )}
                 </form>
 
             </Form>
-            <Link href={"/"} className='text-secondary-green-60 text-xs tracking-tight pt-10 flex items-center space-x-3'><ArrowLeft className='w-4' /> Go to home</Link>
+            <div className='flex items-center justify-between pt-10'>
+                <Link href={"/"} className='text-secondary-green-60 text-xs tracking-tight flex items-center space-x-3'><Button variant={"ghost"} className='bg-transparent hover:bg-transparent'><ArrowLeft className='w-4' /> Go to home</Button></Link>
+                <Button variant={"ghost"} className='hover:bg-transparent bg-transparent' onClick={() => {
+                    if (loginType === "admin") {
+                        setLoginType("vendor")
+                    } else {
+                        setLoginType("admin")
+                    }
+                }}>{loginType === "admin" ? "Login as a vendor" : "Login as an admin"}</Button>
+            </div>
         </div>
     )
 }

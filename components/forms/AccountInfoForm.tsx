@@ -8,14 +8,11 @@ import { Form, FormControl } from '../ui/form'
 import CustomInput from '../CustomInput'
 import { FormFieldTypes } from '@/lib/utils'
 import SubmitButton from '../SubmitButton'
-import { Button } from '../ui/button'
-import { Edit2, LogOut } from 'lucide-react'
 import ProfileUploader from '@/app/dashboard/profile/components/ProfileUploader'
-import { logout, updateUserInfo } from '@/appwrite/user.actions'
+import { updateUserInfo } from '@/appwrite/user.actions'
 import { UserInfoParams } from '@/types'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 
 const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }) => {
     const form = useForm<z.infer<typeof accountInfoFormSchema>>({
@@ -30,9 +27,6 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
     })
 
     const [isLoading, setIsLoading] = useState(false)
-
-    const router = useRouter()
-
 
     const onSubmit = async (values: z.infer<typeof accountInfoFormSchema>) => {
         setIsLoading(true)
@@ -66,10 +60,6 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
         }
     }
 
-    const handleLogout = async () => {
-        await logout()
-        router.push("/login")
-    }
 
 
     return (
@@ -125,7 +115,6 @@ const AccountInfoForm = ({ userInfo }: { userInfo?: UserInfoParams | undefined }
                             />
 
                             <div className='flex justify-between items-center'>
-                                <Link className='text-red-500 hover:bg-transparent hover:text-red-500  text-sm space-x-2 flex items-center' href={"/logout"}><LogOut className='w-4' /> <span>Logout</span></Link>
                                 <div className='w-full flex flex-col items-end justify-end'>
                                     <div className='w-auto'>
                                         <SubmitButton isLoading={isLoading}>Save</SubmitButton>

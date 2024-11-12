@@ -192,6 +192,7 @@ export const logout = async () => {
     try {
         await cookieStore.delete("session")
         await cookieStore.delete("userId")
+        await cookieStore.delete("adminPasskey")
     } catch (error) {
         console.log(error)
     }

@@ -109,7 +109,7 @@ const CustomInput = (props: CustomProps) => {
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className='flex-1'>
+                <FormItem className='flex-1 w-full'>
                     {fieldType !== FormFieldTypes.CHECKBOX && label && (
                         <FormLabel className='text-black text-xs tracking-tight font-semibold'>{label}</FormLabel>
                     )}

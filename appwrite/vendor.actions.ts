@@ -4,8 +4,6 @@ import { becomeVendorFormProps } from "@/types"
 import { cookies } from "next/headers"
 import { createSessionClient } from "./config"
 import { ID, Query } from "node-appwrite"
-import { z } from "zod"
-import { becomeVendorFormSchema } from "@/constants/validations"
 
 const { DATABASE_ID, VENDOR_ID } = process.env
 
@@ -30,15 +28,15 @@ export const createVendorAccount = async (data: becomeVendorFormProps) => {
         await cookieStore.set("vendorId", result.$id)
         return result
     } catch (error) {
-          // @ts-ignore
-          if (error?.code === 409) {
+        // @ts-ignore
+        if (error?.code === 409) {
             // @ts-ignore
-            throw new Error(error.type)
+            throw new Error("User already exist in our database, please login to your dashboard")
         }
     }
 }
 
-export const getVendor = async () => {
+export const getVendor = async (email?: string) => {
     const cookieStore = await cookies()
 
     try {
@@ -49,9 +47,10 @@ export const getVendor = async () => {
         const result = await databases.listDocuments(
             DATABASE_ID!,
             VENDOR_ID!,
-            [Query.equal("user", userId!)]
+            email ? [Query.equal("email", email!)] : [Query.equal("user", userId!)]
         )
-        
+
+        console.log(result)
 
         return result.documents
     } catch (error) {

@@ -12,7 +12,6 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { adminLogout } from "@/appwrite/user.actions"
 import { useRouter } from "next/navigation"
 
 const navLinks = [
@@ -60,8 +59,7 @@ export const SideBarLinks = () => {
     const router = useRouter()
 
     const handleLogoutAdmin = async () => {
-        await adminLogout()
-        router.push("/admin/access")
+       router.push("/logout")
     }
     return (
         <div className="flex flex-col justify-between h-full">

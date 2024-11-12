@@ -45,7 +45,7 @@ const BecomeVendorForm = () => {
                 ...values,
                 password: encryptKey(values.password)
             }
-            const result = await createVendorAccount(values)
+            const result = await createVendorAccount(data)
 
             if(result?.$id){
                 router.push("/become-vendor/success")
@@ -54,7 +54,6 @@ const BecomeVendorForm = () => {
 
         } catch (error) {
             if (error instanceof Error) {
-                console.log(error);
                 toast.error(error.message)
             }
         } finally {
