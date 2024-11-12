@@ -31,7 +31,6 @@ const Products = ({ products }: {
               <ItemsCard
                 key={index}
                 image={product.productImageUrl}
-                path={generateProductLink(product.name)}
                 price={product.price}
                 title={product.name}
                 availableItems={product.availableProducts}
