@@ -7,8 +7,20 @@ import Link from 'next/link'
 import PriceCard from './PriceCard'
 import ItemCardOverlay from './ItemCardOverlay'
 import ItemProgress from './ItemProgress'
-import { ItemsCardProps } from '@/types'
 import AddToCartBtn from './add-to-cart-btn'
+
+type ItemsCardProps = {
+    title: string,
+    price: number,
+    striked_price?: number,
+    image: string,
+    availableItems?: number,
+    totalItems?: number,
+    className?: string,
+    cardClassName?: string,
+    addToCart?: boolean,
+    productId?: string,
+}
 
 const ItemsCard = (props: ItemsCardProps & { addToCart?: boolean, productId?: string }) => {
     const { title, price, striked_price, image, availableItems, totalItems, className, cardClassName, addToCart, productId } = props
