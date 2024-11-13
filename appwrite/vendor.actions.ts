@@ -5,6 +5,7 @@ import { cookies } from "next/headers"
 import { createAdminClient, createSessionClient } from "./config"
 import { ID, Query } from "node-appwrite"
 import { decryptKey } from "@/lib/utils"
+import { revalidatePath } from "next/cache"
 
 const { DATABASE_ID, VENDOR_ID } = process.env
 
@@ -90,6 +91,29 @@ export const getVendor = async (email?: string, password?: string) => {
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message)
+        }
+    }
+}
+
+export const updateVendor = async (type: string, id: string) => {
+    try {
+        const { databases } = await createAdminClient();
+        const updated = await databases.updateDocument(
+            DATABASE_ID!,
+            VENDOR_ID!,
+            id,
+            {
+                status: type
+            }
+        )
+
+        console.log(updated)
+        return updated
+        revalidatePath("/dashboard/manage/vendors")
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error);
+
         }
     }
 }

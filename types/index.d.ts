@@ -70,4 +70,4 @@ declare type State = {
     totalCarts?: number,
 }
 
-declare type becomeVendorFormProps = z.infer<typeof becomeVendorFormSchema>
+declare type becomeVendorFormProps = z.infer<typeof becomeVendorFormSchema> & { status?: "processing" | "declined" | "accepted" } & Models.Document

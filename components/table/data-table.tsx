@@ -23,13 +23,13 @@ import { Button } from "../ui/button"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
-    data: ProductsProps[] | Document[] | undefined
+    data: Document[] | undefined
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-}: DataTableProps<ProductsProps, TValue>) {
+}: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
