@@ -10,10 +10,6 @@ export async function middleware(request: NextRequest) {
     const isVendor = cookieStore.get("vendorId")?.value
     const isAdmin = decryptKey(cookieStore.get("adminPasskey")?.value!) === process.env.NEXT_PUBLIC_ADMIN_PIN
 
-    if (!isVendor && !isAdmin && (request.url.includes("/dashboard"))) {
-        return NextResponse.redirect(new URL("/admin/access", request.url))
-    }
-
     if (!user) {
         if (request.url.includes("/checkout") || request.url.includes("/dashboard") || request.url.includes("/accounts")) {
             return NextResponse.redirect(new URL("/login", request.url));
@@ -24,8 +20,8 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/", request.url))
     }
 
-    if (isVendor && (request.url.includes("vendor"))) {
-        return NextResponse.redirect(new URL("/accounts", request.url))
+    if (isVendor || isAdmin && (request.url.includes("vendor") || request.url.includes("access"))) {
+        return NextResponse.redirect(new URL("/dashboard", request.url))
     }
 
 
@@ -33,7 +29,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/", "/cart", "/login", "/register", "/dashboard", "/accounts", "/checkout", "/become-vendor", "/dashboard/products/create", "/dashboard/products/manage"]
+    matcher: ["/", "/cart", "/login", "/register", "/accounts", "/admin/access", "/checkout", "/become-vendor", "/dashboard/products/create", "/dashboard/products/manage"]
 }
 
 // const auth = {
@@ -45,8 +41,8 @@ export const config = {
 //         auth.sessionCookie = cookieStore.get("session");
 //         try {
 //             // @ts-expect-error
-//             const { account } = await createSessionClient(auth.sessionCookie!.value)
-//             // @ts-expect-error
+//             const { account, database } = await createSessionClient(auth.sessionCookie!.value)
+
 //             auth.user = await account.get()
 
 //             return auth.user

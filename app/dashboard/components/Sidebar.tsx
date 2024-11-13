@@ -5,14 +5,17 @@ import {
     Home,
     LogOut,
     Plus,
-    Settings,
     ShoppingBasket,
     ShoppingBag,
-    User
+    User,
+    Blocks
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import Cookies from 'js-cookie';
+import { decryptKey } from "@/lib/utils"
 
 const navLinks = [
     {
@@ -32,7 +35,7 @@ const navLinks = [
     },
     {
         name: "Manage Orders",
-        href: "/dashboard/orders",
+        href: "/dashboard/manage/orders",
         Icon: ShoppingBasket
     },
     {
@@ -55,15 +58,24 @@ export default function Sidebar() {
 }
 
 
-export const SideBarLinks = () => { 
+export const SideBarLinks = () => {
     const router = useRouter()
 
+    const [isAdmin, setIsAdmin] = useState<boolean>(false)
+
+    useEffect(() => {
+        const passKey = Cookies.get('adminPasskey');
+        setIsAdmin(decryptKey(passKey!) === process.env.NEXT_PUBLIC_ADMIN_PIN);
+    }, []);
+
     const handleLogoutAdmin = async () => {
-       router.push("/logout")
+        router.push("/logout")
     }
     return (
         <div className="flex flex-col justify-between h-full">
-            <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-24 md:w-28 mb-5' />
+            <div className="w-full flex justify-center">
+                <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-14 md:w-14 ' />
+            </div>
             <nav className="flex flex-col gap-7 px-2 sm:py-5 space-y-3">
                 {navLinks.map((link, index) => {
                     return (
@@ -80,13 +92,16 @@ export const SideBarLinks = () => {
                 })}
             </nav>
             <nav className="mt-auto flex flex-col gap-4 py-5 px-5 justify-end">
-                <Link
-                    href="/settings"
-                    className="flex rounded-lg text-muted-foreground transition-colors hover:text-foreground space-x-4"
-                >
-                    <Settings className="h-5 w-5" />
-                    <span className="">Settings</span>
-                </Link>
+
+                {isAdmin && (
+                    <Link
+                        href="/manage/vendors"
+                        className="flex rounded-lg text-muted-foreground transition-colors hover:text-foreground space-x-4"
+                    >
+                        <Blocks className="h-5 w-5" />
+                        <span className="">Manage Vendors</span>
+                    </Link>
+                )}
 
                 <Button variant={"ghost"} className="bg-red-500 hover:bg-red-600 space-x-2 text-left" onClick={handleLogoutAdmin}>
                     <LogOut className="text-white" />

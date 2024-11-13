@@ -1,7 +1,16 @@
 import React from 'react'
 import ProductsTable from '../../components/ProductsTable'
+import AuthorizationError from '../../components/AuthorizationError'
+import { userIsAuthorized } from '@/lib/helper'
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+  const isAuthorized = await userIsAuthorized()
+
+
+  if (!isAuthorized) {
+    return <AuthorizationError />
+  }
+
   return (
     <div className='space-y-10'>
       <div>

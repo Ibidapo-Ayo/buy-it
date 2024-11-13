@@ -15,7 +15,7 @@ const Header = () => {
         <div className='w-full grid grid-cols-[auto,1fr,auto] justify-between items-center py-3 gap-4'>
             <div className='w-[60px] md:w-[150px]'>
                 <Link href="/">
-                    <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-24 md:w-28' />
+                    <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-10 md:w-14' />
                 </Link>
             </div>
             <SearchComponent />

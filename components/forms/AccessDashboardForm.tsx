@@ -17,9 +17,7 @@ import { Button } from '../ui/button'
 import { getVendor } from '@/appwrite/vendor.actions'
 
 const AccessDashboardSchema = z.object({
-    pin: z.string().min(6, {
-        message: "Your dashboard access code must be 6 characters.",
-    }),
+    pin: z.string().optional(),
 
     email: z.string().email({
         message: "Invalid email address"
@@ -44,17 +42,19 @@ const AccessDashboardForm = () => {
     const router = useRouter()
 
     const onSubmit = async (values: z.infer<typeof AccessDashboardSchema>) => {
-        console.log(loginType);
-        
 
         if (loginType === "admin") {
-            if (values.pin === process.env.NEXT_PUBLIC_ADMIN_PIN) {
-                const encryptedPin = encryptKey(values.pin)
-                saveAdminPasskey(encryptedPin)
-                router.push("/dashboard")
+            if (values.pin) {
+                if (values.pin === process.env.NEXT_PUBLIC_ADMIN_PIN) {
+                    const encryptedPin = encryptKey(values.pin)
+                    saveAdminPasskey(encryptedPin)
+                    router.push("/dashboard")
+                } else {
+                    toast.error("Incorrect admin pin")
+                    form.reset()
+                }
             } else {
-                toast.error("Incorrect admin pin")
-                form.reset()
+                toast.warning("Pin is required")
             }
 
             return
@@ -65,12 +65,15 @@ const AccessDashboardForm = () => {
             if (!values.email || !values.password) {
                 toast.warning("Email & password is required!")
                 console.log("Email not entered");
-                
+
             } else {
                 setIsLoading(true)
                 try {
-                    const data = await getVendor(values.email)
-                    console.log(data);
+                    const data = await getVendor(values.email, values.password)
+                    
+                    if (data && data?.length > 0) {
+                        router.push("/dashboard")
+                    }
 
                 } catch (error) {
                     if (error instanceof Error) {
@@ -124,6 +127,7 @@ const AccessDashboardForm = () => {
                                 label='Enter your password'
                                 type='password'
                             />
+
 
                             <SubmitButton isLoading={isLoading}>Access Dashboard</SubmitButton>
                         </>

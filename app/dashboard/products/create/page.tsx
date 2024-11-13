@@ -1,7 +1,16 @@
 import AddProductForm from '@/components/forms/AddProductForm'
+import { userIsAuthorized } from '@/lib/helper'
 import React from 'react'
+import AuthorizationError from '../../components/AuthorizationError'
 
-const CreateProduct = () => {
+const CreateProduct = async () => {
+    const isAuthorized = await userIsAuthorized()
+
+
+    if (!isAuthorized) {
+        return <AuthorizationError />
+    }
+
     return (
         <div className='space-y-10'>
             <div>

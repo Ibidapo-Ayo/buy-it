@@ -2,8 +2,9 @@
 
 import { becomeVendorFormProps } from "@/types"
 import { cookies } from "next/headers"
-import { createSessionClient } from "./config"
+import { createAdminClient, createSessionClient } from "./config"
 import { ID, Query } from "node-appwrite"
+import { decryptKey } from "@/lib/utils"
 
 const { DATABASE_ID, VENDOR_ID } = process.env
 
@@ -36,7 +37,28 @@ export const createVendorAccount = async (data: becomeVendorFormProps) => {
     }
 }
 
-export const getVendor = async (email?: string) => {
+export const getAllVendor = async () => {
+    const cookieStore = await cookies()
+
+    try {
+        const { databases } = await createAdminClient();
+
+        const userId = cookieStore.get("userId")?.value;
+
+        const result = await databases.listDocuments(
+            DATABASE_ID!,
+            VENDOR_ID!,
+        )
+        return result.documents
+
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message)
+        }
+    }
+}
+
+export const getVendor = async (email?: string, password?: string) => {
     const cookieStore = await cookies()
 
     try {
@@ -47,14 +69,27 @@ export const getVendor = async (email?: string) => {
         const result = await databases.listDocuments(
             DATABASE_ID!,
             VENDOR_ID!,
-            email ? [Query.equal("email", email!)] : [Query.equal("user", userId!)]
+            [Query.equal("user", userId!)]
         )
 
-        console.log(result)
+        if (email && password) {
+            if (result) {
+                if (decryptKey(result.documents[0].password) !== password! || result.documents[0].email !== email) {
+                    throw new Error("Incorrect email/password")
+                } else {
+                    if (result.documents[0].status === "accepted") {
+                        cookieStore.set("vendorId", result.documents[0].$id)
+                    }
+                    return result.documents
+                }
+            }
+        }
 
         return result.documents
-    } catch (error) {
-        console.log(error);
 
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message)
+        }
     }
 }
