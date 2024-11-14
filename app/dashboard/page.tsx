@@ -7,13 +7,32 @@ import { getUserTransactions } from '@/appwrite/product.actions'
 import { getVendor } from '@/appwrite/vendor.actions'
 import { cn } from '@/lib/utils'
 
-const DashboardPage = async () => {
-  const [user, transaction, vendor] = await Promise.allSettled([getUserInfo(), getUserTransactions(), getVendor()])
 
-  console.log(user, transaction, vendor);
-  
+type Props = {
+  user: any;
+  transaction: any;
+  vendor: any;
+};
 
-  if (user.status !== "fulfilled" || transaction.status !== "fulfilled" || vendor.status !== "fulfilled") {
+export async function getServerSideProps(context: any) {
+  const [user, transaction, vendor] = await Promise.allSettled([
+    getUserInfo(),
+    getUserTransactions(),
+    getVendor(),
+  ]);
+
+  return {
+    props: {
+      user: user.status === "fulfilled" ? user.value : null,
+      transaction: transaction.status === "fulfilled" ? transaction.value : null,
+      vendor: vendor.status === "fulfilled" ? vendor.value : null,
+    },
+  };
+}
+
+const DashboardPage = async ({ user, transaction, vendor }: Props) => {
+
+  if (!user || !transaction || !vendor) {
     throw new Error("No internet connection!")
   }
 
