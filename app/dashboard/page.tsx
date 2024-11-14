@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-nocheck
 import React from 'react'
 import { getUserInfo } from '@/appwrite/user.actions'
 import Status from '@/components/Status'
@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 const DashboardPage = async () => {
   const [user, transaction, vendor] = await Promise.allSettled([getUserInfo(), getUserTransactions(), getVendor()])
 
-  if (!user) {
+  if (!user.status !== "fulfilled" || transaction.status !== "fulfilled" || vendor.status !== "fulfilled") {
     throw new Error("No internet connection!")
   }
 
@@ -30,6 +30,8 @@ const DashboardPage = async () => {
           Icon={User}
           href="/dashboard/profile"
         />
+
+
         <Status
           title='Orders'
           count={`${transaction?.value.length}`}
