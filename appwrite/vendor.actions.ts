@@ -26,8 +26,6 @@ export const createVendorAccount = async (data: becomeVendorFormProps) => {
                 ...data
             }
         )
-
-        await cookieStore.set("vendorId", result.$id)
         return result
     } catch (error) {
         // @ts-ignore
@@ -81,6 +79,7 @@ export const getVendor = async (email?: string, password?: string) => {
                     if (result.documents[0].status === "accepted") {
                         cookieStore.set("vendorId", result.documents[0].$id)
                     }
+                    cookieStore.set("userIsAuthenticated", "true")
                     return result.documents
                 }
             }

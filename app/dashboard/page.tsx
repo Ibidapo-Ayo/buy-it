@@ -15,7 +15,7 @@ const DashboardPage = async () => {
   const transaction = await getUserTransactions()
   const vendor = await getVendor()
 
-  if (!user || !transaction || !vendor) {
+  if (!user) {
     throw new Error("No internet connection!")
   }
 
@@ -42,7 +42,7 @@ const DashboardPage = async () => {
           Icon={ShoppingBasket}
         />
 
-        {vendor!.value.length > 0 && (
+        {vendor!.length > 0 && (
           <Status
             title='Application Status'
             Icon={Hourglass}

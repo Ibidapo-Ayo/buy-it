@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
     const user = cookieStore.get("userId")?.value
     const isVendor = cookieStore.get("vendorId")?.value
     const isAdmin = decryptKey(cookieStore.get("adminPasskey")?.value!) === process.env.NEXT_PUBLIC_ADMIN_PIN
+    const dashboardAccess = cookieStore.get("userIsAuthenticated")?.value
 
     if (!user) {
         if (request.url.includes("/checkout") || request.url.includes("/dashboard") || request.url.includes("/accounts")) {
@@ -18,6 +19,10 @@ export async function middleware(request: NextRequest) {
 
     if (user && (request.url.includes("/login") || request.url.includes("/register"))) {
         return NextResponse.redirect(new URL("/", request.url))
+    }
+
+    if (user && dashboardAccess !== "true" && request.url.includes("/dashboard")) {
+        return NextResponse.redirect(new URL("/admin/access", request.url))
     }
 
     if (isVendor || isAdmin && (request.url.includes("vendor") || request.url.includes("access"))) {
