@@ -8,29 +8,12 @@ import { getVendor } from '@/appwrite/vendor.actions'
 import { cn } from '@/lib/utils'
 
 
-type Props = {
-  user: any;
-  transaction: any;
-  vendor: any;
-};
 
-export async function getServerSideProps(context: any) {
-  const [user, transaction, vendor] = await Promise.allSettled([
-    getUserInfo(),
-    getUserTransactions(),
-    getVendor(),
-  ]);
+const DashboardPage = async () => {
 
-  return {
-    props: {
-      user: user.status === "fulfilled" ? user.value : null,
-      transaction: transaction.status === "fulfilled" ? transaction.value : null,
-      vendor: vendor.status === "fulfilled" ? vendor.value : null,
-    },
-  };
-}
-
-const DashboardPage = async ({ user, transaction, vendor }: Props) => {
+  const user = await getUserInfo()
+  const transaction = await getUserTransactions()
+  const vendor = await getVendor()
 
   if (!user || !transaction || !vendor) {
     throw new Error("No internet connection!")
@@ -40,8 +23,7 @@ const DashboardPage = async ({ user, transaction, vendor }: Props) => {
   return (
     <div className='space-y-10'>
       <div>
-        {user.status
-          === "fulfilled" && <h1 className='text-xl tracking-tighter font-semibold'>Welcome back, {user.value.name.split(" ")[0]}</h1>}
+      <h1 className='text-xl tracking-tighter font-semibold'>Welcome back, {user.value.name.split(" ")[0]}</h1>
       </div>
 
 
@@ -56,7 +38,7 @@ const DashboardPage = async ({ user, transaction, vendor }: Props) => {
 
         <Status
           title='Orders'
-          count={`${transaction?.value.length}`}
+          count={`${transaction?.length}`}
           Icon={ShoppingBasket}
         />
 
@@ -66,12 +48,12 @@ const DashboardPage = async ({ user, transaction, vendor }: Props) => {
             Icon={Hourglass}
 
             // @ts-expect-error
-            type={`${vendor!.value[0].status}`}>
+            type={`${vendor![0].status}`}>
 
             <div className={cn("w-auto px-2 py-1 rounded-full bg-green-100 text-green-500", {
-              "bg-amber-100 text-amber-500": vendor!.value[0].status === "processing",
-              "bg-red-100 text-red-400": vendor!.value[0].status === "declined"
-            })}>{vendor!.value[0].status}</div>
+              "bg-amber-100 text-amber-500": vendor![0].status === "processing",
+              "bg-red-100 text-red-400": vendor![0].status === "declined"
+            })}>{vendor![0].status}</div>
           </Status>
         )}
 
