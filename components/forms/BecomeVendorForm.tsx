@@ -45,6 +45,8 @@ const BecomeVendorForm = () => {
                 ...values,
                 password: encryptKey(values.password)
             }
+            // @ts-ignore
+            
             const result = await createVendorAccount(data)
 
             if(result?.$id){

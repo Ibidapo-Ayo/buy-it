@@ -107,9 +107,9 @@ export const updateVendor = async (type: string, id: string) => {
             }
         )
 
-        console.log(updated)
-        return updated
+
         revalidatePath("/dashboard/manage/vendors")
+        return updated
     } catch (error) {
         if (error instanceof Error) {
             console.log(error);
