@@ -176,6 +176,7 @@ export const getUserInfo = async () => {
 export const saveAdminPasskey = async (passkey: string) => {
     const cookieStore = await cookies()
     cookieStore.set("adminPasskey", passkey)
+    cookieStore.set("userIsAuthenticated", "true")
 }
 
 export const adminLogout = async () => {
@@ -193,6 +194,7 @@ export const logout = async () => {
         await cookieStore.delete("session")
         await cookieStore.delete("userId")
         await cookieStore.delete("adminPasskey")
+        await cookieStore.delete("userIsAuthenticated")
     } catch (error) {
         console.log(error)
     }

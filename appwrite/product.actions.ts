@@ -94,6 +94,8 @@ export const searchProducts = async (searchString: string) => {
 }
 
 export const createProducts = async ({ image, ...products }: CreateProductsParams) => {
+    const cookieStore = await cookies()
+    const userId = cookieStore.get("userId")?.value
     try {
         let file;
         const { storage, databases } = await createAdminClient()
@@ -108,6 +110,7 @@ export const createProducts = async ({ image, ...products }: CreateProductsParam
             {
                 imageId: file?.$id,
                 productImageUrl: await getFilePreview(file.$id, BUCKET_ID!),
+                creator: userId,
                 ...products
             },
         )
