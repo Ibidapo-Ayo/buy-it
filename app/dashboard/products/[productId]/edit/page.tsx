@@ -1,5 +1,7 @@
+import AuthorizationError from '@/app/dashboard/components/AuthorizationError'
 import { getProduct } from '@/appwrite/product.actions'
 import AddProductForm from '@/components/forms/AddProductForm'
+import { userIsAuthorized } from '@/lib/helper'
 import React from 'react'
 
 
@@ -12,6 +14,13 @@ const EditProducts = async ({ params }: {
 }) => {
     const { productId } = await params
     const product = await getProduct(productId)
+    const isAuthorized = await userIsAuthorized()
+
+
+
+    if (!isAuthorized) {
+        return <AuthorizationError />
+    }
     return (
         <div className='space-y-10'>
             <div>

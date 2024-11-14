@@ -14,3 +14,15 @@ export const userIsAuthorized = async () => {
 
     return false
 }
+
+export const userIsAdmin = async () => {
+    const cookieStore = await cookies()
+
+    const isAdmin = cookieStore.get("isAdmin")
+
+    if (isAdmin) {
+        return true
+    }
+
+    return false
+}

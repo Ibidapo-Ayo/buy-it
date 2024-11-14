@@ -1,16 +1,16 @@
-import { userIsAuthorized } from '@/lib/helper'
+import { userIsAdmin } from '@/lib/helper'
 import React from 'react'
 import AuthorizationError from '../../components/AuthorizationError'
 import VendorsTable from './components/VendorsTable'
 
 const ManageVendors = async () => {
-    const isAuthorized = await userIsAuthorized()
+    const isAuthorized = await userIsAdmin()
 
 
 
-    // if (!isAuthorized) {
-    //     return <AuthorizationError />
-    // }
+    if (!isAuthorized) {
+        return <AuthorizationError />
+    }
     return (
         <div className='space-y-10'>
             <div>

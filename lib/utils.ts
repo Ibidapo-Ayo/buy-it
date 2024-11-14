@@ -1,7 +1,6 @@
 
 import { Cart } from "@/types"
 import { type ClassValue, clsx } from "clsx"
-import { cookies } from "next/headers"
 import { Models } from "node-appwrite"
 import { twMerge } from "tailwind-merge"
 
