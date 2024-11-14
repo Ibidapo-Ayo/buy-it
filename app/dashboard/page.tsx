@@ -10,7 +10,10 @@ import { cn } from '@/lib/utils'
 const DashboardPage = async () => {
   const [user, transaction, vendor] = await Promise.allSettled([getUserInfo(), getUserTransactions(), getVendor()])
 
-  if (!user.status !== "fulfilled" || transaction.status !== "fulfilled" || vendor.status !== "fulfilled") {
+  console.log(user, transaction, vendor);
+  
+
+  if (user.status !== "fulfilled" || transaction.status !== "fulfilled" || vendor.status !== "fulfilled") {
     throw new Error("No internet connection!")
   }
 
