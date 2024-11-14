@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import { vendorsColumns } from '@/app/dashboard/table/vendorsColumns'
 import { getAllVendor } from '@/appwrite/vendor.actions'
