@@ -10,7 +10,7 @@ const AuthorizationError = () => {
                 <p className='text-sm text-secondary-200'>Please login as an admin or check if your vendor application is accepted</p>
             </div>
 
-            <Link href={"/dashboard"}><Button variant={"ghost"} className='bg-secondary-green-60 hover:bg-secondary-green-50 rounded-full text-white hover:text-white'>Go to Home</Button></Link>
+            <Link href={"/admin/access"}><Button variant={"ghost"} className='bg-secondary-green-60 hover:bg-secondary-green-50 rounded-full text-white hover:text-white'>Login to access</Button></Link>
         </div>
     )
 }
