@@ -90,7 +90,7 @@ export const SideBarLinks = () => {
 
                 {isAdmin && (
                     <Link
-                        href="/manage/vendors"
+                        href="/dashboard/manage/vendors"
                         className="flex rounded-lg text-muted-foreground transition-colors hover:text-foreground space-x-4"
                     >
                         <Blocks className="h-5 w-5" />
