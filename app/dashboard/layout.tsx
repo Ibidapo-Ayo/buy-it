@@ -14,7 +14,7 @@ export default function AppsLayout({ children }: {
         <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-14 md:w-14 mb-5' />
         <MobileSidebar />
         </div>
-        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-56 w-full sm:mt-10  px-5">
+        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-64 w-full sm:mt-10  px-5">
             {children}
         </div>
     </div>
