@@ -12,8 +12,22 @@ const fontSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sell It",
-  description: "A marketplace to sell local products",
+  title: "BuyIt",
+  description: "A marketplace to sell and Buy local products",
+  openGraph: {
+    type: "website",
+    title: "BuyIt",
+    description: "A marketplace to sell and Buy local products",
+    images: "/images/logo.png",
+  },
+  creator: "Ibidapo Ayomide Victor",
+  twitter: {
+    card: "summary_large_image",
+    title: "BuyIt",
+    description: "A marketplace to sell and Buy local products",
+    creator: "@the_ayomide01",
+    images: "/images/logo.png"
+  }
 };
 
 export default function RootLayout({
