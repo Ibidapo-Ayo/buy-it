@@ -191,10 +191,9 @@ export const adminLogout = async () => {
 export const logout = async () => {
     const cookieStore = await cookies()
     try {
-        await cookieStore.delete("session")
-        await cookieStore.delete("userId")
-        await cookieStore.delete("adminPasskey")
-        await cookieStore.delete("userIsAuthenticated")
+
+        await Promise.allSettled([cookieStore.delete("session"), cookieStore.delete("userId"), cookieStore.delete("adminPasskey"), cookieStore.delete("userIsAuthenticated"), cookieStore.delete("vendorId")])
+
     } catch (error) {
         console.log(error)
     }

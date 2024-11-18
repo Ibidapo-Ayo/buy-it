@@ -67,8 +67,8 @@ export const SideBarLinks = () => {
         router.push("/logout")
     }
     return (
-        <div className="flex flex-col justify-between h-full space-y-1">
-            <div className="w-full flex">
+        <div className="flex flex-col justify-between h-full">
+            <div className="w-full flex pb-7">
                 <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-10 md:w-14 ' />
             </div>
             <nav className="flex flex-col gap-7 px-2 space-y-3">
