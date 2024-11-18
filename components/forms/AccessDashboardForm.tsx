@@ -19,9 +19,7 @@ import { getVendor } from '@/appwrite/vendor.actions'
 const AccessDashboardSchema = z.object({
     pin: z.string().optional(),
 
-    email: z.string().email({
-        message: "Invalid email address"
-    }).optional(),
+    email: z.string().optional(),
     password: z.string().optional()
 })
 
@@ -64,8 +62,6 @@ const AccessDashboardForm = () => {
         if (loginType === "vendor") {
             if (!values.email || !values.password) {
                 toast.warning("Email & password is required!")
-                console.log("Email not entered");
-
             } else {
                 setIsLoading(true)
                 try {
