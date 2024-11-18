@@ -17,6 +17,7 @@ const MobileSidebar = () => {
                 <Menu />
             </SheetTrigger>
             <SheetContent>
+                <SheetTitle></SheetTitle>
                 <SheetHeader>
                    <SideBarLinks />
                 </SheetHeader>

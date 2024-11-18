@@ -72,9 +72,9 @@ export const SideBarLinks = () => {
         router.push("/logout")
     }
     return (
-        <div className="flex flex-col justify-between h-full">
-            <div className="w-full flex justify-center">
-                <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-14 md:w-14 ' />
+        <div className="flex flex-col justify-between h-full space-y-3 md:space-y-5">
+            <div className="w-full flex  pb-10">
+                <Image src="/images/logo.png" alt="alt" width={1000} height={1000} className='w-10 md:w-14 ' />
             </div>
             <nav className="flex flex-col gap-7 px-2 sm:py-5 space-y-3">
                 {navLinks.map((link, index) => {

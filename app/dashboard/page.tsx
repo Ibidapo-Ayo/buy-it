@@ -23,7 +23,7 @@ const DashboardPage = async () => {
   return (
     <div className='space-y-10'>
       <div>
-      <h1 className='text-xl tracking-tighter font-semibold'>Welcome back, {user.value.name.split(" ")[0]}</h1>
+      <h1 className='text-xl tracking-tighter font-semibold'>Welcome back, {user.name.split(" ")[0]}</h1>
       </div>
 
 

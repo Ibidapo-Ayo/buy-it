@@ -89,6 +89,8 @@ export const getVendor = async (email?: string, password?: string) => {
 
     } catch (error) {
         if (error instanceof Error) {
+            console.log(error);
+
             throw new Error(error.message)
         }
     }
